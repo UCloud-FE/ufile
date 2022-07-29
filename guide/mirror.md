@@ -1,52 +1,52 @@
-# 镜像回源
+# Mirror back to source
 
-US3 提供镜像回源功能，配置回源规则后，当您向 US3 存储空间请求的数据不存在时，可以通过回源设置，对于获取数据的请求以多种方式进行回源读取，满足您对于数据热迁移、特定请求重定向的需求。
+US3 provides mirroring back to source function. After configuring back to source rules, when the data you request from US3 storage space does not exist, You can set back to source for data retrieval requests in various ways to meet your needs for data hot migration and specific request redirection through back to source settings.
 
-设置回源规则后，可对 US3 的每条 GET 请求的 URL 按设定的规则进行匹配，然后按照设定的规则进行回源。最多配置 5 条规则，顺序匹配，直到匹配到有效规则。回源类型为支持镜像方式。
+After setting the back source rules, you can match the URL of each GET request of US3 by the set rules, and then back source according to the set rules. Up to 5 rules can be configured, matching sequentially until a valid rule is matched.
 
-* 镜像方式：如果配置了镜像回写，则对一个不存在的文件进行 GET 操作时，会向源地址请求这个文件，返回给用户，并同时写入到 US3。
+* If mirroring write-back is configured, when GET operation is performed on a non-existent file, this file will be requested from the If mirroring write-back is configured, when GET operation is performed on a non-existent file, this file will be requested from the source address, returned to the user, and written to US3 at the same time.
 
-## 使用场景
+## Usage Scenario
 
-您的大部分源文件存储在 US3 存储空间，少量文件在客户源站，但仍会有少量文件继续写到源站，可通过镜像回源功能直接到源站回源获取文件，从而实现业务的平滑迁移。
+Most of your source files are stored in US3 storage space, and a small number of files are in the client source site, but there will still be a small number of files continue to write to the source site, you can directly go to the source site to source back to get the files through the mirror back function, so as to achieve smooth migration of business.
 
-## 设置回源规则
+## Set the rules for back source
 
-用户指定文件前缀和源站地址，当 US3 没有文件时，US3 自动根据文件前缀到指定源站抓取文件保存，并返回给用户。
+The user specifies the file prefix and the address of the source station, and when US3 has no files, US3 automatically grabs the files from the specified US3 automatically grabs the files from the specified source station according to the file prefix and saves them, and returns them to the user.
 
-选择对应空间，在右侧操作中选择镜像回源按钮。
+Select the corresponding space, and select the Mirror Back button in the right operation.
 
-![](/images/guide/设置回源规则.png)
+Select the corresponding space, and select the Mirror Back button in the right operation. [](/images/guide/setting-source-return-rules.png)
 
-点击添加回源规则按钮。
+Click the Add back source rule button.
 
-![](/images/guide/点击回源规则v4.png)
+! [](/images/guide/click on back source rule v4.png)
 
-添加回源规则界面。
+Add back source rule screen.
 
-![](/images/guide/添加回源规则界面v4.png)
+! [](/images/guide/add-back-source-rules-interfacev4.png)
 
-填写文件前缀和回源地址，文件前缀为指定源站真实路径，若为根目录，则前缀为空。
+Fill in the file prefix and back source address, the file prefix is the real path of the specified source site, if it is the root directory, the prefix is empty .
 
-例：通过US3访问其他源站“test”文件夹下的文件，设置回源规则，前缀为“test”，回源地址为源站访问地址。
+Example: Access the files in the "test" folder of other source site through US3, set the back source rule with the prefix "test" and the back source address as the source site access address.
 
-![](/images/guide/设置前缀为test.png)
+! [](/images/guide/ set prefix to test.png)
 
-通过US3访问其他源站该文件夹下的文件。
+Access files in this folder on other source sites via US3.
 
-![](/images/访问源站文件.jpg)
+! [](/images/access-source-station-files.jpg)
 
-US3也自动保存了该文件。
+US3 also saves that file automatically.
 
-![](/images/guide/镜像下载-文件列表v4.png)
+! [](/images/guide/mirror-download-file-list v4.png)
 
 
-## 备注
+## Remarks
 
-1、当前每个单地域存储空间（Bucket）下可创建 5 条回源规则，前缀唯一不可重复；
+1. 5 back source rules can be created under each single geographical storage space (Bucket), with unique and non-repeatable prefixes.
 
-2、全球化空间管理暂不支持设置回源规则；
+Globalized space management does not support setting back source rules at the moment.
 
-3、添加回源规则之后，源站域名不支持 HTTPS 访问；
+3. After adding back to the source rules, the source domain name does not support HTTPS access.
 
-4、子账户需要[开启API密钥权限]([常见问题 对象存储 US3_文档中心_UCloud中立云计算服务商](https://docs.ucloud.cn/ufile/faq?id=子帐号授权后进入文件管理页面提示：非法授权))，若子账号未开启API密钥，US3则不能将回源文件上传到用户的Bucket。
+4. Sub-accounts need to [open API key permission]([FAQ Object Storage US3_Document Center_UCloud Neutral Cloud Service Provider](https://docs. ucloud.cn/ufile/faq?id=After subaccount authorization enter file management page prompt: illegal authorization)), if the sub-account does not open the API key, US3 cannot upload back source files to the user's Bucket.

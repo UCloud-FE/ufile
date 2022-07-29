@@ -1,9 +1,9 @@
 
 
-# 数据分析
+# Data Analysis
 
-US3 存储空间中的文件对象可授权 USQL 进行数据湖分析，开启后，您可通过 USQL 数据分析产品对空间内文本数据进行挖掘与分析。USQL 为地域级产品，目前已开通华北一、上海二、广州、香港地区的服务，如您需要其他地域服务，请联系客户经理或提交工单。
+The file objects in US3 storage space can be authorized to USQL for data lake analysis, after opening, you can mine and analyze the text data in the space by USQL is a regional-level product, currently the service has been opened in North China 1, Shanghai 2, Guangzhou and Hong Kong , if you need other regional services, please contact your account manager or submit a work order.
 
-点击存储空间名称或侧操作栏中点击“详情”，进入存储空间概览页面，勾选“数据分析”中的开关，开启 USQL 授权，即可使用 USQL 数据分析。
+Click the name of the storage space or click "Details" in the sidebar to enter the storage space overview page, check the switch in "Data Analysis", and enable USQL authorization to use USQL data analysis.
 
-![image](/images/数据分析.png)
+! [image](/images/data-analysis.png)

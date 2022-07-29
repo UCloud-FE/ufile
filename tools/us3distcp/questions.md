@@ -1,7 +1,7 @@
 
 
-# 常见问题
+# Frequently Asked Questions
 
-Q. 大规模迁移备份时，怎么避免hdfs集群的其他业务不受影响？
+Q. When migrating backups on a large scale, how can I avoid the other operations of the hdfs cluster not being affected?
 
-A. 分配固定资源的任务队列，并通过`-Dmapreduce.job.queuename`传递给us3distcp。任务队列资源容量是个经验值，需要结合整个备份数据规模，特征来综合考虑。
+A. Allocate a task queue with fixed resources and pass it to us3distcp via `-Dmapreduce.job.queuename`. task queue resource capacity is an empirical value and needs to be considered in conjunction with the overall backup data size and characteristics.

@@ -1,57 +1,48 @@
-# 快速上手
-
-- [使用说明](#使用说明)
-  - [参数配置](#参数配置)
-  - [开始使用](#开始使用)
-
-## 使用说明
-
-### 参数配置
-
-有两种参数配置方式。通过交互式命令配置：
-
+#Get started quickly
+-[instructions for use] (# instructions for use)
+-[parameter configuration] (# parameter configuration)
+-[start using] (\
+##Instructions for use
+###Parameter configuration
+There are two parameter configuration methods. Configure through interactive commands:
 ```shell
 ➜  bin  ✗ us3vmds config
-输入监听IP地址[当前为: 127.0.0.1]:192.168.185.220 // 如果需要修改地址则填入修改值，否则直接输入enter采用默认值127.0.0.1
-监听IP地址修改为: 192.168.185.220
-输入监听端口[当前为: 5888]:6666 // 如果需要修改端口则填入修改值，否则直接输入enter采用默认值5888
-监听IP地址修改为: 6666
-输入API/Token公钥[当前为: ]:xxxx-xxxx-xxxx-xxxx // 如果需要修改公钥则填入修改值，否则直接输入enter，默认为空
-API/Token公钥修改为: xxxx-xxxx-xxxx-xxxx
-输入API/Token私钥[当前为: ]:yyyy-yyyy-yyyy-yyyy // 如果需要修改私钥则填入修改值，否则直接输入enter，默认为空
-API/Token私钥修改为: yyyy-yyyy-yyyy-yyyy
-输入存储空间Bucket[当前为: ]:bigdata-us3 // 如果需要修改存储空间填入修改值，否则直接输入enter，默认为空
-存储空间Bucket修改为: bigdata-us3
-输入访问端点Endpoint[当前为: ]:ufile.cn-north-02.ucloud.cn // 如果需要修改endpoint填入修改值，否则直接输入enter，默认为空
-访问端点Endpoint修改为: ufile.cn-north-02.ucloud.cn
-输入日志路径[当前为: /Users/rick.wu/.us3vmds]:/var/log/us3vmds // 如果需要修改日志路径填入修改值，否则直接输入enter，默认为/Users/rick.wu/.us3vmds
-日志路径修改为: /var/log/us3vmds
-输入日志级别(debug|error|info)[当前为: info]:debug // 如果需要修改日志级别则填入修改值，否则直接输入enter采用默认值info，建议始终采用debug级别，方便问题跟踪
-日志级别修改为: debug
-输入热点路径同步US3周期(单位:s)[当前为: 180 s]:3600 // 如果需要修改热点路径自动同步周期值则填入修改值，否则直接输入enter采用默认值180，如果只考虑分析从大数据集群写入的数据时，建议调大该值，避免频繁同步带来的性能开销
-热点路径同步US3周期: 3600
+Enter the listening IP address [currently: 127.0.0.1]: 192.168.185.220 / / if you need to modify the address, fill in the modified value. Otherwise, enter enter directly and use the default value of 127.0.0.1
+The listening IP address is modified to 192.168.185.220
+Enter the listening port [currently: 5888]: 6666 / / if you need to modify the port, fill in the modified value. Otherwise, enter enter directly, and the default value is 5888
+The listening IP address is modified to 6666
+Enter the api/token public key [currently:]: XXXX XXXX XXXX / / if you need to modify the public key, fill in the modified value. Otherwise, enter directly. The default is blank
+Api/token public key is modified to XXXX XXXX XXXX
+Enter the api/token private key [currently:]: yyyy yyyy yyyy yyyy / / if you need to modify the private key, fill in the modified value; otherwise, enter enter directly, which is blank by default
+The api/token private key is modified to: yyyy yyyy yyyy yyyy
+Enter the storage space bucket[currently:]: bigdata-us3 / / if you need to modify the storage space, fill in the modified value. Otherwise, enter enter directly. The default is empty
+The storage space bucket is modified to bigdata-us3
+Enter the access endpoint [currently:]: ufile.cn-north-02.ucloud Cn / / if you need to modify the endpoint, fill in the modified value. Otherwise, enter enter directly, which is blank by default
+The access endpoint is modified to ufile.cn-north-02.ucloud.cn
+Enter the log path [currently: /users/rick.wu/.us3vmds]: /var/log/us3vmds / / if you need to modify the log path, fill in the modified value. Otherwise, enter enter directly. The default is /users/rick.wu/.us3vmds
+The log path is modified to: /var/log/us3vmds
+Enter the log level (debug|error|info) [currently: info]: debug / / if you need to modify the log level, fill in the modified value. Otherwise, enter enter directly and use the default value info. It is recommended to always use the debug level to facilitate problem tracking
+The log level is modified to: debug
+Enter the hotspot path synchronization US3 cycle (unit: s) [currently: 180 s]: 3600 / / if you need to modify the hotspot path automatic synchronization cycle value, fill in the modified value. Otherwise, enter enter directly and use the default value of 180. If you only consider analyzing the data written from the big data cluster, it is recommended to increase this value to avoid the performance overhead caused by frequent synchronization
+Hotspot path synchronization US3 cycle: 3600
 ```
-
-通过文件配置，us3vmds使用配置文件路径始终在`$HOME/.us3vmds/us3vmds.yaml`，配置参数有：
-
-|      属性Key      | 属性说明                                                     |     默认值     |
+Through file configuration, the path of the us3vmds configuration file is always ` $home/.us3vmds/us3vmds.yaml '. The configuration parameters are:
+|Attribute key | attribute description | default value|
 | :---------------: | :----------------------------------------------------------- | :------------: |
-|     accesskey     | 访问US3的API公钥或者Token公钥                                |       无       |
-|     secretkey     | 访问US3的API私钥或者Token私钥                                |       无       |
-|      bucket       | 存储空间名                                                   |       无       |
-|     endpoint      | US3内网域名后缀，如:ufile.cn-north-02.ucloud.cn。[参考这里](https://docs.ucloud.cn/ufile/introduction/region)，注意要去掉“www.”。 |       无       |
-|       host        | us3vmds监听的IP地址                                          |   127.0.0.1    |
-|       port        | us3vmds监听的端口                                            |       80       |
-|      logdir       | 输出的日志路径，日志名固定为us3mvds.log或者历史日志名格式如us3vmds-2021-02-23T02-32-21.424.log，建议该日志路径至少有100G以上存储容量 | $HOME/.us3vmds |
-|     loglevel      | 日志基本，可填:debug，error，info，建议目前调成debug方便后续问题跟踪 |      info      |
-| hotspotsyncperiod | 热点路径同步周期，如果只考虑分析从大数据集群写入的数据时，建议调大该值，避免频繁同步带来的性能开销 |  180(单位:s)   |
-|   isbigdataonly   | **如果只考虑分析从大数据集群写入的数据时，强烈建议该参数置为true以提高getFileStatus性能**，该参数在交互式命令中不显示需要手动修改配置文件 |     false      |
-
-对应的配置文件例子如下:
-
+|AccessKey | access the API public key or token public key of US3 | none|
+|Secret key | access the API private key or token private key of US3 | none|
+|Bucket | storage space name | none|
+|Endpoint | US3 intranet domain name suffix, such as ufile.cn-north-02.ucloud.cn. [refer here]（ https://docs.ucloud.cn/ufile/introduction/region ）Note that "www." should be removed| None|
+|Host | IP address monitored by us3vmds | 127.0.0.1|
+|Port | us3vmds listens on port | 80|
+|Logdir | output log path. The log name is fixed as us3mvds.log or historical log name format, such as us3vmds-2021-02-23t02-32-21.424.log. It is recommended that the log path has a storage capacity of at least 100g | $home/ us3vmds |
+|Loglevel | log is basic, and can be filled in: debug, error, info. It is recommended to set it to debug at present to facilitate follow-up problem tracking | info|
+|Hotspotsyncperiod | hotspot path synchronization cycle. If you only consider analyzing the data written from the big data cluster, it is recommended to increase this value to avoid the performance overhead caused by frequent synchronization | 180 (unit: s)|
+|Isbigdataonly | * * if you only consider analyzing the data written from the big data cluster, it is strongly recommended that this parameter be set to true to improve the performance of getfilestatus * *. This parameter does not display the need to manually modify the configuration file in the interactive command | false|
+An example of the corresponding configuration file is as follows:
 ```shell
 ➜  bin  ✗ cat $HOME/.us3vmds/us3vmds.yaml
-accesskey: TOKEN_7468973e-d192-4378-8253-xxxxxxxx
+accesskey: TOKEN_ 7468973e-d192-4378-8253-xxxxxxxx
 bucket: bigdata-us3
 endpoint: internal-cn-bj.ufileos.com
 host: 172.16.16.237
@@ -62,61 +53,44 @@ port: 80
 secretkey: 9a632eb8-3938-43a0-a7e1-xxxxxxxx
 isbigdataonly: true
 ```
-
-还可以通过命令展示配置信息:
-
+You can also display configuration information through commands:
 ```shell
 ➜  bin  ✗ us3vmds config --cat
-配置路径为: /root/.us3vmds/us3vmds.yaml
-监听IP地址为: 172.16.16.237
-监听端口为: 80
-API/Token公钥: TOKEN_7468973e-d192-4378-8253-xxxxxxxx
-API/Token私钥: 9a632eb8-3938-43a0-a7e1-xxxxxxxx
-存储空间Bucket: bigdata-us3
-访问端点Endpoint: internal-cn-bj.ufileos.com
-日志路径为: /data/us3vmds/log
-日志级别为: debug
-热点路径同步US3周期: 3600s
+The configuration path is: /root/.us3vmds/us3vmds.yaml
+The listening IP address is 172.16.16.237
+Listening port: 80
+Api/token public key: Token_ 7468973e-d192-4378-8253-xxxxxxxx
+Api/token private key: 9a632eb8-3938-43a0-a7e1-xxxxxxxx
+Storage space bucket: bigdata-us3
+Visit endpoint: internal-cn-bj.ufileos.com
+The log path is: /data/us3vmds/log
+Log level: debug
+Hotspot path synchronization US3 cycle: 3600s
 ```
-
-### 开始使用
-
-#### 后台启动
-
+###Start using
+####Background start
 ```shell
 ➜  bin  ✗ us3vmds start
 ```
-
-#### 停止重启
-
+####Stop restart
 ```shell
 ➜  bin  ✗ us3vmds restart
 ```
-
-#### 停止
-
+####Stop
 ```shell
 ➜  bin  ✗ us3vmds stop
 ```
-
-如果需要调试，也可以：
-
-#### 前台启动
-
+If debugging is required, you can also:
+####Foreground start
 ```shell
 ➜  bin  ✗ us3vmds start -f
-2021-02-23T20:10:19.454+0800    DEBUG   mds/cache.go:49 [uuid:70a82150-3bee-4bda-8bb6-01401a05c1e8] insert / to cach
-2021-02-23T20:10:19.455+0800    INFO    mds/sync_cache.go:418 hotspot sync period set 3600 seconds
+2021-02-23T20:10:19.454+0800    DEBUG   mds/cache. go:49 [uuid:70a82150-3bee-4bda-8bb6-01401a05c1e8] insert / to cach
+2021-02-23T20:10:19.455+0800    INFO    mds/sync_ cache. go:418 hotspot sync period set 3600 seconds
 ...
 ```
-
-当启动了us3vmds服务后，通过hadoop操作US3，并享受us3vmds带来的索引加速能力。除了以上功能操作，us3vmds还有以下功能：
-
-#### 热点路径强制同步
-
+When the us3vmds service is started, operate US3 through Hadoop and enjoy the index acceleration capability brought by us3vmds. In addition to the above functions, us3vmds has the following functions:
+####Hotspot path forced synchronization
 ```shell
-➜  bin  ✗ us3vmds sync / /HiBench2 // 这里强制us3vmds对/和/HiBench2目录进行同步
+➜ bin ✗ us3vmds sync / / hibench2 / / here, us3vmds is forced to synchronize the / and /hibench2 directories
 ```
-
-**注意: 该同步路径必须已经在us3vmds中加载过，如果不确定可以先通过hadoop命令对该路径进行拉取**
-
+**Note: the synchronization path must have been loaded in us3vmds. If you are not sure, you can pull the path through Hadoop command first**

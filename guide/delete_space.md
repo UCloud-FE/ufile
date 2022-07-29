@@ -1,11 +1,11 @@
 
 
-# 删除存储空间
+# Delete storage space
 
-选择指定存储空间，在右侧操作栏中点击“删除存储空间”。
+Select the specified storage space, and click "Delete Storage Space" in the right column.
 
-![](/images/删除存储空间1.png)
+! [](/images/delete_storage1.png)
 
-如需批量删除，选择多个存储空间后，点击左上角操作栏的“删除存储空间”。
+If you want to delete multiple storages, select multiple storages and click "Delete storages" in the upper-left column.
 
-![](/images/删除存储空间2.png)
+! [](/images/delete_storage2.png)

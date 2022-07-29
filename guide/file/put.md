@@ -1,97 +1,97 @@
 
 
-# 上传文件
+# Upload files
 
-## 简单上传
+## Simple Upload
 
-简单上传指的是使用 US3 API 中的 PutObject 方法上传单个文件（Object）。简单上传适用于一次 HTTP 请求交互即可完成上传的场景，比如小文件（小于 512MB）的上传。
+Simple upload refers to uploading a single file (Object) using the PutObject method in the US3 API. Simple uploads are suitable for scenarios where a Simple uploads are suitable for scenarios where a single HTTP request interaction is sufficient to complete the upload, such as uploading small files (less than 512MB).
 
-### 使用说明
+### Usage Notes
 
-- 简单上传的 API 接口的详细信息请参见 [PutFile](https://docs.ucloud.cn/api/ufile-api/put_file)。
+- See [PutFile](https://docs.ucloud.cn/api/ufile-api/put_file) for more information on the API interface for simple uploads.
 
-- 大文件（大于 512MB）的上传请使用分片上传。
+- For large file (> 512MB) uploads please use split uploads.
 
-- 命名限制：
+- Naming restrictions.
 
-  * 使用 UTF-8 编码。
+  * Use UTF-8 encoding.
 
-  * 长度必须在 1–1023 字节之间。
+  * Length must be between 1-1023 bytes.
 
-  * 不能以正斜线（/）或者反斜线（\\）字符开头。
+  * Cannot start with a forward slash (/) or backslash (\\) character.
 
-- 为了防止第三方未经授权往您的 Bucket 里上传数据，US3 提供了 Bucket 和 Object 级别的访问权限控制。
+- To prevent unauthorized third-party uploads of data to your Bucket, US3 provides access control at the Bucket and Object levels.
 
-- 在文件上传到 US3 上后，您可以通过上传回调来向指定的应用服务器发起回调请求，进行下一步操作。
+- After a file is uploaded to US3, you can use the upload callback to initiate a callback request to the specified application server for the next step.
 
-- 如果上传的是图片，您还可以进行图片处理。
+- If the upload is an image, you can also perform image processing.
 
-## 表单上传
+## Form Upload
 
-表单上传是指使用 US3 API 中的 [PostFile](https://docs.ucloud.cn/api/ufile-api/post_file) 请求来完成 Object 的上传，上传的 Object 不能超过 1GB。
+Form upload is done using the [PostFile](https://docs.ucloud.cn/api/ufile-api/post_file) request in the US3 API for Object uploads, which cannot exceed 1GB.
 
-**备注：表单上传的 API 接口详细信息请参见 PostFile。**
+**Remarks: See PostFile for details on the API interface for form uploads.**
 
-### 适用场景
+### Applicable scenarios
 
-表单上传非常适合嵌入在 HTML 网页中来上传 Object，比较常见的场景是网站应用，以招聘网站为例：
+Form uploads are ideal for uploading Objects embedded in HTML pages, a common scenario is a website application, for example a job board.
 
-|            | 不使用表单上传                    | 表单上传 |
+| Uploading without a form | Uploading with a form |
 | ---------- | --------------------------------- | -------------------------- |
-| 流程对比   | 网站用户上传简历。                | 网站用户上传简历。|
-| :::           | 网站服务器回应上传页面。          | 网站服务器回应上传页面。 |
-| :::           | 简历被上传到网站服务器。          | 简历上传到US3。|
-|  :::          | 网站服务器再将简历上传到US3。   | |
+| Flow comparison | Website user uploads resume. | Website users uploading resumes.
+| ::: | The web server responds to the upload page. | The web server responds to the upload page. | ::: | The web server responds to the upload page.
+| ::: | Resume is uploaded to the web server. | Resume is uploaded to US3. | ::: | The web server responds to the upload page.
+| ::: | The web server then uploads the resume to US3. | ::: | The web server then uploads the resume to US3. | ::: | The web server then uploads the resume to US3.
 
-从流程上来说，使用表单上传，少了一步转发流程，更加方便。
-从架构上来说，原来的上传都统一走网站服务器，上传量过大时，需要扩容网站服务器。采用表单上传后，直接从客户端上传数据到 US3，上传量过大时，压力都在US3上，由 US3 来保障服务质量。
+In terms of process, it is easier to use form uploads, with one less step in the forwarding process.
+In terms of architecture, the original uploads all went to the web server, and when the upload volume was too large, the web server needed to be expanded. With form upload, data is uploaded directly from the client to US3, and when the upload volume is too large, the pressure is on US3, which guarantees the With form upload, data is uploaded directly from the client to US3, and when the upload volume is too large, the pressure is on US3, which guarantees the quality of service.
 
-## 分片上传
+## Piecewise upload
 
-US3 提供的分片上传（Multipart Upload）功能，可以将要上传的文件分成多个数据块（US3 里又称之为 Part）来分别上传，上传完成之后再调用 US3 的接口将这些 Part 组合成一个 Object 来达到断点续传的效果。
-
-
-### 适用场景
-
-当使用简单上传（PutFile）功能来上传较大的文件到 US3 的时候，如果上传的过程中出现了网络错误，那么此次上传失败，重试必须从文件起始位置上传。针对这种情况，您可以使用分片上传来达到断点续传的效果。
-
-相对于其他的上传方式，分片上传适用于以下场景：
-
-1. 恶劣的网络环境：如手机端，当出现上传失败的时候，可以对失败的 Part 进行独立的重试，而不需要重新上传其他的 Part。
-
-2. 加速上传：要上传到 US3 的本地文件很大的时候，可以并行上传多个 Part 以加快上传。
-
-3. 流式上传：可以在需要上传的文件大小还不确定的情况下开始上传。这种场景在视频监控等行业应用中比较常见。
+US3 provides the Multipart Upload function, which allows you to divide the uploaded file into multiple data blocks (also called Parts in US3) to upload them separately, and then call US3 US3 provides the Multipart Upload function, which allows you to divide the uploaded file into multiple data blocks (also called Parts in US3) to upload them separately, and then call US3's interface to combine these Parts into one Object after the upload is completed to achieve the effect of intermittent upload.
 
 
-### 分片上传流程
+### Applicable scenarios
 
-将要上传的文件按照一定的大小分片。
+When using the simple upload (PutFile) function to upload a large file to US3, if a network error occurs during the upload, then the upload fails and a retry In this case, you can use a split upload to achieve the effect of a breakpoint upload.
 
-1. 初始化一个分片上传任务 [InitiateMultipartUpload](https://docs.ucloud.cn/api/ufile-api/initiate_multipart_upload)。
+Compared to other upload methods, split uploads are suitable for the following scenarios.
 
-2. 逐个或并行上传分片 [UploadPart](https://docs.ucloud.cn/api/ufile-api/upload_part)。
+Poor network environment: such as cell phone, when there is an upload failure, you can retry the failed Part independently without re-uploading other Poor network environment: such as cell phone, when there is an upload failure, you can retry the failed Part independently without re-uploading other Parts.
 
-3. 完成上传 [FinishMultipartUpload](https://docs.ucloud.cn/api/ufile-api/finish_multipart_upload)。
+2. Accelerated upload: When the local file to be uploaded to US3 is very large, you can upload multiple Parts in parallel to speed up the upload.
+
+Streaming upload: Uploads can be started while the size of the file to be uploaded is still uncertain. This scenario is more common in industry applications such as video surveillance.
 
 
-### 注意事项
+### Split upload process
 
-* 除了最后一块 Part，其他 Part 的大小不能小于 4MB，否则会导致调用 FinishMultipartUpload 接口时失败。
+Slice the files to be uploaded in a certain size.
 
-* 要上传的文件切分成 Part 之后，文件顺序是通过上传过程中指定的 partNumber 来确定的，实际执行中并没有顺序要求，因此可以实现并发上传。
+Initialize a slice upload task [InitiateMultipartUpload](https://docs.ucloud.cn/api/ufile-api/initiate_multipart_upload).
 
-* 具体的并发个数并不是越多速度越快，要结合用户自身的网络情况和设备负载综合考虑。
+2. Upload the partitions one by one or in parallel [UploadPart](https://docs.ucloud.cn/api/ufile-api/upload_part).
 
-* 默认情况下，已经上传但还没有调用 FinishMultipartUpload 的 Part 是不会自动回收的，因此如果要终止上传并删除占用的空间请调用 AbortMultipartUpload。
+3. Finish the upload [FinishMultipartUpload](https://docs.ucloud.cn/api/ufile-api/finish_multipart_upload).
 
-## 上传后续操作
 
-* 在文件上传到 US3 上后，您可以通过上传回调来向指定的应用服务器发起回调请求，进行下一步操作。
+### Caution
 
-* 如果上传的是图片，您还可以进行 [图片处理](/ufile/service/pic) 操作。
+* Except for the last part, the size of other parts cannot be smaller than 4MB, otherwise it will fail when calling FinishMultipartUpload interface.
 
-## 上传回调
+* After the file to be uploaded is divided into parts, the file order is determined by the partNumber specified in the upload process.
 
-US3 在上传文件完成的时候可以提供回调（Callback）给应用服务器。您只需要在发送给 US3 的请求中携带相应的 Callback 参数，即能实现回调。
+* The number of concurrent uploads is not as fast as the number of concurrent uploads, but should be considered in the context of the user's own network and device load.
+
+* By default, parts that have been uploaded but not yet called FinishMultipartUpload will not be reclaimed automatically, so if you want to terminate the By default, parts that have been uploaded but not yet called FinishMultipartUpload will not be reclaimed automatically, so if you want to terminate the upload and delete the occupied space, please call AbortMultipartUpload.
+
+## Upload follow-up
+
+* After the file is uploaded to US3, you can use the upload callback to initiate a callback request to the specified application server for the next step.
+
+* If the upload is an image, you can also perform the [image processing](/ufile/service/pic) operation.
+
+## Upload callback
+
+US3 can provide a callback to the application server when the file upload is complete. You only need to carry the appropriate Callback parameter in the You only need to carry the appropriate callback parameter in the request sent to US3 to implement the callback.
 

@@ -1,248 +1,119 @@
-# 图片处理服务
-
-图片处理服务是 UCloud 对外提供的海量、安全、低成本高可靠的图片处理服务。用户将原始图片上传保存在对象存储空间中，用户可以在任何时间、任何地点、任何设备上对图片进行处理。
-
-
-## 使用限制
-
-- 图片处理服务仅在下载时触发；
-- 图片处理不支持的地域，泰国、圣保罗、孟买、华盛顿、日本，雅加达，法兰克福，若该不支持地域有图片处理需求，请联系技术支持；
-- 只有北京、上海、香港地域支持像素10000*10000的图片处理请求；
-- 图片处理不支持range参数，加range参数会返回整个图片；
-- 华北二、伦敦、洛杉矶、尼日利亚暂不支持外网水印，如需使用，可将图片先上传至US3的存储桶，图片水印的imageurl可以使用内网域名url。
-
-
-## 功能支持
-
-图片处理服务功能列表：
-
-1. [基本图片信息获取](https://cms-docs.ucloudadmin.com/ufile/service/pic?id=基础图片信息获取)
-2. [EXIF 信息获取](https://docs.ucloud.cn/ufile/service/pic?id=exif信息获取)
-3. [图片缩放](https://docs.ucloud.cn/ufile/service/pic?id=图片缩放)
-4. [图片裁剪](https://docs.ucloud.cn/ufile/service/pic?id=图片裁剪)
-5. [索引切割](https://docs.ucloud.cn/ufile/service/pic?id=索引切割)
-6. [内切圆](https://docs.ucloud.cn/ufile/service/pic?id=内切圆)
-7. [圆角矩形](https://docs.ucloud.cn/ufile/service/pic?id=圆角矩形)
-8. [图片旋转](https://docs.ucloud.cn/ufile/service/pic?id=图片旋转)
-9. [图片自适应方向](https://docs.ucloud.cn/ufile/service/pic?id=图片自适应方向)
-10. [图片亮度](https://docs.ucloud.cn/ufile/service/pic?id=图片亮度)
-11. [图片对比度](https://docs.ucloud.cn/ufile/service/pic?id=图片对比度)
-12. [图片锐化](https://docs.ucloud.cn/ufile/service/pic?id=图片锐化)
-13. [图片模糊](https://docs.ucloud.cn/ufile/service/pic?id=图片模糊)
-14. [获取图片主色调](https://docs.ucloud.cn/ufile/service/pic?id=获取图片主色调)
-15. [水印](https://docs.ucloud.cn/ufile/service/pic?id=水印)
-16. [图片格式转换](https://docs.ucloud.cn/ufile/service/pic?id=图片格式转换)
-17. [图片渐进显示](https://docs.ucloud.cn/ufile/service/pic?id=图片渐进显示)
-18. [管道顺序调用多种图片处理功能](https://docs.ucloud.cn/ufile/service/pic?id=管道顺序调用多种图片处理功能)
-
-
-## 基本图片信息获取
-
-图片基本信息包括图片格式、图片大小。
-
-在图片下载 URL 后附加 imageinfo 指示符（区分大小写），即可获取 JSON 格式的图片基本信息。
-
-| 参数名    | 值         | 解释  |
+# Image processing services
+Image processing service is a massive, secure, low-cost and highly reliable image processing service provided by UCloud to the outside world.  Users upload the original images and save them in the object storage, and users can process the images at any time, any place, and on any device.
+## Usage Restrictions
+- Image processing services triggered only at the time of download.
+- image processing unsupported locales, Thailand, Sao Paulo, Mumbai, Washington, Japan, Jakarta, Frankfurt, please contact technical support if there is an image processing request for this unsupported locale.
+- only Beijing, Shanghai, Hong Kong locales support image processing requests of 10000*10000 pixels.
+- image processing does not support the RANGE parameter, adding the RANGE parameter will return the entire image.
+- North China II, London, Los Angeles, Nigeria do not support extranet watermark for the time being, if you need to use it, you can upload the image to US3's storage bucket first, the image url of the image watermark can use the intranet domain url.
+## Function Support
+Image processing service feature list.
+1. [Basic image information acquisition]( https://cms-docs.ucloudadmin.com/ufile/service/pic?id= Basic picture information acquisition)
+2. [EXIF information acquisition]( https://docs.ucloud.cn/ufile/service/pic?id=exif Information acquisition)
+3. [Image Scaling]( https://docs.ucloud.cn/ufile/service/pic?id= Picture zoom)
+4. [Image Cropping]( https://docs.ucloud.cn/ufile/service/pic?id= Image cropping)
+5. [Index Cut]( https://docs.ucloud.cn/ufile/service/pic?id= Index cut)
+6. [Inner cut circle]( https://docs.ucloud.cn/ufile/service/pic?id= Inscribed circle)
+7. [Rounded Rectangle]( https://docs.ucloud.cn/ufile/service/pic?id= Rounded rectangle)
+8. [Picture Rotation]( https://docs.ucloud.cn/ufile/service/pic?id= Picture rotation)
+9. [Picture Adaptive Orientation]( https://docs.ucloud.cn/ufile/service/pic?id= Picture adaptive direction)
+10. [Picture Brightness]( https://docs.ucloud.cn/ufile/service/pic?id= Picture brightness)
+11. [Picture Contrast]( https://docs.ucloud.cn/ufile/service/pic?id= Picture contrast)
+12. [Picture Sharpening]( https://docs.ucloud.cn/ufile/service/pic?id= Image sharpening)
+13. [Picture Blur]( https://docs.ucloud.cn/ufile/service/pic?id= Picture blurred)
+14. [Get Image Primary Color]( https://docs.ucloud.cn/ufile/service/pic?id= Get the main color of the picture)
+15. [Watermark]( https://docs.ucloud.cn/ufile/service/pic?id= Watermark)
+16. [Image Format Conversion]( https://docs.ucloud.cn/ufile/service/pic?id= Image format conversion)
+17. [Picture Progressive Display]( https://docs.ucloud.cn/ufile/service/pic?id= Picture progressive display)
+18. [Pipeline sequence to call multiple image processing functions]( https://docs.ucloud.cn/ufile/service/pic?id= The pipeline calls a variety of image processing functions in sequence)
+## Basic image information acquisition
+Basic image information includes image format, image size.
+Append the imageinfo indicator (case sensitive) to the image download URL to get the basic image information in JSON format.
+| Parameter Name | Value | Explanation |
 | ------ | --------- | --- |
-| iopcmd | imageinfo | 主命令 |
-
-## EXIF信息获取
-
-EXIF（EXchangeable Image File Format）是专门为数码相机的照片设定的可交换图像文件格式，通过在图片下载 URL 后附加 exif 指示符（区分大小写）获取。
-
-注意：缩略图等经过处理的新图片不支持该方法。
-
-| 参数名    | 值    | 解释  |
+| iopcmd | imageinfo | main command |
+## EXIF information acquisition
+EXIF (EXchangeable Image File Format) is an exchangeable image file format specifically set for digital camera photos, obtained by appending the exif indicator (case-sensitive) to the image download URL.
+Note: This method is not supported for new processed images such as thumbnails.
+| Parameter Name | Value | Explanation |
 | ------ | ---- | --- |
-| iopcmd | exif | 主命令 |
-
-## 图片缩放
-
-| 参数名   | 值           | 解释                                                                      |
+| iopcmd | exif | main command |
+## Image scaling
+| parameter name | value | explanation |
 | ------- | ------------ | ----------------------------------------------------------------------- |
-| iopcmd  | thumbnail    | 主命令                                                                     |
-| type    | 1            | 按比例缩放                                                                   |
-| type    | 2            | 宽度不变，高度按百分比缩放                                                           |
-| type    | 3            | 高度不变，宽度按百分比缩放                                                           |
-| type    | 4            | 指定宽度 ，高度等比缩放                                                            |
-| type    | 5            | 指定高度，宽度等比缩放                                                             |
-| type    | 6            | widthXheight，限定长边，短边自适应缩放                                               |
-| type    | 7            | widthXheight，限定短边，长边自适应缩放                                               |
-| type    | 8            | widthXheight，指定高和宽的最小尺寸，等比缩放，如只指定高或宽，则未指定边按照指定数值进行裁剪.但是超出指定矩形会被居中裁剪     |
-| type    | 9            | 以大的缩放比例进行等比缩放，缩放后可以小于指定的矩形，如高的缩放比例更大，以高为准等比缩放                           |
-| type    | 10           | 以小的缩放比例进行等比缩放，缩放后可以大于指定的矩形， 如宽的缩放比例更小，以宽为准等比缩放                          |
-| type    | 11           | 使用指定的宽和高，会导致图像拉伸                                                        |
-| type    | 12           | 原图尺寸小于 widthXheight 目标尺寸，原图居中，四周补 color 颜色                                  |
-| type    | 13           | 等比缩放，一边先缩到目标值，另一边居中裁剪，传 widthXheight                                     |
-| type    | 14           | 等比缩放，目标会小于等于 widthXheight                                                |
-| type    | 15           | 等比缩放，目标会等于 widthXheight，不足的边，补 color 颜色                                    |
-| color   | 十六进制或颜色名 red 等 |                                                                         |
-| scale   | 最大 10000      | 缩放百分比                                                                   |
-| gifmode |              | 该参数只对 gif 图片有效。若不传，则该参数默认为 1                                               |
-| gifmode | 1            | 返回连续的图像帧，如果不能处理全部的图像帧则只返回部分，同 3                                          |
-| gifmode | 2            | 返回第一帧静态图片，图像格式仍为 gif                                                     |
-| gifmode | 3            | 在系统处理的超时时间内，返回连续的图像帧，如果不能处理全部的图像帧则只返回部分                                 |
-| gifmode | 4            | 在系统处理的超时时间内，如果不能处理全部的图像帧，则返回部分跳跃的图像帧，图像帧平均分布                            |
-| gifmode | 5            | 在系统处理的超时时间内，如果不能处理全部的图像帧，则返回部分跳跃的图像帧，图像帧平均分布，同时用前一帧填充跳跃的帧，保持处理前后总帧数数量不变 |
-| gifmode | 6            | 在系统处理的超时时间内，如果不能处理全部的图像帧，则返回部分跳跃的图像帧，图像帧平均分布，同时修改图像帧的延迟时间，使播放速度和原图相同    |
-
-## 图片裁剪
-
-| 参数名     | 值                                                                    | 解释                         |
+| iopcmd | thumbnail | main command |
+| type | 1 | scale by percentage |
+| type | 2 | width unchanged, height scaled by percentage |
+| type | 3 | Scale width as a percentage with no change in height | type | 3 | Scale width as a percentage with no change in height
+| type | 4 | Specify width, scale height equally |
+| type | 5 | Specify the height and scale the width equally
+| type | 6 | widthXheight, limited to long side, short side scaling | type | 7 | widthXheight, limited to long side, short side scaling
+| type | 7 | widthXheight, define short side, scale long side adaptively | type | 8 | widthXheight, define short side, scale long side adaptively
+| type | 8 | widthXheight, specify the minimum size of the height and width, scaled equally, if only the height or width is specified, the unspecified side will be cropped according to the specified value.  But beyond the specified rectangle will be centered.
+| type | 9 | Scale to a larger size, and then scale to a smaller size than the specified rectangle, if the height is scaled to a larger size, then the height will be scaled equally.
+| type | 10 | Scale the rectangle to a smaller size, and then scale it to be larger than the specified rectangle.
+| type | 11 | Use the specified width and height to cause the image to stretch | type | 12 | Original size
+| type | 12 | The original image size is smaller than the widthXheight target size, the original image is centered, and the surrounding color is filled in.
+| type | 13 | Scale equivalently, with one side scaled to the target value first, and the other side centered and cropped, passing widthXheight | type
+| type | 14 | Scale equally, the target will be smaller than or equal to widthXheight |
+| type | 15 | Scale equivalently, the target will be equal to widthXheight.
+| color | hexadecimal or color name red, etc.
+| scale |max 10000 |scale percentage
+| gifmode | | This parameter is only valid for gif images.  If not passed, this parameter defaults to 1.
+| gifmode | 1 | Returns consecutive frames, or partial frames if all frames cannot be processed, same as 3 | gifmode | 2 | Returns the number of frames.
+| gifmode | 2 | Return the first still image frame, still in gif format.
+| gifmode | 3 | Returns consecutive frames within the system processing timeout, or only partial frames if all frames cannot be processed.
+| gifmode | 4 | Within the system processing timeout, if all the frames cannot be processed, then return some of the jumped frames, with the frames evenly distributed.
+| gifmode | 5 | If the system cannot process all frames within the processing timeout, return some of the jumped frames, with the frames evenly distributed, and fill the jumped frames with the previous frames, keeping the total number of frames before and after processing unchanged.
+| gifmode | 6 | If the system can't process all the frames within the processing timeout, then return some of the jumped frames, the frames are evenly distributed, and modify the delay time of the frames so that the playback speed is the same as the original image |
+## Image crop
+| Parameter name | Value | Explanation |
 | ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | crop                                                                 | 主命令                        |
-| width   | 0-10000                                                              | 裁剪后宽度                      |
-| height  | 0-10000                                                              | 裁剪后高度                      |
-| ax      | 0-10000                                                              | 锚点 x 坐标                    |
-| ay      | 0-10000                                                              | 锚点 y 坐标                    |
-| gravity | NorthWest/North/NorthEast/West Center/East/SouthWest/South/SouthEast | 位置偏移指示符，可以和锚点同时指定(比锚点优先使用) |
-
-## 索引切割
-| 参数名     | 值                                                                    | 解释                         |
+| iopcmd | crop | Main command |
+| width | 0-10000 | width after crop |
+| height | 0-10000 | height after crop |
+| ax | 0-10000 | anchor point x coordinate |
+| ay | 0-10000 | anchor y-coordinate |
+| gravity | NorthWest/North/NorthEast/West Center/East/SouthWest/South/SouthEast | Position offset indicator, can be specified at the same time as the anchor point (preferred over the anchor point) |
+## Index Cut
+| Parameter name | Value | Explanation |
 | ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | indexcrop                                                                 | 主命令                        |
-| x       | 1-图片宽度                                                            | x方向切割的每块区域长度                      |
-| y       | 1-图片高度                                                            | y方向切割的每块区域长度                      |
-| i       | 0-区域数，默认0表示第一块                                                |       选择切割后返回图片的区域              |
-### 注意事项
-- 如果指定索引值大于切割后形成的区域数量，将返回原图
-- 当x和y同时指定值合法时，按照y的参数为准
-
-## 内切圆
-| 参数名     | 值                                                                    | 解释                         |
+| iopcmd | indexcrop | Main command |
+| x | 1-Picture width | Length of each area cut in the x-direction |
+| y | 1-picture height | length of each area cut in y-direction |
+| i | 0-number of areas, default 0 means the first area | Select the area to return the image after cutting |
+### Caution
+- If the specified index value is greater than the number of areas formed after cutting, the original image will be returned.
+- When both x and y are legal, the parameter of y will prevail.
+## Inner cut circle
+| Parameter name | Value | Explanation |
 | ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | circle                                                                 | 主命令                        |
-| r       | 1-4096                                                            | 指定内切圆半径                      |
-### 注意事项
-- 如果图片的源格式是PNG、WebP或BMP等支持透明通道的图片，那么图片的非圆型区域将以透明补充，如果图片的源格式是JPG，图片的非圆形区域会以白色进行填充
-- 当r的取值大于原图最小边的一半时，以原图最小边的一半为值返回内切圆
-
-## 圆角矩形
-| 参数名     | 值                                                                    | 解释                         |
+| iopcmd | circle | main command |
+| r | 1-4096 | Specifies the radius of the inner tangent circle |
+### Caution
+- If the source format of the image is PNG, WebP or BMP which supports transparent channel, the non-circular area of the image will be supplemented with transparency, if the source format of the image is JPG, the non-circular area of the image will be filled with white
+- When the value of r is greater than half of the smallest side of the original picture, the value of half of the smallest side of the original picture is used to return the inner tangent circle
+## Rounded Rectangle
+| Parameter Name | Value | Explanation |
 | ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | rounded-corners                                                                 | 主命令                        |
-| r       | 1-4096                                                            | 将图片切出圆角，指定圆角的半径                      |
-### 注意事项
-- 如果图片的源标格式是PNG、WebP或BMP等支持透明通道的图片，那么图片的圆角以外区域将以透明补充，如果图片的源格式是JPG，图片的圆角以外区域会以白色进行填充
-
-## 图片旋转
-
-| 参数名    | 值         | 解释        |
+| iopcmd | rounded-corners | Main command |
+| r | 1-4096 | Cut rounded corners out of the image, specifying the radius of the rounded corners |
+### Caution
+- If the source format of the image is PNG, WebP or BMP, which supports transparent channel, the area outside the rounded corners of the image will be filled with transparent, if the source format of the image is JPG, the area outside the rounded corners of the image will be filled with white.
+## Image rotation
+| Parameter name | Value | Explanation |
 | ------ | --------- | --------- |
-| iopcmd | rotate    | 主命令       |
-| degree | \[0,360\] | 旋转度数(顺时针) |
-
-## 自适应方向
-| 参数名     | 值                                                                    | 解释                         |
+| iopcmd | rotate | Main command |
+| degree | \[0,360\] | Rotate by degrees (clockwise) |
+## Adaptive orientation
+| parameter name | value | explanation |
 | ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | auto-orient                                                                 | 主命令                        |
-| value   | 0，1                                                 | 0:不对图片进行自适应方向旋转，1:对图片进行自适应方向旋转  |
-
-## 亮度
-| 参数名     | 值                                                                    | 解释                         |
+| iopcmd | auto-orient | Main Command |
+| value | 0, 1 | 0:Do not rotate the image with adaptive orientation, 1:Rotate the image with adaptive orientation |
+## brightness
+| parameter name | value | explanation |
 | ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | bright                                                                 | 主命令                        |
-| value   | [-100,100]                                                | <0:降低图片亮度，=0:不调整图片亮度，>0:提高图片亮度 |
-### 注意事项
-- 如果取值>=100或者<=-100，图片会变成全白或者全黑
-
-## 对比度
-| 参数名     | 值                                                                    | 解释                         |
-| ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | contrast                                                                 | 主命令                        |
-| value   | [-100,100]                                                | <0:降低图片对比度，=0:不调整图片对比度，>0:提高图片对比度 |
-### 注意事项
-- 如果取值>=100或者<=-100，图片会变成全白或者全黑
-
-## 锐化
-| 参数名     | 值                                                                    | 解释                         |
-| ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | sharpen                                                                | 主命令                        |
-| radius   | [50,300]                                                | 设置锐化半径         |
-| sigma   | [50,300]                                                 | 设置正态分布标准差      |
-### 注意事项
-- 锐化半径radius越大，越清晰，但是数值过大，计算会比较慢，可能会出现失真情况，sigma建议设置锐化半径的三分之一
-
-## 模糊
-| 参数名     | 值                                                                    | 解释                         |
-| ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | blur                                                                | 主命令                        |
-| type  | 0，1                                                                | 0:普通模糊，1:高斯模糊，不传默认为普通模糊   |
-| radius   | [0,50]                                         | 设置锐化半径，默认为0     |
-| sigma   | [0,50]                                           | 设置正态分布标准差，不传默认为0   |
-| width   | 0-10000                                                              | 局部模糊的宽度，不传默认为图片的宽度，为全部模糊       |
-| height  | 0-10000                                                              | 局部模糊的宽度，不传默认为图片的宽度，为全部模糊       |
-| ax      | 0-10000                                                              | 锚点 x 坐标                    |
-| ay      | 0-10000                                                              | 锚点 y 坐标                    |
-| gravity | NorthWest/North/NorthEast/West Center/East/SouthWest/South/SouthEast | 位置偏移指示符，可以和锚点同时指定(比锚点优先使用) |
-
-## 获取图片主色调
-| 参数名     | 值                                                                    | 解释                         |
-| ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | averagehue                                                           | 返回图片的主色调                      |
-
-## 水印
-
-| 参数名         | 值                                                                    | 解释                                                                         |
-| ----------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| iopcmd      | watermark                                                            | 主命令                                                                        |
-| type        | 1=文字水印，2=图片水印                                                        | 水印类型                                                                 |
-| gravity     | NorthWest/North/NorthEast/West Center/East/SouthWest/South/SouthEast | 位置偏移指示符，可以和锚点同时指定(比锚点优先使用)                                    |
-| opacity     | 1-100，缺省为 100（完全不透明）                                                  | 透明度                                                                |
-| ax          | 小于原图宽度，默认为 10                                                         | 锚点 x 坐标                                                            |
-| ay          | 小于原图高度，默认为 10                                                         | 锚点 y 坐标                                                            |
-| text        | base64 URL encode 后的水印文字                                           | base64 URL encode 后的水印文字，支持 UTF-8                                     |
-| imageurl    | 资源地址                                                                | 可访问的图片资源URL，水印图片，必须是可以访问的资源地址，经过 base64 URL encode       |
-| fontsize    | 1-100                                                                | 水印文字大小，缺省为10，字体大小                                                  |
-| rotate    | 0-360                                                                   | 水印文字旋转角度，默认为0，不旋转                                                |
-| direction   | 1=RightToLeft，2=LeftToRight                                          | 水印文字方向                                                                  |
-| fill        |                                                                      | RGB 颜色编码表，base64 URL encode 后的RGB格式，可以是颜色名称（比如red）或十六进制（比如\#FF0000），缺省为白色。 |
-| font     |                字体格式编码类型参考下方编码对应表                                                      | base64 URL encode 后的字体名称，默认宋体                 |
-
-font参数中可选的文字类型以及编码对应表
-
-|字体    | 中文名                                                                    | 编码值                       |
-| ------- | -------------------------------------------------------------------- | -------------------------- |
-| SimSun | 宋体   |             5a6L5L2T    /      U2ltU3Vu                       | 
-| LiShu | 隶书   |            TGlTaHU                                                    | 
-| FangZhengFangSong |   方正仿宋     |          RmFuZ1poZW5nRmFuZ1Nvbmc=                                                         | 
-| FangZhengHeiTi |   方正黑体  |                RmFuZ1poZW5nSGVpVGk=                                                     | 
-| FangZhengKaiTi |   方正楷体 | RmFuZ1poZW5nS2FpVGk=                                        | 
-| FangZhengShuSong |   方正书宋     |          RmFuZ1poZW5nU2h1U29uZw==                                                           | 
-| WenQuanWeiMiHei |    微泉微米黑 |              V2VuUXVhbldlaU1pSGVp                                                    | 
-| WenQuanYiZhengHei |      微泉驿正黑  |           V2VuUXVhblpoZW5nSGVp                                                | 
-| DroidSansFallback | DroidSansFallback    |            RHJvaWRTYW5zRmFsbGJhY2s=                                                 | 
-
-
-## 图片格式转换
-
-| 参数名    | 值                | 解释                                                             |
-| ------ | ---------------- | -------------------------------------------------------------- |
-| iopcmd | convert          | 主命令                                                            |
-| dst    | jpg/png/bmp/webp | 目标格式                                                           |
-| Q      | 0-100            | 图片压缩质量（绝对压缩比），目标格式为 jpg，webp 时有效                                 |
-| q      | 0-100            | 图片压缩质量（相对压缩比），即在图片原有压缩基础上按此比例进行压缩，目标格式为 jpg，webp 时有效，Q 与 q 同时出现时，取 Q |
-| fr     | 0.0-1.0          | 需要格式转换的图像帧在图像总帧中的位置，默认为 0.0                                     |
-
-## 渐进显示
-| 参数名     | 值                                                                    | 解释                         |
-| ------- | -------------------------------------------------------------------- | -------------------------- |
-| iopcmd  | interlace                                                                 | 主命令                        |
-| value   | 0，1                                                 | 0:不对图片进行渐进显示，1:对图片进行渐进显示  |
-### 注意事项
-- 目前渐进显示只适用于处理为JPG格式图片，原图不是JPG格式可以通过管道形式，将图片转换成JPG格式
-
-## 管道顺序调用多种图片处理功能
-
-管道顺序是一种可以实现多种图片处理任务顺序执行的机制。用户可以通过管道顺序在一次下载时中按照顺序完成对图像的不同处理。
-
-如：
-
-```
-http://ufile-release.cn-bj.ufileos.com/US3pic/demo.jpg?iopcmd=rotate&degree=180|iopcmd=thumbnail&type=1&scale=40
-```
-
-上述请求会将 demobucket 这个空间中的 here-for-example.jpg 文件先旋转 180 度，然后按比例缩放为原来的 40% 大小。
-
-注意：如果请求当前不支持的 iopcmd，则会报错，不会返回原图。
-
+| iopcmd | bright | Main command |
+| value | [-100,100] | <0:decrease the brightness of the picture, =0:don't adjust the brightness of the picture, >0:increase the brightness of the picture |
+### Caution
+- If the value is >=100 o

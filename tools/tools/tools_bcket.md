@@ -1,10 +1,10 @@
 
 
-# 空间管理工具
+# Space management tools
 
-空间管理工具可帮助用户获取存储相关信息并进行空间管理，支持创建存储空间、删除存储空间、存储空间信息查看与修改和存储空间文件列表查询。
+Space management tool helps users to get storage related information and manage space. It supports creating storage space, deleting storage space, viewing and modifying storage space information and querying storage space file list.
 
-### 下载链接
+### Download link
 
 [bucketmgr-win32](http://tools.cn-bj.ufileos.com/bucketmgr-win32.zip)
 
@@ -14,68 +14,68 @@
 
 [bucketmgr-mac](http://tools.cn-bj.ufileos.com/bucketmgr-mac.tar.gz)
 
-### 使用说明
+### Usage Notes
 
-Linux/Mac用户请在terminal执行，Windows用户请在cmd终端执行。使用前请修改当前目录下的配置文件config.cfg，把API密钥加入到配置项：
+Linux/Mac users please execute in terminal, Windows users please execute in cmd terminal. Before using, please modify the configuration file config.cfg in the current directory to add the API key to the configuration item: ###
 
 ```
 {
    "public_key" : "paste your public key here",
    "private_key" : "paste your private key here",
-   "api_host" : "api.spark.ucloud.cn"  
+   "api_host" : "api.spark.ucloud.cn"
 }
 ```
 
-备注：API 密钥可以在控制台的“API 密钥”页面获得。将 public\_key 和 private\_key 分别填入 config.cfg 文件的对应位置，客户端工具通过此密钥完成鉴权。请妥善保管好 API 密钥，避免泄露。
+Note: The API key can be obtained from the "API Key" page in the console. Put the public\_key and private\_key into the corresponding location in config.cfg file, and the client tool will use them to complete the authentication. Please keep the API key properly to avoid leakage.
 
-#### 创建存储空间
+#### Create storage space
 
-创建存储空间建议使用控制台。
-
-```
-./bucketmgr --action CreateBucket --bucket bucketname --type public --region region --project-id project-id
-参数说明:
---bucket: 需要创建的存储空间名
---type: 需要创建的空间类型，公开空间（public）或私有空间（private）
---region: 需要创建的存储空间所属地区，默认北京
---project-id: 需要创建的空间所属项目组ID
-```
-
-示例：
-
-在org-mutvtj项目下创建uclouddemo存储空间：
+It is recommended to use the console to create the storage space.
 
 ```
-./bucketmgr --action CreateBucket --bucket uclouddemo --type public --region cn-bj --project-id org-mutvtj
+. /bucketmgr --action CreateBucket --bucket bucketname --type public --region region --project-id project-id
+Parameter description:
+--bucket: the name of the storage space to be created
+--type: the type of space to be created, public or private
+--region: the region of the repository to be created, default Beijing
+--project-id: the project group ID of the space to be created
 ```
 
-#### 删除存储空间
+Example.
 
-删除存储空间建议使用控制台。
-
-```
-./bucketmgr --action DeleteBucket --bucket bucketname --project-id project-id
-参数说明:
---bucket: 需要删除的存储空间名
---project-id: 需要删除的空间所属项目组ID
-```
-
-#### 获取空间信息
+Create uclouddemo storage space under org-mutvtj project.
 
 ```
-./bucketmgr --action DescribeBucket --project-id project-id
-参数说明:
---bucket: 需要查询的存储空间名
---project-id: 需要获取的空间所属项目组ID
+. /bucketmgr --action CreateBucket --bucket uclouddemo --type public --region cn-bj --project-id org-mutvtj
 ```
 
-#### 获取文件列表
+#### Delete storage space
+
+Deleting a storage space is recommended using the console.
 
 ```
-./bucketmgr --action GetFileList --bucket bucketname --limit limit --pattern pattern --format format
-参数说明:
---bucket: 需要拉取列表的存储空间名
---limit : 需要查询的记录数（默认取全部）
---pattern: 需要查询记录的模板，支持POSIX正则表达式
---format: 格式化查询记录
+. /bucketmgr --action DeleteBucket --bucket bucketname --project-id project-id
+Parameter Description:
+--bucket: the name of the storage space to be deleted
+--project-id: The project group ID of the space to be deleted
+```
+
+#### Get space information
+
+```
+. /bucketmgr --action DescribeBucket --project-id project-id
+Parameter description:
+--bucket: the name of the storage space to be queried
+--project-id: The project group ID of the space to be retrieved
+```
+
+#### Get the list of files
+
+```
+. /bucketmgr --action GetFileList --bucket bucketname --limit limit --pattern pattern --format format
+Parameter description:
+--bucket: The name of the storage space to be pulled for the list
+--limit: the number of records to be queried (default is all)
+--pattern: the template of the records to be queried, supports POSIX regular expressions
+--format: format the query records
 ```

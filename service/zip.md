@@ -1,102 +1,102 @@
-# 解压缩服务
+# Decompression services
 
-解压缩服务是UCloud对外提供的低成本高可靠的解压服务，用户通过在控制台的存储桶设置解压缩规则，设置触发前缀，解压后的目标bucket及目标路径，实现在规则前缀下上传的*.zip文件进行自动解压。
-
-
-## 注意事项
-
-- 目前解压缩处于公测阶段，只支持上海地域，仅仅支持后缀zip包文件的解压
-- 每个bucket最多只能够创建十条解压缩规则
-- 每个规则的筛选前缀之间不能互相包含，例如：有个规则的筛选前缀为 /a/b/c/d,则不能再创建/a/b/c和/a/b/c/d/e的规则前缀
-- 目标目录默认不填，会自动解压到你上传的的key的前缀作为目录
-- 源bucket令牌的权限要具备上传下载权限，如果令牌设置了prefix，则不能和自己规则的筛选前缀有冲突关系，否则会解压失败
-- 目标bucket令牌的权限要具备上传下载权限，如果令牌设置了prefix，则不能和目标目录有冲突关系，否则会解压失败
-- 注意目标目录的设置和筛选前缀的设置，解压后若还存在zip文件，可能还会触发解压行为
-- 单个压缩包的最大解压时间为10分钟，超过10分钟未完成的任务会解压失败
-- 创建规则包含两个入口，一个是存储桶的bucket文件管理的创建规则，另一个是数据处理下面的创建规则
-- 解压缩目前不收费，后续会按照使用次数，资源使用以及公网出流量三个维度进行收费
-
-## 配置解压缩
-
-### 创建规则
-
-- 1.[登录控制台](https://console.ucloud.cn/ufile/ufile)
-- 2.点击打开目标bucket功能详情，点击【数据处理】或【文件管理】
-- 3.在zip包解压列表点击【添加规则】
-- 4.填写相关参数，确认创建规则
-![image](/images/zip/创建规则.png)
-![image](/images/zip/规则.png)
-
-### 参数介绍
+Decompression service is a low-cost and highly reliable decompression service provided by UCloud. Users can set decompression rules, trigger prefix, target bucket and target path after decompression by setting the storage bucket in the console to realize automatic decompression of *.zip files uploaded under the rule prefix.
 
 
-|   参   数   |      是否必选      |                说  明            |
+## Caution
+
+- At present, decompression is in public beta, only support Shanghai region, only support the decompression of the zip package file suffix
+- Each bucket can only create a maximum of ten unzip rules
+- Each rule's filtering prefix cannot contain each other, for example, if a rule's filtering prefix is /a/b/c/d, then you cannot create /a/b/c and /a/b/c/d/e prefixes.
+- The target directory is not filled by default, it will be automatically decompressed to the prefix of the key you uploaded as the directory
+- The permissions of the source bucket token should have upload and download permissions, if the token is set to prefix, it cannot have a conflicting relationship with the filtering prefix of its own rules, otherwise it will fail to decompress
+- The permission of the target bucket token should have upload and download permission, if the token is set to prefix, it cannot have conflict with the target directory, otherwise it will fail to decompress.
+- Pay attention to the setting of target directory and the setting of filtering prefix, if there are still zip files after decompression, it may also trigger the decompression behavior.
+- The maximum decompression time for a single zip package is 10 minutes, any task not completed in more than 10 minutes will fail to decompress
+- The creation rule contains two entries, one is the creation rule of bucket file management of storage bucket, and the other is the creation rule under data processing
+- There is no charge for decompression at the moment, but it will be charged according to the number of uses, resource usage and public network traffic.
+
+## Configure decompression
+
+### Create rules
+
+- 1. [Log in to the console](https://console.ucloud.cn/ufile/ufile)
+- 2. Click to open the target bucket function details, click [Data processing] or [File management]
+- 3. Click [Add Rule] in the zip package decompression list
+- 4. Fill in the relevant parameters and confirm the creation of the rule
+! [image](/images/zip/create rule.png)
+! [image](/images/zip/rules.png)
+
+### Introduction of parameters
+
+
+| parameters | mandatory | description |
 |:---------------:|:---------------------------:|:------------------------------|
-|       触发前缀        |          是         |  解压触发前缀设置，在该前缀目录下上传的*.zip文件均会自动触发解压，规则的前缀之间不能存在互相包含的关系，如果已经存在规则，则不能选择全部文件作为触发条件，若已经有规则的触发条件是全部文件，则不能创建其他规则，目录格式a/b/   |
-|   源bucket令牌   |         是          | bucket令牌需要具有上传下载权限，若令牌权限设置了prefix，则该prefix应该包含触发前缀，否则会解压失败                                                 |
-|   目标bucket    |       是        | 选择解压后文件需要上传的bucket|
-|   目标bucket令牌 |       是        | bucket令牌需要具有上传下载权限，若令牌权限设置了prefix，则该prefix应该包含目标目录，否则会解压失败                                                 |
-|   目标路径   |        否        | 解压后上传的目标路径，不传默认解压到上传的*.zip的key目录，上传到根目录输入"/"，其他目录格式"a/b/c"                      |
-|   解压配置   |        是        |解压后的目录是否保留文件名为最后一层目录，目标目录为a/，压缩文件名为b.zip，若选择保留，则解压后文件路径为a/b/，若选择不保留，则解压后的文件路径为a/ |
-|   规则名字   |        是        | 解压缩规则名字 |
+| trigger prefix | yes | set the trigger prefix for decompression, the *.zip files uploaded in the prefix directory will automatically trigger decompression, the prefixes of the rules cannot exist to contain each other, if there are already rules, you cannot select all files as trigger conditions, if there are already rules that trigger conditions are all files, you cannot create other rules, the directory format a/b/ |
+| source bucket token | yes | bucket token needs to have upload and download permissions, if the token permissions set prefix, the prefix should contain the trigger prefix, otherwise it will fail to decompress |
+| target bucket | yes | Select the bucket to upload the files after decompression|
+| Yes | The bucket token needs to have upload and download permission, if the token permission is set to prefix, then the prefix should contain the target directory, otherwise the decompression will fail |
+| Destination path | No | The target path for uploading after decompression, not uploading to the key directory of the uploaded *.zip by default, uploading to the root directory by typing "/", other directory format "a/b/c" | Yes
+| unzip configuration | yes | whether the decompressed directory retains the file name as the last level of the directory, the target directory is a/, the compressed file name is b.zip, if you choose to retain, then the decompressed file path is a/b/, if you choose not to retain, then the decompressed file path is a/ |
+| rule name | yes | decompression rule name |
 
 
-### 配置用例:
+### Configuration use case:
 
-- 上传到src前缀下，解压到dst目录，不保留压缩文件名为目录 ，前缀设置为src/，目标目录设置为dst/
-- 解压后的文件结构
+- Upload to src prefix, decompress to dst directory, do not keep the compressed file name directory, prefix set to src/, target directory set to dst/
+- Decompressed file structure
 ```
-bucket-src 
-└─── src/   
+bucket-src
+└─── src/
      ├─── a.zip
      └─── b.zip
 bucket-dst
-└─── dst/
-     ├─── a.txt
+└── dst/
+     ├── a.txt
      ├─── b.txt
      └─── ...
-```
+ðŸ™' ðŸ™'
 
-- 上传到src前缀下，解压到dst目录，保留压缩文件名为目录 ,前缀设置为src/,目标目录设置为dst/
-- 解压后的文件结构
+- Upload to src prefix, decompress to dst directory, keep the compressed file name as directory , prefix set to src/, target directory set to dst/
+- The uncompressed file structure
 ```
-bucket-src  
-└─── src/   
-     ├─── a.zip
-     └─── b.zip
-bucket-dst
-└─── dst/
-      ├────a/
-      |    |──── a.txt
-      ├────b/ 
-           |──── b.txt
-```
-- 上传到src前缀下，解压到dst目录，保留压缩文件名为目录 ,前缀设置为src/，目标目录设置为空，默认解压到上传的*.zip文件的key目录下
-- 解压后的文件结构
-```
-bucket-src  
-└─── src/   
-     ├─── a.zip
-     └─── b.zip
-bucket-dst
+bucket-src
 └─── src/
-      ├────a/
-      |    |──── a.txt
-      ├────b/ 
+     ├─── a.zip
+     └─── b.zip
+bucket-dst
+└── dst/
+      ├óΓé¼╦£────a/
+      | ──── a.txt
+      ├óΓé¼╦£────b/
            |──── b.txt
+ðŸ™' ðŸ™'
+- Upload to src prefix, decompress to dst directory, keep the zip file named directory ,prefix set to src/, target directory set to empty, default decompression to the key directory of the uploaded *.zip file
+- File structure after decompression
 ```
+bucket-src
+└─── src/
+     ├─── a.zip
+     └─── b.zip
+bucket-dst
+└── src/
+      ├óΓé¼┼ô────a/
+      | ──── a.txt
+      ├óΓé¼╦£────b/
+           |──── b.txt
+ðŸ™' ðŸ™'
 
-## 修改规则
+## Modify rules
 
-选择US3指定存储空间，在右侧操作中点击数据处理按钮，会展示所有的该存储空间的解压缩规则，选择想要修改的规则即可
-![image](/images/zip/修改规则.png)
-点击修改以后，会弹出修改窗口，修改想要修改对应窗口里面的字段即可
-![image](/images/zip/修改规则-弹窗.png)
+Select the US3 specified storage, and click the Data Processing button on the right side to display all the decompression rules for that storage, select the rule you want to modify
+Select the rule you want to modify! [image](/images/zip/modify-rules.png)
+After you click Modify, the Modify window will pop up, modify the fields you want to modify in the corresponding window
+! [image](/images/zip/modify-rules-popup.png)
 
-## 删除规则
+## Delete Rules
 
-对于不需要的zip包解压规则，您可以手动删除，选择US3指定存储空间，点击数据处理按钮，选择想要删除的规则，删除过后，该规则不会自动触发解压
-![image](/images/zip/删除规则.png)
-依据弹窗的提示选择确定删除或者取消操作
-![image](/images/zip/删除规则-弹窗.png)
+For unwanted zip package decompression rules, you can delete them manually by selecting US3 to specify the storage space, clicking the data processing button, and selecting the rule you want to delete, which will not automatically trigger decompression after deletion
+! [image](/images/zip/delete-rules.png)
+According to the pop-up window, select OK to delete or cancel the operation
+! [image](/images/zip/deletion-rules-popup.png)
 

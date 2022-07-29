@@ -1,15 +1,15 @@
 
-# 性能分析
+# Performance Analysis
 
-相比使用本地存储，性能上会有一定的损耗，时延大约是本地的8~9倍左右。
+Compared to using local storage, there will be some performance loss, and the latency is about 8~9 times more than local.
 
-通过[官方ontime测试数据集](https://clickhouse.tech/docs/zh/getting-started/example-datasets/ontime/)进行单表测试，测试结果如下：
+A single table test was conducted by [official ontime test dataset](https://clickhouse.tech/docs/zh/getting-started/example-datasets/ontime/) and the results are as follows.
 
-![](/images/us3clickhouse1.png)
+! [](/images/us3clickhouse1.png)
 
-其中本地测试按照官网步骤执行；US3测试建表语句如下，SQL操作同本地
+The local test is executed according to the official website steps; the US3 test table building statement is as follows, and the SQL operation is the same as local
 
-*US3建表语句*
+*US3 table build statement*
 ```sql
 CREATE TABLE `ontime_us3` (
   `Year` UInt16,

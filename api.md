@@ -1,5 +1,5 @@
 
 
-# 鉴权方法说明
+# Description of the authentication method
 
 

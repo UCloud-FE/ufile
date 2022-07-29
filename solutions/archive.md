@@ -1,75 +1,75 @@
-# 数据归档方案
+# Data archiving solutions
 
-## 背景
-在数据归档领域，传统的磁带库或是蓝光盘库介质在过往一直是首选，这些磁带或者光盘一旦存储了数据，就意味着数据进入到数据中心某个不起眼的角落中，如没必要将通常会进入到“沉睡”阶段，有些数据甚至几十年都不再被读取使用。
-如今数字经济的背景下，冷数据价值的挖掘受到了越来越多的关注，灵活的数据检索，准实时的数据取回能力也成为了新时代数据归档场景的核心需求，同时用户也在 TCO 成本优化的角度开始关注数据分层带来的价值。
+## Background
+In the field of data archiving, the traditional tape library or Blu-ray disc library media has been the preferred choice in the past. Once the data is stored on these tapes or discs, it means that the data goes into some obscure corner of the data center and will usually go into a "dormant" stage if not necessary, and some data will not be read or used for decades.
+Nowadays, in the context of digital economy, cold data value mining has received more and more attention, flexible data retrieval, quasi-real-time data retrieval capability has also become the core demand of the new era of data archiving scenarios, while users also began to focus on the value of data tiering from the perspective of TCO cost optimization.
 
-本文介绍了如何灵活地使用 US3 的不同存储类型存储数据，以达到降低数据长期存储成本的目的。
+This article describes how to flexibly use different storage types of US3 to store data to achieve the purpose of reducing the long-term data storage costs.
 
-## US3 归档类型
+## US3 Archive Types
 
-UCloud 归档类型实现了 0.024元/GB/月 的存储单价，比市场同类型产品价格下降 30%，同时可以保障数据11个9以上的可靠性，数据可用性达到99.9%以上。
-归档存储类型在使用数据前需要进行解冻数据操作，解冻数据将会产生 0.06元/GB 的解冻费用，数据解冻操作将 5 分钟内执行完成。当前 US3 归档类型提供的数据取回方式为快速取回，后续 US3 也计划提供廉价的批量解冻操作，降低数据解冻费用。
-使用 RESTORE 进行解冻操作，解冻完成后，数据取回不再收取额外费用，仅收取正常流出流量费用。解冻操作完成后数据保留 3 天，已解冻的数据取回不收取取回费用，超过 3 天则无法下载，需要重新进行解冻操作。
-如您需要详细了解 US3 归档类型的定价标准，建议您参考 [产品价格](/ufile/bill/billing) 以及 [计费案例](/ufile/bill/case) 中的案例三。
+The UCloud archive type achieves a storage unit price of 0.024 RMB/GB/month, which is 30% lower than the price of similar products in the market, while guaranteeing data reliability of more than 11 9 and data availability of more than 99.9%.
+The archive storage type requires an unfreeze data operation before using the data, and the unfreeze data will incur an unfreeze fee of $0.06/GB, and the data unfreeze operation will be executed within 5 minutes. The current data retrieval method provided by the US3 archive type is fast retrieval, and US3 plans to provide inexpensive bulk unfreeze operations to reduce data unfreeze costs.
+Once the thaw is completed using RESTORE, there is no additional charge for data retrieval, only the normal outbound traffic charge. After the thawing operation is completed, the data will be retained for 3 days, and no retrieval fee will be charged for retrieving the thawed data.
+If you need to know more about the pricing of US3 archive type, we recommend you to refer to Case 3 in [product price](/ufile/bill/billing) and [billing case](/ufile/bill/case).
 
-## 使用 US3 归档类型存储冷数据
+## Storing Cold Data with US3 Archive Type
 
-如您需要使用 US3 归档类型存储冷数据，US3 支持您在上传时指定存储类型的方式，将数据直接存储至归档类型，或采用文件存储类型转换方式进行手动的存储类型转换。
-US3 同时支持您对存储在 US3 标准类型或低频类型中的数据配置生命周期策略，以达到定期自动降冷的效果。
+If you need to store cold data using the US3 archive type, US3 supports either direct storage to the archive type by specifying the storage type at upload time, or manual storage type conversion using file storage type conversion.
+US3 also supports you to configure lifecycle policies for data stored in US3 standard types or low-frequency types to achieve periodic automatic cooling.
 
-### 直接上传文件至归档存储
+### Upload files directly to archive storage
 
-1. 通过 US3 网页控制台上传文件
+1. Uploading files via the US3 web console
 
-选择指定存储空间，进入文件管理页后，在文件管理页点击“上传文件”，弹出上传文件窗口。
+Select the specified storage, enter the file management page, and click "Upload File" on the file management page to bring up the upload file window.
 
-![image](/images/文件管理4.png)
+! [image](/images/file-management4.png)
 
-您可以在添加所需上传的文件后，在“选择存储类型”选项右侧，勾选归档存储，执行上传操作，文件即可被上传至归档存储。
+After adding the files you want to upload, you can check "Archive storage" on the right side of the "Select storage type" option to perform the upload operation, and the files will be uploaded to the archive storage.
 
-2. 通过上传类 API 进行文件上传
+2. File upload via Upload API
 
-US3 提供的上传类 API 中，在请求头（Request Headers）中以 X-Ufile-Storage-Class 字段来进行存储类型判断，默认请求头中该字段为空时，文件会被默认上传至标准类型的存储空间中，按标准类型计费。如您需要将文件直接上传至归档存储，需指定 X-Ufile-Storage-Class 的值为 ARCHIVE。
+In the upload class API provided by US3, the X-Ufile-Storage-Class field in the Request Headers is used to determine the storage type. If the field in the default request header is empty, the file will be uploaded to the standard type of storage by default and will be billed according to the standard type. If you need to upload files directly to archive storage, you need to specify the value of X-Ufile-Storage-Class as ARCHIVE.
 
-如您需要详细了解 US3 上传类 API，您可以参考 [上传文件](https://docs.ucloud.cn/api/ufile-api/put_file)、[表单上传](https://docs.ucloud.cn/api/ufile-api/post_file) 、[初始化分片](https://docs.ucloud.cn/api/ufile-api/initiate_multipart_upload) API 文档。
+If you need to know more about the US3 upload class API, you can refer to [Upload File](https://docs.ucloud.cn/api/ufile-api/put_file), [Form Upload](https://docs.ucloud.cn/api/ufile-api/post_file ), [Initialize Slice](https://docs.ucloud.cn/api/ufile-api/initiate_multipart_upload) API documentation.
 
-### 手动修改存储类型为归档存储
+### Manually change the storage type to archive storage
 
-1. 通过 US3 网页控制台修改存储类型
+1. Modify the storage type via US3 web console
 
-选择指定存储空间，进入文件管理页后，在单个文件右侧操作下拉列表中点击“修改存储类型”。
+Select the specified storage space, enter the file management page, and click "Modify Storage Type" in the drop-down list of actions to the right of individual files.
 
-![image](/images/文件管理9.png)
+! [image](/images/file-management9.png)
 
-您可以在弹出窗口中选择“归档存储”，即可手动修改存储类型为归档存储。
+You can manually change the storage type to archive storage by selecting "Archive Storage" in the pop-up window.
 
-2. 通过文件存储类型转换 API 修改存储类型
+Modify the storage type via the File Storage Type Conversion API
 
-US3 提供 [文件存储类型转换](https://docs.ucloud.cn/api/ufile-api/class_switch) API，您可以使用该 API 转换文件的存储类型。
+US3 provides [File Storage Type Conversion](https://docs.ucloud.cn/api/ufile-api/class_switch) API, you can use this API to convert the storage type of files.
 
-### 设置生命周期策略将文件转换为归档存储
+### Set the lifecycle policy to convert files to archive storage
 
-您可以通过开通存储空间（Bucket）生命周期功能，实现存储空间内所有文件或特定前缀文件定期自动转换为归档存储，从而节省存储费用。
+You can save storage costs by enabling the lifecycle feature of the storage space (Bucket) to automatically convert all files or specific prefix files in the storage space to archival storage on a regular basis.
 
-如您需要详细了解生命周期功能的设置方式，请参考 [生命周期](/ufile/guide/lifecycle)
+Please refer to [Lifecycle](/ufile/guide/lifecycle) for details on how to set up the lifecycle feature.
 
-## 归档存储适用场景
+## Scenarios for archival storage
 
-### 多媒体归档场景
+### Multimedia archiving scenario
 
-在线直播、视频监控目前已逐渐普及，在这些场景中，一个 1080P 的高清摄像头存储一天就需要 45G 的容量，一个视频网站每天产生的数据量可达 TB 以上；UCloud 某广电客户此前采用蓝光存储的方式，预计到 2024 年，其存储数据量将达 16.4PB，大概需要 8 个蓝光盘柜，占用机房一整排机柜空间，对客户来说，是一笔巨大的成本支出。
+In these scenarios, a 1080P HD camera storage requires 45G of capacity a day, and a video website generates more than TB of data per day; a UCloud customer previously used Blu-ray storage, which is expected to reach 16.4PB by 2024, requiring about 8 Blu-ray disk cabinets. It takes up a whole row of cabinet space in the server room, which is a huge cost for the customer.
 
-UCloud 新一代归档存储可提供不亚于标准存储的写入带宽，实现分钟级数据异步取回，在线回看；并采用纠删码冗余策略来保障数据安全可靠。结合 US3 不同存储类型间的生命周期转换功能，用户还可快速实现数据由热至温再到冷的存储类型转换，完成自动化的数据生命周期管理。
+UCloud's new generation archive storage can provide write bandwidth no less than standard storage, realize asynchronous data retrieval at the minute level, and online lookback; and adopt redundancy policy of corrective code to ensure data security and safety. Combined with US3's lifecycle conversion between different storage types, users can also quickly convert data from hot to warm to cold storage types to complete automated data lifecycle management.
 
-### 历史数据合规存储
+### Historical data compliance storage
 
-面对日益上涨的企业数据库备份场景，US3 提供的 [数据库备份方案](/ufile/solutions/backup) 能够有效帮助用户缩减备份流程。针对需要定时清理备份、缩减备份成本的用户，US3 支持数据生命周期管理功能，可以实现自动化的数据定期清理、定期转入归档存储。针对需要更高安全级别的用户，US3 可支持跨区域复制功能，帮助用户完成数据的异地备份。
+US3 provides [database backup solutions](/ufile/solutions/backup) to help users streamline the backup process in the face of the increasing number of enterprise database backup scenarios. For users who need to clean backups regularly and reduce backup costs, US3 supports data lifecycle management, which enables automated periodic data cleanup and regular transfer to archival storage. For users who need a higher level of security, US3 supports cross-region replication to help users complete off-site backups of data.
 
-在电商平台的日志归档场景中，US3 还提供了 ElasticSearch 接入和数据库备份功能，当数据量增大后，对历史数据进行统一归档至归档存储的方式，以降低存储成本。
+In the log archiving scenario of e-commerce platform, US3 also provides ElasticSearch access and database backup function, and when the data volume increases, the historical data is archived to the archival storage in a unified way to reduce storage costs.
 
-### 大数据、AI分析数据归档
+### Big data, AI analytics data archiving
 
-根据研究机构提供的数据，2020 年生物经济规模已达 15 亿美元。拿肿瘤疾病的基因测序为例，单个患者的 DNA 样本数据能达到 560GB，如果按照每年 1800 多万的癌症病例来计算，使用基因分析技术后每年就会产生 10PB 的肿瘤基因样本数据。而中国一家三甲医院每年的影像数据就有 20TB 左右，全国 3 万多家医院的数据量，也是非常庞大的数据。US3 归档存储能够为大量的生物信息、IoT 实时分析数据等场景提供长期归档存储，为未来的医疗研究、工业智能储备数据资料。
+According to research institutions, the bio-economy has reached $1.5 billion in 2020. Take the gene sequencing of oncology disease as an example, the DNA sample data of a single patient can reach 560GB, if calculated based on more than 18 million cancer cases per year, the use of gene analysis technology will generate 10PB of tumor gene sample data per year. US3 archival storage can provide long-term archival storage for a large amount of biological information, IoT real-time analysis data, and other scenarios to reserve data for future medical research and industrial intelligence.
 
-新基建背景下，随着新技术与新场景不断融合，在线教育、云游戏、自动驾驶、智慧社区、智能制造等行业，都将产生越来越多的数据。US3 归档存储面向未来的数据分层存储场景，采用全新的自研存储架构，降低用户的硬件成本和运营成本，让用户以更低的价格、更可靠的方式，存储数据资产，为未来挖掘数据生产要素的价值积累财富。
+In the context of new infrastructure, as new technologies and new scenarios continue to converge, industries such as online education, cloud gaming, autonomous driving, smart communities, and smart manufacturing will generate more and more data. US3 archival storage is geared towards future data hierarchical storage scenarios and uses a new self-research storage architecture to reduce users' hardware costs and operational costs, allowing users to store data at a lower price and in a more reliable manner assets and accumulate wealth for future mining of the value of data production factors.

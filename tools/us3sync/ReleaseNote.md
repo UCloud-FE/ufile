@@ -1,94 +1,68 @@
 # v1.8.0
-
-1. 修复了s3类型endpoint无法使用https的问题
-2. 增加了endpoint的请求超时配置
-
+1. Fixed the problem that S3 type endpoint cannot use HTTPS
+2. Add the request timeout configuration of endpoint
 # v1.7.0
-
-1. 修复了前缀自动发现式列取时，校验阶段仅校验顶层前缀的bug
-2. 在不勾选前缀自动发现时，会同步源端的空目录到目的端
-3. 支持了七牛专有云的endpoint
-
+1. Fixed the bug that only the top-level prefix is verified in the verification phase when prefix auto discovery column retrieval is performed
+2. When prefix auto discovery is not checked, the empty directory on the source side will be synchronized to the destination side
+3. Support the endpoint of qiniu proprietary cloud
 # v1.6.1
-
-1. 修复了在专有云上无法创建endpoint的bug
-2. 修复了使用前缀自动发现功能时可能会卡住的bug
-3. 修复了url列表模式的endpoint可能无法创建的bug
-
+1. Fixed the bug that endpoint cannot be created on the VPC
+2. Fixed a bug that might get stuck when using the prefix auto discovery function
+3. Fixed the bug that endpoint in URL list mode may not be created
 # v1.6.0
-
-1. 优化了数据的统计方式
-2. 修复了在使用s3接口拉取列表时，返回结果中nextmarker为空导致的panic
-3. 修复了重试时由于分段上传请求已经被取消而导致的上传id失效
-4. 修复了一个list时始终使用同一个marker的bug
-5. 新增了如果启动时不设置用户名密码，可以在首次登录界面时设置用户名密码的功能
-
+1. Optimized the statistical method of data
+2. Fixed the panic caused by null nextmarker in the returned result when using the S3 interface to pull the list
+3. Fixed the failure of upload ID caused by the cancellation of segmented upload request during retry
+4. Fixed the bug that the same marker is always used in a list
+5. Added the function that if the user name and password are not set at startup, the user name and password can be set at the first login interface
 # v1.5.0
-
-1. 新增fetch任务模式，可以通过向server的/fetch路径下发送POST请求来增量同步文件
-2. 现在可以在启动时指定--sentinel-addr参数的方式，让节点使用哨兵模式连接pika数据库
-3. 支持了在使用aws，us3，oss，七牛以及url列表类型的endpoint时的https下载以及拉列表功能，可以在创建endpoint时进行配置
-4. 支持了在使用aws，us3，oss，七牛类型的endpoint拉列表时，自动发现新公共前缀的功能，在这个模式下，拉列表会针对各个前缀并发列取
-5. 支持了在使用us3类型的endpoint时使用prefix-file-list接口进行拉列表，该功能通常用在专有云环境
-6. 支持了根据初始化分片上传任务时获取的返回结果来选择分片上传的分片大小的功能。
-7. 现在源端404的任务同样会被认为是失败
-8. 现在worker在丢失掉master心跳后并不会立刻退出，而是会以指数退避的策略放缓心跳，最大心跳间隔为32秒一次，如果重新捕获到主节点心跳，会恢复心跳间隔
-9. 现在worker会正确的abort掉无法完成的分片上传任务
-10. 现在worker在下载文件时遇到404，503，500， 504状态码，会以指数退避的形式重试5次
-11. 更改了分配任务给worker的流程，现在worker获取的任务可以在worker宕机后快速恢复
-12. 优化web界面，目前可以在任务列取和审计阶段看到文件列表操作的进度
-13. 现在可以在创建任务时，使用正则表达式过滤源端对象键，但是此对象键不包括配置在任务中的桶名和前缀
-
+1. Add a fetch task mode. You can send a post request to the /fetch path of the server to incrementally synchronize files
+2. Now you can specify the --sentinel addr parameter at startup to let the node connect to the pika database using sentinel mode
+3. Support HTTPS download and pull list functions when using AWS, US3, OSS, qiniu and URL list type endpoints, which can be configured when creating endpoints
+4. It supports the function of automatically discovering new public prefixes when using AWS, US3, OSS, and qiniu type endpoint pull lists. In this mode, the pull list will be listed and retrieved concurrently for each prefix
+5. It supports the use of the prefix file list interface to pull lists when using US3 type endpoints. This function is usually used in the VPC environment
+6. It supports the function of selecting the fragment size of fragment upload according to the return result obtained when initializing the fragment upload task.
+7. Now the task of the source 404 will also be considered as a failure
+8. Now the worker will not quit immediately after losing the master heartbeat, but will slow down the heartbeat with an exponential backoff strategy. The maximum heartbeat interval is once every 32 seconds. If the heartbeat of the master node is recaptured, the heartbeat interval will be restored
+9. Now the worker will abort the uncompleted fragment upload task correctly
+10. Now the worker encounters 40450305004 status code when downloading the file, and will retry 5 times in the form of exponential backoff
+11. The process of assigning tasks to workers has been changed. Now the tasks obtained by workers can be quickly recovered after worker downtime
+12. Optimize the web interface. At present, you can see the progress of file list operation in the task retrieval and audit stages
+13. Now you can use regular expressions to filter the source side object key when creating a task, but this object key does not include the bucket name and prefix configured in the task
 # v1.4.0
-
-1. 新增同步删除功能，目前可以在创建任务时勾选此选项，将源端不存在，而目的端存在的文件删除
-2. 优化web界面，将同步，删除，以及正在执行的指标分隔显示
-
+1. Add the synchronous deletion function. At present, you can check this option when creating a task to delete files that do not exist at the source end but exist at the destination end
+2. Optimize the web interface, and separate the synchronization, deletion, and ongoing indicators
 # v1.3.1
-
-1. 忽略迁移中源端不存在的文件
-2. 优化URL列表拉取源列表文件
-3. 修复 不覆盖选项导致进程panic
-
+1. Ignore files that do not exist on the source side in the migration
+2. Optimize URL list to pull source list file
+3. Fix the process panic caused by the do not overwrite option
 # v1.3.0
-
-1. 多DB优化列取方式
-2. 优化local源列取
-3. 优化http源列取
-4. 修复oss FileGroup类型迁移失败
-5. 修复空文件迁移失败
-6. 非定时任务支持校验新文件
-
+1. Multi DB optimized column retrieval method
+2. Optimize local source column fetching
+3. Optimize HTTP source column retrieval
+4. Repairing OSS filegroup type migration failed
+5. Failed to repair the empty file migration
+6. Non scheduled tasks support verifying new files
 # v1.2.0
-
-1. 定时任务取消立即启动
-2. 增加MD5校验支持，创建任务指定
-3. endpoint支持prefix校验，针对指定prefix的token
-4. URL列表迁移，支持跳过404链接
-5. 任务分发优化，迁移速度提升
-
+1. Cancel the scheduled task and start it immediately
+2. Add MD5 verification support and create task assignments
+3. Endpoint supports prefix verification for the token of the specified prefix
+4. URL list migration, support skipping 404 links
+5. Optimize task distribution and improve migration speed
 # v1.1.2
-
-1. 修复 NAS，URL 列表类型 endpoint 无法创建
-2. 修复 uarchive 类型迁移，mime type 校验失败
-
+1. Repair NAS, URL list type endpoint cannot be created
+2. Repair the uarchive type migration, and the MIME type verification failed
 # v1.1.1
-
-1. 修复任务阻塞问题
-2. 修复任务无法正常结束
-3. 启动脚本校验预装命令
-4. 前端支持必填项校验
-
+1. Fix the task blocking problem
+2. The repair task cannot be completed normally
+3. Start the script to verify the pre installed command
+4. Front end support required item verification
 # v1.1.0
-
-1. 支持迁移源管理
-2. 支持定期任务
-3. 支持失败文件导出
-4. 支持文件覆盖选项
-5. 支持限速，QPS
-
+1. Support migration source management
+2. Support regular tasks
+3. Support failed file export
+4. Support file overwrite options
+5. Support speed limit, QPS
 # v1.0.0 
-
-1. 支持迁移源：s3，oss，qiniu，youpai，US3，NAS，URL列表。
-2. 支持 web 管理，通过 web 管理迁移任务，迁移节点。
-
+1. Support migration sources: S3, OSS, qiniu, youpai, US3, NAS, URL list.
+2. Support web management, manage migration tasks and migrate nodes through web.

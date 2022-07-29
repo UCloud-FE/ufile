@@ -1,98 +1,98 @@
-# US3FS 文件挂载工具
+# US3FS File Mount Tool
 
-- [概述](#概述)
-- [运行环境](#运行环境)
-- [下载链接](#下载链接)
-- [主要功能](#主要功能)
-- [使用限制](#使用限制)
-- [配置账号访问信息](#配置账号访问信息)
-- [使用方式](#使用方式)
-  - [配置访问权限](#配置访问权限)
-  - [设置挂载只读](#设置挂载只读)
-  - [开启日志](#开启日志)
-  - [版本更新](#版本更新)
-  - [帮助](#帮助)
-- [常用选项](#常用选项)
-  - [性能相关](#性能相关)
-- [选项列表](#选项列表)
-- [使用示例](#使用示例)
+- [Overview](# Overview)
+- [Runtime Environment](#Runtime Environment)
+- Download link](#Download link)
+- Main features](#Main features)
+- Usage restrictions](#Use restrictions)
+- [Configure account access information](#Configure account access information)
+- Usage](#usage methods)
+  - Configure access rights](# Configure access rights)
+  - [Set mount read-only](#Set mount read-only)
+  - Enable logging](#Enable logging)
+  - [Version update](#version update)
+  - [Help](#Help)
+- [Common Options](#Common Options)
+  - [Performance Related](#Performance Related)
+- [Options list](#Options list)
+- Usage examples](#usage examples)
 
-## 概述
+## Overview
 
-US3FS 是一款在 Linux 环境中提供 US3 的存储空间（bucket）挂载到本地挂载点的工具。挂载成功后，您可以像操作本地文件一样操作存储空间中的文件。US3FS 提供的共享文件系统访问解决方案不仅可以实现对对象存储进行随机读写，而且还能获得对象存储按需使用，容量无上限的能力。
+US3FS is a tool that provides US3 storage (bucket) mounts to local mount points in a Linux environment. US3FS provides a shared file system access solution that not only enables random reads and writes to the object storage, but also gives you the ability to use the object storage on demand with unlimited capacity.
 
-## 运行环境
+## Runtime Environment
 
-us3fs 基于用户态 fuse 实现，您的机器需要支持 fuse。
+us3fs is based on a user-state fuse implementation, and your machine needs to support fuse.
 
-建议您将 us3fs 运行在以下环境中：
+It is recommended that you run us3fs in the following environment.
 
 * linux
-  * ceontos 7.0及以上 (可通过`cat /etc/redhat-release`查看)
-  * ubuntu 16.04及以上 (可通过`cat /etc/issue`查看)
+  * ceontos 7.0 and above (can be viewed via `cat /etc/redhat-release`)
+  * ubuntu 16.04 and above (can be viewed via `cat /etc/issue`)
 
-* 网络环境：us3fs 支持在 UCloud 内网以及互联网环境下使用，在内网环境下，你可以使用内网域名以提升性能和稳定性。
+* Network environment: us3fs is supported on UCloud intranet as well as Internet environment. In intranet environment, you can use intranet domain name to improve performance and stability.
 
-## 下载链接
+## Download link
 
 ```
 curl -o us3fs http://ufile-release.cn-bj.ufileos.com/us3fs%2Fus3fs
 ```
 
-## 主要功能
+## Main functions
 
-* 支持POSIX文件系统的大部分功能，如读，顺序写；权限；uid/gid。
-* 使用US3的分片上传功能上传大文件。
-* 支持etag和MD5校验，保证数据一致性。
+* Supports most of the POSIX file system features such as read, sequential write; permissions; uid/gid.
+* Upload large files using US3's slice upload feature.
+* Support etag and MD5 checksum to ensure data consistency.
 
-## 使用限制
+## Usage limitations
 
-* 不支持读取归档类型的文件
-* 不支持随机写/追加写
-* 只支持文件之间的 rename
-* 不支持硬/软链接
-* 多个客户端挂载同一个US3存储空间时，需要用户自行维护数据一致性
+* Reading files of archive type is not supported
+* Random write/append write is not supported
+* Only rename between files is supported
+* No support for hard/soft links
+* When multiple clients mount the same US3 storage, users need to maintain data consistency by themselves
 
 -----
 
-## 配置账号访问信息
+## Configure account access information
 
-编辑/etc/us3fs/us3fs.conf并增加如下信息(如果没有该目录需要自行创建):
+Edit /etc/us3fs/us3fs.conf and add the following information (if you don't have this directory, you need to create it yourself):
 
 ```yaml
 bucket: your_bucket
 access_key: ***********************************
 secret_key: ***********************************
-endpoint: ufile.cn-north-02.ucloud.cn（your_endpoint）
+endpoint: ufile.cn-north-02.ucloud.cn (your_endpoint)
 ```
-*冒号后面有单个空格*
+*Single space after colon *
 
-* **bucket**: 桶名，需要和挂载的桶名一致
-* **access_key**: 公钥，支持token秘钥和api秘钥两种模式
-* **secret_key**: 私钥，支持token秘钥和api秘钥两种模式
-* **endpoint**: 访问域名，详见[地域和域名](https://docs.ucloud.cn/ufile/introduction/region)。填写时需要去掉`www.`
+* **bucket**: bucket name, needs to be the same as the mounted bucket name
+* **access_key**: public key, supports both token secret key and api secret key modes
+* **secret_key**: private key, supports both token secret key and api secret key modes
+* **endpoint**: access domain name, see [locale and domain name](https://docs.ucloud.cn/ufile/introduction/region) for details. You need to remove `www.` when filling in
 
-当需要在一台机器上挂载多个存储空间时，可以通过`--passwd=passwd_file`指定账号信息。
+When you need to mount multiple stores on one machine, you can specify the account information by `-passwd=passwd_file`.
 
-下载us3fs后。使用`chmod +x us3fs`增加可执行权限，如果需要直接执行，可将us3fs移动到/bin目录下。示例：
+After downloading us3fs. Use `chmod +x us3fs` to add executable permissions, and move us3fs to the /bin directory if you need to execute it directly. Example.
 
 ```bash
 chmod +x us3fs
-./us3fs --passwd=passwd_file <bucket> <mountpoint>
+. /us3fs --passwd=passwd_file <bucket> <mountpoint>
 
 mv us3fs /bin/us3fs
 us3fs --passwd=passwd_file <bucket> <mountpoint>
 ```
 
-## 使用方式
+## Usage
 
-* 挂载
+* mount
 
 ```
 us3fs [global options] <bucket> <mountpoint>
 ```
 
-* 卸载
+* unmount
 
 ```
 umount <mountpoint>
@@ -100,49 +100,49 @@ umount <mountpoint>
 
 -----
 
-### 配置访问权限
+### Configure access rights
 
-us3fs 挂载的默认访问权限为当前挂载用户，如果需要允许其他用户/用户组访问挂载点，可以使用如下参数：
+The default access permission for us3fs mount is the current mount user, if you need to allow other users/user groups to access the mount point, you can use the following parameters.
 
-* `-o allow_other`：允许任何用户都可以访问文件。
-* `--uid=xxx`：指定默认的用户
-* `--gid=xxx`：指定默认的用户组
-可通过`id`命令获取用户的uid/gid信息，示例如下：
+* `-o allow_other`: allow any user to access the file.
+* `-uid=xxx`: specify the default user
+* `--gid=xxx`: Specify the default user group
+The uid/gid information of the user can be obtained by the `-id` command, the example is as follows.
 
 ```bash
-// 在ubuntu账户下挂载默认用户和用户组为www的us3fs
+// mount us3fs with default user and usergroup www under ubuntu account
 ubuntu:~$ id www
 uid=1001(www) gid=1001(www) groups=1001(www)
 
 ubuntu:~$ us3fs --uid=1001 --gid=1001 -o allow_other <bucket> <mountpoint>
 ```
 
-* 如果挂载出现以下问题
+* If the following problem occurs with the mount
 
 ```bash
 stderr:
 /bin/fusermount: option allow_other only allowed if 'user_allow_other' is set in /etc/fuse.conf
 ```
 
-在`/etc/fuse.conf`中增加`user_allow_other`
+Add ``user_allow_other`` to ``/etc/fuse.conf``
 
-### 设置挂载只读
+### Set mount read-only
 
-挂载时时指定`-o ro`。
+Specify `-o ro` when mounting.
 
-### 开启日志
+### Turn on logging
 
-* --debug_u 开启us3fs日志
-* --debug_fuse 开启用户态fuse日志
+* --debug_u Enable us3fs logging
+* --debug_fuse Enable user state fuse logging
   * centos
-    日志在/var/log/messages
+    Logs in /var/log/messages
   * ubuntu
-    日志在/var/log/syslog
-* 挂载时指定-f，us3fs会以前台模式挂载，日志会输出到屏幕上。
+    Logs in /var/log/syslog
+* Specify -f when mounting, us3fs will mount in foreground mode and the logs will be output to the screen.
 
-### 版本更新
+### Version update
 
-执行如下命令：
+Execute the following command.
 
 ```
 us3fs --update
@@ -150,127 +150,127 @@ us3fs --update
 
 -----
 
-## 帮助
+## Help
 
-通过`us3fs -h`查看us3fs支持的参数
+View the parameters supported by us3fs via `us3fs -h`
 
-```bash
+``bash
 ❯ us3fs -h
 us3fs - a single posix file system based on ufile
 USAGE
   us3fs [global options] bucket mountpoint
 FUSE
-  --entry_timeout value   How long to cache dentry for inode for fuse. (default: 0s)
-  --attr_timeout value    How long to cache inode attr for fuse (default: 0s)
-  --dcache_timeout value  How long to cache dentry for us3fs (default: 0s)
-  --async_read            Perform all reads (even read-ahead) asynchronously
-  --sync_read             Perform all reads (even read-ahead) synchronously
-  -o value                specify fuse option
-  
+  --entry_timeout value How long to cache dentry for inode for fuse. (default: 0s)
+  --attr_timeout value How long to cache inode attr for fuse (default: 0s)
+  --dcache_timeout value How long to cache dentry for us3fs (default: 0s)
+  --async_read Perform all reads (even read-ahead) asynchronously
+  --sync_read Perform all reads (even read-ahead) synchronously
+  -o value specify fuse option
+
 OS
-  --retry value      number of times to retry a failed I/O (default: 5)
-  --parallel value   number of parallel I/O thread (default: 20)
-  --debug_fuse       set debug level for fuse
-  --debug_u          set debug level for u
-  --readahead value  readahead size, (MB) (default: 16)
-  --critical         Check every part's etag, this option will cost cpu
-  --passwd value     specify access file (default: "/etc/us3fs/us3fs.conf")
-  --enable_md5       enalbe md5 in http header
-  --uid value        specify default uid (default: 0)
-  --gid value        specify default gid (default: 0)
-  
+  --retry value number of times to retry a failed I/O (default: 5)
+  --parallel value number of parallel I/O thread (default: 20)
+  --debug_fuse set debug level for fuse
+  --debug_u set debug level for u
+  --readahead value readahead size, (MB) (default: 16)
+  --critical check every part's etag, this option will cost cpu
+  --passwd value specify access file (default: "/etc/us3fs/us3fs.conf")
+  --enable_md5 enalbe md5 in http header
+  --uid value specify default uid (default: 0)
+  --gid value specify default gid (default: 0)
+
 MISC
-  --help, -h  show help
-  -f          foreground
+  --help, -h show help
+  -f foreground
 ```
 
-## 常用选项
+## Common options
 
-* fuse设置
-us3fs基于fuse实现，所以除了us3fs自身的设置外，还支持fuse的设置，格式如下：
+* fuse settings
+us3fs is based on the fuse implementation, so in addition to us3fs' own settings, it also supports fuse settings in the following format.
 
 ```bash
 -o option=value
 ```
 
-### 性能相关
+### Performance related
 
-* `parallel`：设置并发线程，对cpu负载有一定影响。建议设置在20~40较为合理
-* `critical`：写入文件时启用本地etag校验，相比未开启会提高约50%的cpu占用。
-* `readahead`：预读窗口大小，由于fuse自身有读写窗口的限制，一定的预读大小对读取性能有显著提升。建议设置在16~32
+* ``parallel``: set concurrent threads, has some impact on cpu load. It is recommended to set it at 20~40 which is more reasonable
+* `critical`: enable local etag checksum when writing files, will increase cpu usage by about 50% compared to not enabled.
+* `readahead`: pre-reading window size, because fuse itself has the limit of read/write window, a certain pre-reading size has a significant improvement on reading performance. Recommended setting is 16~32
 
-## 选项列表
+## Option list
 
-| 选项名称       | 描述                                            |
+| option name | description |
 | -------------- | ----------------------------------------------- |
-| entry_timeout  | 指定fuse缓存被查找的文件名的时间，默认为0s    |
-| attr_timeout   | 指定fuse缓存文件/目录属性的时间，默认为0s     |
-| dcache_timeout | 指定us3fs缓存文件/目录属性的时间，默认为0s    |
-| async_read     | 指定fuse读取为异步模式，默认开启                |
-| sync_read      | 指定fuse读取为同步模式(包括预读)，默认关闭      |
-| retry          | 请求失败后重试次数，默认5次                   |
-| parallel       | I/O并发线程数，默认20个                       |
-| debug_fuse     | 指定用户态fuse日志级别为debuy，默认关闭       |
-| debug_u        | 指定us3fs日志级别为debug，默认为Info级别      |
-| readahead      | 指定预读窗口最大值(单位MB)，默认为16          |
-| critical       | 写入文件时校验每个分片的etag，默认关闭        |
-| passwd         | 指定账户文件，默认路径`/etc/us3fs/us3fs.conf` |
-| enable_md5     | 在http请求头中增加md5校验，默认关闭           |
-| uid            | 指定文件所属的默认用户，默认当前用户          |
-| gid            | 指定文件所属的默认用户组，默认当前用户组      |
-| help, h        | 查看帮助                                        |
-| f              | 挂载时启用前台模式                              |
-| update         | 更新us3fs版本，新版本路径为/bin/us3fs           |
+| entry_timeout | Specifies how long fuse caches the name of the file being looked up, default is 0s |
+| attr_timeout | Specifies how long fuse caches file/directory attributes, defaults to 0s |
+| dcache_timeout | Specifies the time for us3fs to cache file/directory attributes, default is 0s |
+| async_read | Specifies that fuse reads in asynchronous mode, enabled by default.
+| sync_read | Specifies that fuse reads in synchronous mode (including pre-reading), off by default |
+| retry | The number of retries after a failed request, default is 5.
+| parallel | Number of concurrent I/O threads, default 20 |
+| debug_fuse | Specifies the user state fuse logging level to debuy, off by default.
+| debug_u | Specifies the us3fs logging level as debug, default is Info level |
+| readahead | Specifies the maximum pre-reading window (in MB), default is 16 |
+| critical | Verify the etag of each slice when writing to a file, default is off |
+| passwd | Specify the account file, default path `/etc/us3fs/us3fs.conf` |
+| enable_md5 | Add md5 checksum to http request header, disabled by default |
+| uid | Specify the default user to which the file belongs, default current user |
+| gid | Specify the default user group the file belongs to, default current user group |
+| help, h | View help |
+| f | Enable foreground mode when mounting |
+| update | Update the version of us3fs to /bin/us3fs |
 
-* fuse常用选项列表
+| fuse common options list
 
-| 选项名称    | 描述                                     |
+| option name | description |
 | ----------- | ---------------------------------------- |
-| allow_other | 指定文件系统可以所有用户访问<br>默认关闭 |
-| ro          | 指定当前文件系统为只读                   |
+| allow_other | Specify that the file system is accessible to all users<br>Default off |
+| ro | Specify that the current file system is read-only |
 
-## 使用示例
+## Usage examples
 
 * **entry_timeout**, **attr_timeout**, **dcache_timeout**:
 
-设置`dcache_timeout`可增加文件/目录属性在内存中的有效时间，增强使用体验。建议`entry_timeout` , `attr_timeout`设置时间小于`dcache_timeout`
+Setting `dcache_timeout` increases the time that file/directory attributes are valid in memory and enhances the usage experience. It is recommended that `entry_timeout` , `attr_timeout` be set for less than `dcache_timeout`
 
-*注：开启缓存后，可能造成用户读取目录的内容和实际bucket中的内容不一致。*
+*Note: Turning on caching may cause inconsistency between the content of the directory read by the user and the content in the actual bucket. *
 
-示例：ls包含10000个文件的目录耗时
+Example: ls a directory containing 10000 files timeout
 
 ```
 [root@10-9-120-211 ~]# us3fs --dcache_timeout=60s --entry_timeout=60s --attr_timeout=60s testzwb /data/u2fs
 [root@10-9-120-211 ~]# time ls -la /data/u2fs/test | wc -l
 10003
 
-real    0m5.964s
-user    0m0.033s
-sys     0m0.232s
-[root@10-9-120-211 ~]# 
-[root@10-9-120-211 ~]# 
+real 0m5.964s
+user 0m0.033s
+sys 0m0.232s
+[root@10-9-120-211 ~]#
+[root@10-9-120-211 ~]#
 [root@10-9-120-211 ~]# time ls -la /data/u2fs/test | wc -l
 10003
 
-real    0m0.872s
-user    0m0.029s
-sys     0m0.133s
+real 0m0.872s
+user 0m0.029s
+sys 0m0.133s
 ```
 
 * **async_read**, **sync_read**
 
-默认读取模式为异步，同步读取性能较差。
+Default read mode is asynchronous, synchronous read performance is poor.
 
-示例如下：
+Examples are as follows.
 
 ```
-[root@10-9-120-211 ~]#  us3fs --sync_read  testzwb /data/u2fs
+[root@10-9-120-211 ~]# us3fs --sync_read testzwb /data/u2fs
 [root@10-9-120-211 ~]# dd if=/data/u2fs/testbig of=/dev/null bs=4M count=10
 10+0 records in
 10+0 records out
 41943040 bytes (42 MB, 40 MiB) copied, 10.2345 s, 4.1 MB/s
 
-[root@10-9-120-211 ~]#  us3fs --async_read  testzwb /data/u2fs
+[root@10-9-120-211 ~]# us3fs --async_read testzwb /data/u2fs
 [root@10-9-120-211 ~]# dd if=/data/u2fs/testbig of=/dev/null bs=4M count=10
 10+0 records in
 10+0 records out
@@ -279,19 +279,19 @@ sys     0m0.133s
 
 * **parallel**
 
-增大并发数可提升读写性能，相应的也行增加系统资源占用。
+Increasing the number of concurrency can improve read and write performance, and accordingly increase system resource usage.
 
-示例如下:
+Examples are as follows:
 
 ```
-// 默认并发数20
+// Default concurrency is 20
 [root@10-9-120-211 ~]# us3fs testzwb /data/u2fs/
 [root@10-9-120-211 ~]# dd if=/dev/zero of=/data/u2fs/testbig bs=4M count=1024
 1024+0 records in
 1024+0 records out
 4294967296 bytes (4.3 GB, 4.0 GiB) copied, 25.5351 s, 168 MB/s
 
-// 调整并发数为32
+// Adjust concurrent count to 32
 [root@10-9-120-211 ~]# us3fs --parallel=32 testzwb /data/u2fs/
 [root@10-9-120-211 ~]# dd if=/dev/zero of=/data/u2fs/testbig bs=4M count=1024
 1024+0 records in
@@ -301,18 +301,18 @@ sys     0m0.133s
 
 * **readahead**
 
-调整预读窗口大小对大文件的顺序读有较大影响，建议在16~32MB.
+Adjusting the pre-reading window size has a large impact on the sequential reading of large files, recommended at 16~32MB.
 
-示例如下：
+Examples are as follows.
 
 ```
-// 默认预读大小16MB
+// Default pre-reading size 16MB
 [root@10-9-120-211 ~]# dd if=/data/u2fs/testbig of=/dev/null bs=4M count=1024
 1024+0 records in
 1024+0 records out
 4294967296 bytes (4.3 GB, 4.0 GiB) copied, 60.0498 s, 71.5 MB/s
 
-// 调整预读大小为32MB
+// Resize pre-reading to 32MB
 [root@10-9-120-211 ~]# us3fs --readahead=32 testzwb /data/u2fs/
 [root@10-9-120-211 ~]# dd if=/data/u2fs/testbig of=/dev/null bs=4M count=1024
 1024+0 records in

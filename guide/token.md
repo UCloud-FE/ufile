@@ -1,62 +1,62 @@
 
 
-# 令牌管理
+# Token Management
 
-US3 令牌功能可以根据用户的需求灵活的开放存储空间和文件管理权限。
+The US3 token feature allows flexible access to storage space and file management permissions based on user needs.
 
-一个令牌由一对特殊的公私钥组成。其中包括了：允许操作的存储空间列表、允许操作的文件前缀列表、操作权限和令牌过期时间等属性。
+A token consists of a special pair of public and private keys. It includes attributes such as the list of allowed storage spaces, the list of allowed file It includes attributes such as the list of allowed storage spaces, the list of allowed file prefixes, operation privileges, and token expiration time.
 
-用户可以按需申请不同令牌来完成不同权限的管控。
+Users can apply for different tokens on demand to complete the control of different permissions.
 
-用户可以通过两种方式管理 US3 令牌：
+Users can manage US3 tokens in two ways.
 
-1. 登陆 UCloud 官方控制台，进入 [US3 - 令牌管理](https://console.ucloud.cn/ufile/token)。
+1. Login to the official UCloud console and go to [US3 - Token Management](https://console.ucloud.cn/ufile/token).
 
-2. 通过调用 [US3 API](https://docs.ucloud.cn/api/ufile-api/README) 进行创建、编辑等操作。
+Create, edit, etc. by calling [US3 API](https://docs.ucloud.cn/api/ufile-api/README).
 
-## 创建/编辑令牌
+## Create/edit token
 
-![](/images/guide/令牌.png)
+! [](/images/guide/token.png)
 
-1. 令牌名称：用于标识令牌，用户自定义。
+token name: used to identify the token, user-defined.
 
-2. 有效时长：令牌生效的时间，首次设置完成后，可通过编辑令牌操作重新设置过期时间。
+Valid time: the time when the token takes effect. After the first setting is done, you can reset the expiration time by editing the token operation.
 
-3. 授权的存储空间：存储空间可选一个或多个，表示该令牌只能操作这些存储空间。一个令牌不能存在多个地区的存储空间，比如只能选择北京或者上海的存储空间，不能同时选择两个地区。
+Authorized storage space: one or more storage spaces can be selected, indicating that the token can only operate these storage spaces. exist more than one storage space in a region, for example, it can only select the storage space in Beijing or Shanghai, and cannot select two regions at the For example, it can only select the storage space in Beijing or Shanghai, and cannot select two regions at the same time.
 
-4. 黑名单：可设置一个或多个IP黑名单，限制IP黑名单中的IP列表访问。
+Blacklist: One or more IP blacklists can be set to restrict access to the IP list in the IP blacklist.
 
-5. 白名单：可设置一个或多个IP白名单，授权IP白名单中的IP列表访问，如未设置白名单，则默认不对IP进行白名单控制，仅限制黑名单的IP地址访问。当前UHost内网由于采用IPv6网络，白名单暂时无法识别内网的IPv4的虚拟IP地址，故白名单暂时还不支持控制UHost主机的内部访问权限。
+whitelist: one or more IP whitelist can be set to authorize access to the IP list in the IP whitelist, if no whitelist is set, the default is not to whitelist IP control, only restrict access to the blacklisted IP addresses. The current UHost intranet due to the use of IPv6 network, whitelist temporarily unable to identify the virtual IP address of the intranet IPv4, so whitelist temporarily does not support control the internal access rights of the UHost host.
 
-6. 授权文件：可选择授权所有文件，也可设置一个或多个文件前缀，表示该令牌只能访问这些前缀的文件。
+Authorize files: You can choose to authorize all files, or set one or more file prefixes, indicating that the token can only access the files with these prefixes.
 
-7. 令牌权限：令牌的操作权限有上传、下载、删除、文件列表、图片处理，可多选或者不选。
+7. Token Permissions: The operation permissions of the token are upload, download, delete, file list and image processing, which can be multi-selected or un-selected.
 
-8. 高级权限：当设置的令牌具有上传权限时，可设置禁止覆盖权限，禁止用户上传时覆盖同名文件。
+Advanced permission: When the set token has the upload permission, you can set the prohibit overwrite permission to prohibit users from overwriting When the set token has the upload permission, you can set the prohibit overwrite permission to prohibit users from overwriting the file with the same name when uploading.
 
-**示例**
+**Example**
 
-一个完整的令牌的例子如下所示：
-
-```
-
-公钥：TOKEN_da044c8a-20bc-42a1-8b04-850535c75330
-
-私钥：6318b15a-faf3-4577-890d-79855313dfd9
-
-过期时间：2019-04-19 00:00:00
-
-授权存储空间：test, test1, test2
-
-授权文件前缀：file_prefix, file_prefix1, file_prefix2
-
-访问白名单：
-
-访问黑名单：
-
-文件管理权限：上传，下载，删除，文件列表，图片处理
-
-高级权限：
+An example of a complete token is shown below.
 
 ```
+
+Public key: TOKEN_da044c8a-20bc-42a1-8b04-850535c75330
+
+Private key: 6318b15a-faf3-4577-890d-79855313dfd9
+
+Expiration time: 2019-04-19 00:00:00
+
+Authorized storage space: test, test1, test2
+
+Authorized file prefixes: file_prefix, file_prefix1, file_prefix2
+
+Access whitelist.
+
+Access blacklist.
+
+File management permissions: upload, download, delete, file list, image handling
+
+Advanced permissions.
+
+Advanced permissions.
 

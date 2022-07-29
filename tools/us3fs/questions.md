@@ -1,56 +1,56 @@
-# 常见问题
+# Frequently Asked Questions
 
-## 挂载失败，日志出现“internal error”
-所在地域不支持列表服务，可指定`--gfl`重新挂载。（*不支持ListObjects API地域*）
+## Mount failed, "internal error" appears in the log
+List service is not supported in your locale, you can specify `-gfl` to remount. (*ListObjects API locale is not supported*)
 
-## 挂载时出现403
+## 403 occurs when mounting
 
-- 日志ErrMsg信息出现"action not allow"，则检查token相应权限，缺失并添加，过5min后测试
-- 日志ErrMsg信息出现"invlid signature"，先检查配置文件字段是否符合官方文档说明，其次检查token公私钥是否粘贴完整
+- Log ErrMsg message appears "action not allow", then check the token corresponding permission, missing and add, test after 5min
+- Log ErrMsg information appears "invlid signature", first check whether the configuration file fields comply with the official documentation, followed by checking whether the token public and private keys are pasted intact
 
-## 异常退出后再次挂载报错
+## Error is reported after the abnormal exit and mount again
 
-1. 执行：umount <挂载点>，如果失败，进入2：
-2. 执行：sudo umount <挂载点>，如果失败，联系技术支持
+1. Execute: umount <mount point>, if it fails, enter 2.
+2. Execute: sudo umount <mount point>, if it fails, contact technical support
 
-## 读写发生错误
+## Read and write error occurred
 
-报错信息如：”Input/Output error“，进行如下处理：
+Report an error message such as: "Input/Output error", proceed as follows.
 
-1. 检查系统日志：
-   1. Centos的路径：/var/log/message
-   2. Ubuntu的路径：/var/log/syslog
-2. 如果通过日志发现是有http状态码为500错误，请联系技术支持查询该Bucket请求报500原因。
+1. Check the system log.
+   1. Path of Centos: /var/log/message
+   2. Ubuntu's path: /var/log/syslog
+2. If you find that there is an http status code 500 error in the logs, please contact technical support to check the reason for the Bucket request 500.
 
-## 当前用户挂载后其他用户无法访问
+## Other users can't access after the current user is mounted
 
-添加参数`-o allow_other `
+Add the parameter `-o allow_other `
 
-## 挂载后发现跟控制台文件信息不一致
-该问题是由于默认开启entry_timeout,attr_timeout,dcache_timeout参数，并5min过期时间，如果对一致性敏感，建议这些参数设置为0s来关闭
+## After mounting, I found that the information is not consistent with the console file
+The problem is due to the default enable of entry_timeout,attr_timeout,dcache_timeout parameters and 5min expiration time, if you are sensitive to consistency, it is recommended to set these parameters to 0s to turn off
 
-## 降低读写时延的方法
-- 应用层系统调用写入尽量采用大IO(>=128KiB，如果内存允许使用>=1MiB的提升吞吐效果更佳)，并尽量保持4KiB对齐
-- 对于写入大文件，设置parallel参数提升写入并发度，提升整体写入吞吐
-- 对于大文件顺序读，建议设置参数readahead，如32m
-- wb开启回写模式，减少内核态与用户态上下文切换次数，提升写入速度，但注意通过wb模式写入的文件不能进行覆盖写
-- 对于大量非热点小文件(<256KiB)顺序/随机读, 大文件随机读场景，建议设置参数direct_read
-- 对于热点小文件(<256KiB)顺序/随机读场景，不设置参数direct_read
-- 对于有高IOPS的业务需求，建议采用异步IO，同时使用DirectIO模式，并根据实际情况调大max_background和congestion_threshold
-- 开启keep_pagecache可以利用系统VFS pagecache，对于热点文件特别是作为web静态资源存储加速明显；
-- 开启参数skip_ne_dir_lookup，这样可以减少lookup的操作时延；
+## Ways to reduce read and write latency
+- Application layer system calls to write as much as possible using large IO (>=128KiB, if memory allows the use of >=1MiB to enhance the throughput effect is better), and try to maintain 4KiB alignment
+- For writing large files, set the parallel parameter to increase write concurrency and improve overall write throughput
+- For sequential reading of large files, it is recommended to set the parameter readahead, such as 32m
+- wb enables write back mode to reduce the number of kernel and user state context switches and improve write speed, but note that files written via wb mode cannot be overwritten.
+- For a large number of non-hot small files (<256KiB) sequential/random read, and large files random read scenarios, it is recommended to set the parameter direct_read
+- For hot small files (<256KiB) sequential/random read scenarios, do not set the parameter direct_read
+- For business needs with high IOPS, it is recommended to use asynchronous IO, and use DirectIO mode, and adjust max_background and congestion_threshold according to the actual situation.
+- Enabling keep_pagecache can make use of the system VFS pagecache, which accelerates significantly for hot files, especially as web static resource storage.
+- enable the parameter skip_ne_dir_lookup, which reduces the latency of lookup operations.
 
-## 内存使用量高，导致OOM
-- 如果内存本身紧张，建议entry_timeout,attr_timeout,dcache_timeout参数设置为0s
-- 检查是否开启readahead，如果开启，检查是否过大，调小该值
-- 如果不是顺序读大文件的场景，建议设置direct_read参数
+## High memory usage, leading to OOM
+- If memory itself is tight, it is recommended that the parameters entry_timeout,attr_timeout,dcache_timeout be set to 0s
+- Check if readahead is on, if it is, check if it is too big and reduce the value
+- If it is not a scenario of reading large files sequentially, it is recommended to set the direct_read parameter
 
-## 控制台有对应的目录，但是us3fs挂载路径没有
-证明这是一个虚拟目录，需要在us3fs挂载路径执行mkdir <这个目录>来显示该目录，或者开启check_virtual_dir该参数，通过以这个目录为前缀来检测是否有这个前缀的文件，来决定是否"应该"展示该目录，但不建议这么操作，会增加us3fs的时延。在v1.5.4版本以后check_virtual_dir参数功能默认开启，并取消该参数，如果需要关闭该功能可以设置disable_check_vdir参数。
+## The console has a corresponding directory, but the us3fs mount path does not
+This proves that it is a virtual directory, so you need to execute mkdir <this directory> in the us3fs mount path to show the directory, or turn on check_virtual_dir to detect if there are files with this prefix by prefixing it with this directory to decide if it "should" be shown, but this is not recommended, it will increase the latency of us3fs. After v1.5.4 the check_virtual_dir parameter is turned on by default and cancelled, if you need to turn off this feature you can set the disable_check_vdir parameter.
 
-## 系统日志出现‘too many open files’
+## The system log shows 'too many open files'
 
-该场景出现在有大量随机IO读的情况下，需要调大系统对进程打开文件描述符数量的限制(一般为1024)。通过`ulimit -a`检查`open files`项，设置成65535或以上。设置方式:
+This scenario occurs when there are a lot of random IO reads and the system limit on the number of open file descriptors (usually 1024) needs to be adjusted upwards. Check the `open files` entry with `ulimit -a` and set it to 65535 or more. Setting method:
 
-- - 单次bash环境有效: `ulimit -n 65535; <us3fs 挂载命令>`;
-  - 系统生效: 参考[Too many open files](https://askubuntu.com/questions/1182021/too-many-open-files);
+- Single bash environment effective: `ulimit -n 65535; <us3fs mount command>`;
+  - System effective: refer to [Too many open files](https://askubuntu.com/questions/1182021/too-many-open-files);

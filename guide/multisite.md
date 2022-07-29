@@ -1,53 +1,53 @@
 
 
-# 跨区域复制
+# Cross-regional replication
 
-US3 提供跨区域复制功能，您可以选择两个不同地域的存储空间（Bucket）进行绑定，进行文件的同步。
+US3 provides cross-region replication function, you can select two different geographical storage (Bucket) to bind and synchronize files.
 
-跨区域复制是跨不同 US3 数据中心（地域）的存储空间自动、异步复制文件，它会将文件的创建、更新和删除等操作从源存储空间复制到不同区域的目标存储空间。
+Cross-region replication is the automatic, asynchronous replication of files across storage in different US3 data centers (geographies), which copies file creation, update, and deletion operations from the source storage to the target storage in a different region.
 
-跨区域复制功能提供了存储空间跨地域容灾能力，同时能够满足您数据复制的需求。目标存储空间的文件是源存储空间中文件的完整副本，它们具有相同的文件名、内容。
+The cross-region replication feature provides storage space cross-region disaster recovery capability while meeting your data replication needs. The files in the target storage are complete copies of the files in the source storage, and they have the same file name and content.
 
-## 使用场景
+## Usage Scenarios
 
-* 合规性要求：您的数据在合规性上必须要求数据跨一定距离保存一份副本。通过跨区域复制功能，可以在远距离的 US3 数据中心之间复制数据以满足这些合规性要求。
+* The cross-region replication feature allows you to replicate the data across a certain distance. The cross-region replication feature allows you to replicate data between distant US3 data centers to meet these compliance requirements.
 
-* 最大限度减少延迟：您同时在两个地理位置存在业务需求，为了降低访问文件时的延迟，可以在地理位置与用户较近的 US3 数据中心中维护文件副本。
+* Minimize latency: You have business needs in two geographic locations at the same time, and to reduce latency when accessing files, you can maintain You have business needs in two geographic locations at the same time, and to reduce latency when accessing files, you can maintain copies of files in US3 data centers that are geographically closer to your users.
 
-* 数据备份与容灾：您对数据的安全性和可用性有极高的要求，以备 US3 数据中心因特大灾难，如地震、海啸等不可抗力导致损毁时，还能启用另一个 US3 数据中心的备份数据。
+* Data backup and disaster recovery: You have extremely high requirements for data security and availability, in case the US3 data center is destroyed due to a mega-disaster. You have extremely high requirements for data security and availability, in case the US3 data center is destroyed due to a mega-disaster, such as an earthquake, tsunami, or other force majeure, and you can still enable backup data from another US3 data center.
 
-* 数据复制：由于业务原因，需要将您的数据从 US3 的一个数据中心迁移到另一个数据中心。
+* Data replication: For business reasons, you need to migrate your data from one US3 data center to another.
 
-* 操作原因：您同时在两个不同数据中心具有计算资源，您可能通过跨区域复制实现在这些区域的数据中心上同时维护 US3 的文件。
+* You have computing resources in two different data centers at the same time, and you may be able to maintain files in US3 on those You have computing resources in two different data centers at the same time, and you may be able to maintain files in US3 on those regional data centers at the same time through cross-regional replication.
 
-## 注意事项
+## Caution
 
-1. 对于处于同步状态的两个存储空间，由于您可以同时操作这两个存储空间，因此从存储空间复制过去的文件可能会覆盖目标存储空间中的同名文件，覆盖文件的操作是不可逆的，请根据您的需求合理设置跨区域复制规则，避免重要数据丢失。
+1. For two storage spaces that are in synchronization, since you can operate both storage spaces at the same time, the files copied from the storage space may overwrite the files with the same name in the target storage space, and the operation of overwriting files is irreversible.
 
-2. 由于跨区域复制采用异步复制，数据复制到目标 Bucket 需要一定的时间，通常几分钟到几小时不等，取决于数据的大小。
+2. Since cross-region replication uses asynchronous replication, it takes some time to replicate data to the target Bucket, usually ranging from a few Since cross-region replication uses asynchronous replication, it takes some time to replicate data to the target Bucket, usually ranging from a few minutes to a few hours, depending on the size of the data.
 
-3. 镜像回源与跨区域复制两个功能不能同时开启。
+3. Mirror back to source and cross-region replication cannot be enabled at the same time.
 
-4. 如存储桶配置了生命周期规则，则生命周期配置仅对当前存储空间生效，开启跨区域复制的存储空间之间不会同步删除文件。
+If a storage bucket is configured with lifecycle rules, the lifecycle configuration only takes effect for the current storage, and files will not be If a storage bucket is configured with lifecycle rules, the lifecycle configuration only takes effect for the current storage, and files will not be deleted synchronously between storage spaces with cross-region replication enabled.
 
-## 设置跨区域复制规则
+## Set cross-region replication rules
 
-选中对应空间，进入管理界面，选择跨区域复制功能。
+Select the corresponding space, enter the management interface, and select the cross-region replication function.
 
-![](/images/跨区域复制1.png)
+! [](/images/cross-region replication1.png)
 
-点击添加规则按钮，弹出添加跨区域复制规则界面。
+Click the Add rule button to bring up the Add cross-region replication rule interface.
 
-![](/images/跨区域复制2.png)
+! [](/images/cross-region copy2.png)
 
-1. 目标地域：用户可选择复制目标的存储空间所在地域。数据同步的两个存储空间必须分属两个地域，同地域的存储空间之间不能进行数据同步。
+Target Locale: Users can choose the locale of the storage space to be replicated. The two storage spaces for data synchronization must belong to two The two storage spaces for data synchronization must belong to two geographies, and data synchronization cannot be performed between storage spaces in the same geography.
 
-2. 目标存储空间：选择开启数据同步的目标存储空间。跨区域复制的两个存储空间都不能同时与其他任何存储空间存在互相同步的关系。例如已设置存储空间 A 的数据同步至存储空间 B，则 A 和 B 都不能和其他任何存储空间再建立数据同步关系。
+The two storage spaces for data synchronization must belong to two geographies, and data synchronization cannot be performed between storage spaces in the same geography. 2. Target storage: Select the target storage to enable data synchronization. For example, if you have set the data of storage A to be synchronized to storage B, neither A nor B can establish data synchronization relationship with any other storage space at the same time. can establish data synchronization relationship with any other storage.
 
-跨区域复制规则添加完成后默认生效，生效状态具体可见状态栏，您可以通过操作栏下的其他按钮，进行相应的启用、禁用以及删除操作。
+You can enable, disable, and delete the cross-region replication rules by using the other buttons under the action bar.
 
-## 备注
+## Remarks
 
-1. 跨区域复制功能支持数据实时同步，对于数据的增加、删除、修改能够实时监控同步到目标地域的存储空间。对于 2MB 文件，能够做到分钟级别信息同步，保证两边数据的最终一致，不保证中间状态的数据一致。
+The cross-region replication function supports real-time data synchronization, and the addition, deletion and modification of data can be The cross-region replication function supports real-time data synchronization, and the addition, deletion and modification of data can be monitored and synchronized to the storage space of the target region in real time. For 2MB files, it can synchronize the information at minute level to ensure the final consistency of data on both sides and not to guarantee the consistency of data in the intermediate state.
 
-2. 当前仅北京、广州、上海二地域支持跨区域复制功能，其他地域后续支持。
+Currently, only Beijing, Guangzhou and Shanghai support cross-regional replication function, and other regions will be supported in the future.

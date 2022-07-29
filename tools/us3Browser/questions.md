@@ -1,17 +1,16 @@
-# 常见问题
+# Frequently Asked Questions
 
-## 内存问题
-   - 上传大文件或者文件量很大的时候，结束时渲染内存占用可能会较大，建议上传结束以后可以选择关闭渲染界面，需要时候在启动
-   - 下载大文件或者文件量很大的时候，结束时可能渲染内存占用会较大，建议下载结束以后可以选择关闭渲染界面，需要时候在启动
-## 显示问题
-   - 上传大量文件时，进度显示可能需要点击页数刷新一下，才能显示出当前页面进度
-   - 上传大量文件时候，如果关闭界面，任务也会暂停，再次重启时，会恢复任务，渲染界面可能存在卡顿情况
-## 未知错误
-   - 数据库连接偶尔会出现连接失败，显示一些未知错误
-   - 可能非常归的操作，导致内部会触发异常，显示一些未知错误
-   - 可能偶现Can not read property 'map' of undefined问题
-## 注意
-   - US3Browser内部使用S3的协议
-   [S3协议的endpoint类型](https://docs.ucloud.cn/ufile/s3/s3_introduction)
+## Memory problems
+   - When uploading a large file or a large amount of files, the rendering memory consumption may be larger at the end.
+   - When downloading a large file or a large amount of files, the rendering memory may be larger at the end.
+## Display problems
+   - When uploading a large number of files, the progress display may need to click on the page number to refresh to show the current page progress
+   - When uploading a large number of files, if the interface is closed, the task will be paused and restarted again, the task will be resumed and the rendering interface may be stuck.
+## Unknown error
+   - The database connection may occasionally fail to connect and display some unknown errors
+   - The operation may be very homogeneous, causing the internal will trigger an exception, displaying some unknown errors
+   - Can not read property 'map' of undefined problem may occur occasionally
+## Note
+   - US3Browser uses the S3 protocol internally
+   [S3 protocol endpoint type](https://docs.ucloud.cn/ufile/s3/s3_introduction)
 
- 

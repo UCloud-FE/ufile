@@ -1,135 +1,135 @@
-# 数据库备份方案
+# Database backup solutions
 
-## 背景
-对象存储作为海量非结构化数据的云存储应用，面对日益上涨的数据库备份场景，可以有效帮助用户缩减备份流程，降低备份成本，有效提升用户体验。
-本文介绍了如何基于 US3 完成数据库备份。
+## Background
+As a cloud storage application for massive unstructured data, object storage can effectively help users to reduce backup process, lower backup cost and effectively improve user experience in the face of rising database backup scenarios.
+This article introduces how to complete database backup based on US3.
 
-## 应用场景
-目前 US3 数据库备份场景主要有以下三类：
+## Application Scenarios
+At present, there are three main types of US3 database backup scenarios as follows.
 
-1. 备份与恢复：备份方式推荐使用 Filemgr 备份到 US3 中。
-Filemgr 支持本地备份恢复与流式备份恢复，通过流式功能可以帮助用户完成数据不落地备份与恢复。
+1. backup and recovery: the backup method is recommended to use Filemgr to backup to US3.
+Filemgr supports local backup recovery and streaming backup recovery, and the streaming function can help users to complete data backup and recovery without landing.
 
-2. 分级存储：针对需要定时清理备份、缩减备份成本的用户，US3 支持生命周期功能。
-通过控制台指定生命周期规则，可以帮助用户完成：1、定期清理；2、定期转入低频；3、定期转入归档；
+2. Tiered storage: For users who need to clean up backups regularly and reduce backup costs, US3 supports lifecycle function.
+Specifying the lifecycle rules through the console can help users complete: 1. regular cleanup; 2. regular transfer to low frequency; 3. regular transfer to archive.
 
-3. 异地备份：针对需要更高安全级别的用户，US3 支持跨区域复制功能。
-通过控制台配置跨区域复制功能，可以帮助用户在上传备份的同时，完成数据的异地备份。
+3. Offsite backup: For users who need higher security level, US3 supports cross-region replication function.
+By configuring the cross-region replication function through the console, it can help users complete off-site backup of data while uploading backups.
 
-![image](/images/backup1.png)
+! [image](/images/backup1.png)
 
-## 方案优势
-1. 使用 Filemgr 进行流式备份以及流式恢复，完成不落地备份与恢复，可以避免落盘操作。
+## Solution advantages
+1. Use Filemgr to perform streaming backup and streaming recovery to complete no-drop backup and recovery, which can avoid disk drop operation.
 
-2. 使用 US3 [生命周期](/ufile/guide/lifecycle) 功能，配合定期删除、低频存储、归档存储可以实现数据分级存储，帮助用户节约存储成本。
+2. Use US3 [lifecycle](/ufile/guide/lifecycle) function with periodic deletion, low-frequency storage and archival storage to achieve hierarchical data storage and help users save storage costs.
 
-3. 使用 US3 [跨区域复制](/ufile/guide/multisite)，为备份数据进行异地容灾，提高备份数据安全性。
+3. Use US3 [cross-region replication](/ufile/guide/multisite) to perform off-site disaster recovery for backup data and improve backup data security.
 
-## 方案实施
-### 使用Filemgr进行流式备份，流式恢复
-1. 下载 Filemgr，[迁移工具](ufile/tools/tools/tools_file)
+## Solution Implementation
+### Use Filemgr for streaming backup and streaming recovery
+1. Download Filemgr, [migration tool](ufile/tools/tools/tools_file)
 
-2. 在 Filemgr 目录下配置 config.cfg，proxy host 域名请参照 [地域和域名](/ufile/introduction/region)
+2. Configure config.cfg in Filemgr directory, and refer to [region and domain](/ufile/introduction/region) for proxy host domain name
 
 ```
 {
     "public_key" : "paste your public key here",
     "private_key" : "paste your private key here",
-    "proxy_host" : "www.cn-bj.ufileos.com",       // proxy host请填写对应地域域名
+    "proxy_host" : "www.cn-bj.ufileos.com", // proxy host please fill in the corresponding geographical domain name
     "api_host" : "api.spark.ucloud.cn"
 }
-```
-3. 使用 Filemgr 进行备份恢复，此处展示最简命令，其他备份命令请结合自己业务类比实现
+````
+3. Use Filemgr to restore backup, here is the most simple command, other backup commands please combine with your business analogy to achieve
 
 ```
 bash
-# 注意如果，欲使用低频存储(IA)或者冷存储(ARCHIVE)，请在命令参数storageclass中指定，支持三种值：STANDARD, IA, ARCHIVE
-# 注意如果，备份时指定了storageclass参数为ARCHIVE，需要提前对该文件restore
-./filemgr-linux64 --action restore --bucket <bucketName> --key <backupKey>
- 
-# 逻辑备份
-    # 全库备份
-    mysqldump -A | ./filemgr-linux64 --action stream-upload --bucket <bucketName> --key <all-backupKey> --file stdin --threads <threads> --retrycount <retry> --storageclass <storage-class>
-    # 分库备份
-    mysqldump -B database1 database2 | ./filemgr-linux64 --action stream-upload --bucket <bucketName> --key <part-backupKey> --file stdin --threads <threads> --retrycount <retry> --storageclass <storage-class>
- 
-# 逻辑备份恢复
-    # 全库备份恢复
-    ./filemgr-linux --action stream-download --bucket <bucketName> --key <all-backupKey> --threads <threads> --retrycount <retry> 2>./error.log | mysql
-    # 分库备份恢复
-    ./filemgr-linux --action stream-download --bucket <bucketName> --key <part-backupKey> --threads <threads> --retrycount <retry> 2>./error.log | mysql
- 
-# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# xtrabackup物理备份
-    # 全量备份
-    innobackupex --stream=tar | ./filemgr-linux64 --action stream-upload --bucket <bucketName> --key <full-backupKey> --file stdin --threads <threads> --retrycount <retry> --storageclass <storage-class>
-    # 增量备份
-    innobackupex --stream=tar --extra-lsndir=/data/backup/chkpoint /data/backup/tmp/ | ./filemgr-linux64 --action stream-upload --bucket <bucketName> --key <incre-backupKey-base> --file stdin --threads <threads> --retrycount <retry> --storageclass <storage-class> # 全备
-    innobackupex --stream=xbstream --incremental --extra-lsndir=/data/backup/chkpoint --incremental-basedir=/data/backup/chkpoint /data/backup/tmp/ | ./filemgr-linux64 --action stream-upload --bucket <bucketName> --key <incre-backupKey-incre> --file stdin --threads <threads> --retrycount <retry> --storageclass <storage-class> # 增备
- 
-# xtrabackup物理备份恢复, 需要提前转移原来的DB数据, 备份恢复后需要重启服务
-    # 全量备份恢复
-        # full-backupKey为全量备份使用的key：
-        ./filemgr-linux --action stream-download --bucket <bucketName> --key <full-backupKey> --threads <threads> --retrycount <retry> 2>./error.log | tar xf - -C /data/backup/full/
+# Note that if you want to use low frequency storage (IA) or cold storage (ARCHIVE), please specify it in the command parameter storageclass, which supports three values: STANDARD, IA, ARCHIVE
+# Note that if you specify the storageclass parameter as ARCHIVE when backing up, you need to restore the file in advance
+. /filemgr-linux64 --action restore --bucket <bucketName> --key <backupKey>
+
+# Logical backups
+    # Full library backup
+    mysqldump -A | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <all-backupKey> --file stdin --threads <threads> --retrycount <retry> -- storageclass <storage-class>
+    # split-library backup
+    mysqldump -B database1 database2 | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <part-backupKey> --file stdin --threads <threads> --retrycount <retry> -- storageclass <storage-class>
+
+# Logical Backup Recovery
+    # full-repository backup recovery
+    . /filemgr-linux --action stream-download --bucket <bucketName> --key <all-backupKey> --threads <threads> --retrycount <retry> 2>. /error.log | mysql
+    # split-backup recovery
+    . /filemgr-linux --action stream-download --bucket <bucketName> --key <part-backupKey> --threads <threads> --retrycount <retry> 2>. /error.log | mysql
+
+# --------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------
+# xtrabackup physical backups
+    # Full backup
+    innobackupex --stream=tar | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <full-backupKey> --file stdin --threads <threads> --retrycount <retry> -- storageclass <storage-class>
+    # incremental backups
+    innobackupex --stream=tar --extra-lsndir=/data/backup/chkpoint /data/backup/tmp/ | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <incre-backupKey-base> --file stdin --threads <threads> --retrycount < retry> --storageclass <storage-class> # full backup
+    innobackupex --stream=xbstream --incremental --extra-lsndir=/data/backup/chkpoint --incremental-basedir=/data/backup/chkpoint /data/ backup/tmp/ | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <incre-backupKey-incre> --file stdin --threads <threads> --retrycount < retry> --storageclass <storage-class> # incremental
+
+# xtrabackup physical backup recovery, need to transfer the original DB data in advance, need to restart the service after backup recovery
+    # Full backup recovery
+        # full-backupKey is the key used for full backup.
+        . /filemgr-linux --action stream-download --bucket <bucketName> --key <full-backupKey> --threads <threads> --retrycount <retry> 2>. /error.log | tar xf - -C /data/backup/full/
         innobackupex --apply-log /data/backup/full/
         innobackupex --copy-back --rsync /data/backup/full/
- 
-    # 增量备份恢复
-        # full-backupKey为全量备份使用的key，incre-backupKey为增量备份使用的key：
-        ./filemgr-linux --action stream-download --bucket <bucketName> --key <incre-backupKey-base> --threads <threads> --retrycount <retry> 2>./error.log | tar xf - -C /data/backup/base/
+
+    # incremental backup recovery
+        # full-backupKey is the key used for full backups, incremental-backupKey is the key used for incremental backups.
+        . /filemgr-linux --action stream-download --bucket <bucketName> --key <incre-backupKey-base> --threads <threads> --retrycount <retry> 2>. /error.log | tar xf - -C /data/backup/base/
         innobackupex --apply-log --redo-only /data/backup/base/
-        ./filemgr-linux --action stream-download --bucket <bucketName> --key <incre-backupKey-incre> --threads <threads> --retrycount <retry> 2>./error.log | xbstream -x -C /data/backup/incre
+        . /filemgr-linux --action stream-download --bucket <bucketName> --key <incre-backupKey-incre> --threads <threads> --retrycount <retry> 2>. /error.log | xbstream -x -C /data/backup/incre
         innobackupex --apply-log /data/backup/base --incremental-dir=/data/backup/incre
         innobackupex --copy-back --rsync /data/backup/base
- 
-# lvm snapshot物理备份恢复
-    # 备份，/snap-lvm0为备份lv 挂载点，/data-lvm0为源lv挂载点
-    tar czf - /snap-lvm0/* | ./filemgr-linux64  --action stream-upload --bucket <bucketName> --key <lvmsnap-backupKey> --file stdin
-    # 恢复，本地数据被清空，--strip-components 用来去除压缩快照时产生的第一层目录
-    ./filemgr-linux64 --action stream-download --bucket <bucketName> --key <lvmsnap-backupKey> 2>./error.log | tar xzf - -C /data-lvm0/ --strip-components 1
-    # 合并历史快照, /snap-lvm0为快照lv挂载点
-    ./filemgr-linux64 --action stream-download --bucket <bucketName> --key <lvmsnap-backupKey> 2>./error.log | tar xzf - -C /snap-lvm0/ --strip-components 1
-    lvconvert --merge <vg>/<snap-lv>
-针对有特殊需求的用户，这边提供了相应的逻辑备份命令，其他备份命令请类比实现：
 
-# 压缩
-    # 备份
-    mysqldump -A | gzip | ./filemgr-linux64 --action stream-upload --bucket <bucketName> --key <all-backupKey> --file stdin --threads <threads> --retrycount <retry> --storageclass <storage-class>
-    # 恢复
-    ./filemgr-linux --action stream-download --bucket <bucketName> --key <all-backupKey> --threads <threads> --retrycount <retry> 2>./error.log | gzip -d | mysql
- 
-# 加密
-    # 备份，使用aes256，指定密码文件key file在备份路径中进行压缩
-    mysqldump -A | openssl enc -e -aes256 -in - -out - -kfile <key file> | ./filemgr-linux64 --action stream-upload --bucket <bucketName> --key <all-backupKey> --file stdin --threads <threads> --retrycount <retry> --storageclass <storage-class>
-    # 恢复
-    ./filemgr-linux --action stream-download --bucket <bucketName> --key <all-backupKey> --threads <threads> --retrycount <retry> 2>./error.log | openssl enc -d -aes256 -in - -out - -kfile <key file> | mysql
+# lvm snapshot physical backup recovery
+    # backup, /snap-lvm0 is the backup lv mount point, /data-lvm0 is the source lv mount point
+    tar czf - /snap-lvm0/* | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <lvmsnap-backupKey> --file stdin
+    # restore, local data is cleared, and --strip-components is used to remove the first level of directories created when compressing snapshots
+    . /filemgr-linux64 --action stream-download --bucket <bucketName> --key <lvmsnap-backupKey> 2>. /error.log | tar xzf - -C /data-lvm0/ --strip-components 1
+    # merge historical snapshots, /snap-lvm0 is the snapshot lv mount point
+    . /filemgr-linux64 --action stream-download --bucket <bucketName> --key <lvmsnap-backupKey> 2>. /error.log | tar xzf - -C /snap-lvm0/ --strip-components 1
+    lvconvert --merge <vg>/<snap-lv>
+For users with special needs, the corresponding logical backup commands are provided here, for other backup commands please implement by analogy.
+
+# compress
+    # backup
+    mysqldump -A | gzip | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <all-backupKey> --file stdin --threads <threads> --retrycount <retry> -- storageclass <storage-class>
+    # recover
+    . /filemgr-linux --action stream-download --bucket <bucketName> --key <all-backupKey> --threads <threads> --retrycount <retry> 2>. /error.log | gzip -d | mysql
+
+# encrypt
+    # backup, use aes256, specify the password file key file in the backup path for compression
+    mysqldump -A | openssl enc -e -aes256 -in - -out - -kfile <key file> | . /filemgr-linux64 --action stream-upload --bucket <bucketName> --key <all-backupKey> --file stdin --threads <threads> --retrycount <retry> -- storageclass <storage-class>
+    # recover
+    . /filemgr-linux --action stream-download --bucket <bucketName> --key <all-backupKey> --threads <threads> --retrycount <retry> 2>. /error.log | openssl enc -d -aes256 -in - -out - -kfile <key file> | mysql
 ```
 
-**备注：**
-如果不希望异常情况终止任务，请将 retrycount 参数设置为一个比较大的值，默认为 10。每次执行失败会开始重试，第 5 次重试开始每次重试会等待 5s，请合理计算重试次数。
+**Remarks:**
+If you do not want to terminate the task by exception, please set the retrycount parameter to a larger value, the default is 10. Each failed execution will start retry, and each retry will wait for 5s from the 5th retry, please calculate the number of retry reasonably.
 
-### 使用生命周期实现定期删除
-1. 打开对象存储控制台，进入备份使用的 bucket 详情页
+### Implement periodic deletion using life cycle
+1. Open the object storage console and enter the bucket details page used for backup
 
-![image](/images/backup2.png)
+! [image](/images/backup2.png)
 
-2. 点击生命周期 tab，进入生命周期配置页
+2. Click the lifecycle tab to enter the lifecycle configuration page
 
-![image](/images/backup3.png)
+! [image](/images/backup3.png)
 
-3. 为该 bucket 配置定期删除任务
+3. Configure periodic deletion tasks for the bucket
 
-4. 当备份文件超过配置期限，文件会被自动删除
+4. when the backup file exceeds the configured period, the file will be deleted automatically
 
-### 使用跨区域复制进行异地容灾
-1. 打开对象存储控制台，进入备份使用的 bucket 详情页
+### Using cross-region replication for offsite disaster recovery
+1. Open the Object Storage Console and go to the details page of the bucket used for backup
 
-![image](/images/backup4.png)
+! [image](/images/backup4.png)
 
-2. 点击开区域复制 tab，进入跨区域复制配置页
+2. Click the open region replication tab to enter the cross-region replication configuration page
 
-![image](/images/backup5.png)
+! [image](/images/backup5.png)
 
-3. 为该 bucket 配置跨区域复制任务
+3. Configure the cross-region replication task for the bucket
 
-4. 当该 bucket 下产生备份文件时，文件会被自动同步到配置好的异地 bucket 中
+4. When backup files are created under this bucket, the files will be automatically synchronized to the configured offsite bucket

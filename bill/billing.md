@@ -1,66 +1,66 @@
 
 
-# 产品价格
+# Product Price
 
-本文介绍 US3 对象存储服务的计费项和定价标准，US3 定价会因 [存储类型](/ufile/introduction/storage_type) 和 [地域](/ufile/introduction/region) 有所不同，当前地域定价分为“中国大陆”及“香港、台北及海外”两部分。
+This article introduces the billing and pricing criteria for US3 object storage services. mainland China" and "Hong Kong, Taipei and Overseas".
 
-## 中国大陆
+## Mainland China
 
-| 项目     | 计费项    | 标准类型单价    | 低频类型单价    | 归档类型单价    |
-| ------  | --------- | ----------- | -----------    | ---------- |
-| 存储费用   | 数据存储      | 0.004 元/GB/天              | 0.002 元/GB/天              | 0.0008 元/GB/天               |
-| 流量费用   | 内/外网流入流量  | 免费                       | 免费                       | 免费                       |
-| :::    | 内网流出流量    | 免费                       | 免费                       | 免费                       |
-| :::    | 外网流出流量    | 00:00-08:00（闲时）：0.25 元/GB | 00:00-08:00（闲时）：0.25 元/GB | 00:00-08:00（闲时）：0.25 元/GB |
-| :::    | :::       | 08:00-24:00（忙时）：0.45 元/GB | 08:00-24:00（忙时）：0.45 元/GB | 08:00-24:00（忙时）：0.45 元/GB |
-| :::    | CDN 回源流出流量 | 0.15 元/GB                 | 0.15 元/GB                 | 0.15 元/GB                 |
-| 请求费用  | PUT类型请求次数   | 0.01 元/万次               | 0.1元/万次                 | 0.1元/万次                 |
-| :::   | GET类型请求次数   | 0.01 元/万次               | 0.1元/万次                 | 0.1元/万次                 |
-|  数据取回   | 数据取回      | /                       | 0.03 元/GB                 | 文件处于已解冻状态时免费                 |
-| :::    | 数据解冻      | 无                       | 无                 | 0.06 元/GB  |
-| 图片处理 | 基础图片处理    | 0.025元/GB                       |   0.025元/GB                    |0.025元/GB                                    |
-| :::  | 图片高级压缩    | 0.1元/千次                       |   0.1元/千次         |0.1元/千次|
-| 最短存储期限 | 最短存储期限    | 无                        | 30 天                      | 60 天                      |
-| 最小文件大小 | 最小文件大小    | 无                        | 64KB                      | 64KB                      |
+| Item | Billing | Standard Type Unit Price | Low Frequency Type Unit Price | Archive Type Unit Price |
+| ------ | --------- | ----------- | ----------- | ---------- |
+| Storage Charges | Data Storage | $0.004/GB/day | $0.002/GB/day | $0.0008/GB/day |
+| Traffic Charges | Inbound/outbound traffic | Free | Free | Free | Free
+| ::: | Inbound Outbound Traffic | Free | Free | Free | Free
+| ::: | Outbound traffic | 00:00-08:00 (idle): $0.25/GB | 00:00-08:00 (idle): $0.25/GB | 00:00-08:00 (idle): $0.25/GB | 00:00-08:00 (idle): $0.25/GB | 00:00-08:00 (idle): $0.25/GB | 00:00-08:00 (idle): $0.25/GB
+| ::: | ::: | 08:00-24:00 (busy): $0.45/GB | 08:00-24:00 (busy): $0.45/GB | 08:00-24:00 (busy): $0.45/GB | 08:00-24:00 (busy): $0.45/GB | 08:00-24:00 (busy): $0.45/GB | 08:00-24:00 (busy): $0.45/GB
+| ::: | CDN Back to Source Flow Out Traffic | $0.15/GB | $0.15/GB | $0.15/GB |
+| Request Cost | PUT Type Request | $0.01/10,000 | $0.1/10,000 | $0.1/10,000 |
+| ::: | GET type request | $0.01/10,000 | $0.1/10,000 | $0.1/10,000 |
+| Data Retrieval | Data Retrieval | / | $0.03/GB | Free when file is unfrozen |
+| ::: | Data Unfreezing | None | None | $0.06/GB |
+| Image Processing | Basic Image Processing | $0.025/GB | $0.025/GB | $0.025/GB |
+| ::: | Image Advanced Compression | $0.1/1000 | $0.1/1000 |$0.1/1000|
+| Minimum Storage Term | Minimum Storage Term | None | 30 days | 60 days |
+| Minimum File Size | Minimum File Size | None | 64KB | 64KB |
 
-**目前 US3 中国大陆的可用区包括：华北一、华北二、上海二、广州。**<br>
+<br> **Currently, US3 China's available zones include: North China I, North China II, Shanghai II, and Guangzhou.
 
-**注意：【图片处理】从2022年7月1号开始计费。**
+**Note: [Image Processing] will be billed from July 1st, 2022.
 
-## 香港、台北及海外
+## Hong Kong, Taipei and Overseas
 
-| 项目     | 计费项    | 标准类型单价    | 低频类型单价    | 归档类型单价    |
-| ------ | --------- | ----------- | -----------  | ---------- |
-| 存储费用   | 数据存储      | 0.004 元/GB/天 | 0.002 元/GB/天 | 0.0008 元/GB/天 |
-| 流量费用   | 内/外网流入流量  | 免费          | 免费          | 免费         |
-| :::    | 内网流出流量    | 免费          | 免费          | 免费         |
-| :::    | 外网流出流量    | 0.4 元/GB     | 0.4 元/GB     | 0.4 元/GB    |
-| :::    | CDN 回源流出流量 | 0.4 元/GB     | 0.4 元/GB     | 0.4 元/GB    |
-| 请求费用  | PUT类型请求次数   | 0.01 元/万次               | 0.1元/万次                 | 0.1元/万次                 |
-| 请求费用  | GET类型请求次数   | 0.01 元/万次               | 0.1元/万次                 | 0.1元/万次     |
-| 数据取回   | 数据取回      | 免费                       | 0.03 元/GB                 | 文件处于已解冻状态时免费                 |
-| :::    | 数据解冻      | 无                       | 无                 | 0.06 元/GB                |
-|1天)  |||||
-| 图片处理 | 基础图片处理    | 0.025元/GB                       |   0.025元/GB                    |0.025元/GB                                    |
-| :::  | 图片高级压缩    | 0.1元/千次                       |   0.1元/千次         |0.1元/千次|
-| 最短存储期限 | 最短存储期限    | 无           | 30 天         | 60 天        |
-| 最小文件大小 | 最小文件大小    | 无           | 64KB         | 64KB        |
-| 海外专线流量 |  外网流入流出流量    |  4 元/GB            | 4 元/GB       | 4 元/GB      |
+| Item | Billing Item | Standard Type Unit Price | Low Frequency Type Unit Price | Archive Type Unit Price |
+| ------ | --------- | ----------- | ----------- | ---------- |
+| Storage Charges | Data Storage | $0.004/GB/day | $0.002/GB/day | $0.0008/GB/day |
+| Traffic Charges | Inbound/outbound traffic | Free | Free | Free | Free
+| ::: | Inbound Outbound Traffic | Free | Free | Free | Free
+| ::: | Outbound traffic | $0.4/GB | $0.4/GB | $0.4/GB |
+| $0.4/GB | $0.4/GB | $0.4/GB
+| Request cost | PUT type requests | $0.01/million | $0.1/million | $0.1/million |
+| Request Fee | GET Type Request | $0.01/10,000 | $0.1/10,000 | $0.1/10,000 |
+| Data Retrieval | Data Retrieval | Free | $0.03/GB | Free when file is unfrozen |
+| ::: | Data Unfreezing | None | None | $0.06/GB | 1 day)
+|1 day) |||||
+| Image Processing | Basic Image Processing | $0.025/GB | $0.025/GB | $0.025/GB |
+| ::: | Advanced Image Compression | $0.1/1000 | $0.1/1000 |$0.1/1000|
+| Minimum Storage Term | Minimum Storage Term | None | 30 days | 60 days |
+| Minimum File Size | Minimum File Size | None | 64KB | 64KB |
+| Overseas Dedicated Traffic | Outbound Traffic | $4/GB | $4/GB | $4/GB |
 
-**目前 US3 香港、台北及海外的可用区包括：香港、洛杉矶、新加坡、雅加达、台北、拉各斯、圣保罗、迪拜、法兰克福、胡志明市、华盛顿、孟买。**
+**Currently, US3 Hong Kong, Taipei and overseas availability zones include: Hong Kong, Los Angeles, Singapore, Jakarta, Taipei, Lagos, Sao Paulo, Dubai, Frankfurt, Ho Chi Minh City, Washington, Mumbai.
 
-**注意：【图片处理】从2022年7月1号开始计费。**
-## 补充说明
+**Note: [Image Processing] will be billed from July 1st, 2022. **
+## Additional Notes
 
-1. 低频存储和归档存储类型都有最短存储期限，早于最短存储期限删除、修改、覆盖文件，需要补足未满最短存储期限的剩余天数的存储费用。 
+Both low-frequency storage and archive storage types have a minimum storage period. Deleting, modifying, or overwriting files earlier than the minimum storage period requires making up the storage fees for the remaining days that have not yet reached the minimum storage period.
 
-2. 低频存储和归档存储类型，单文件小于 64KB 文件按照 64KB 文件大小计算存储空间，超过 64KB 的文件按照实际大小计算存储空间。
+2. For both low-frequency storage and archive storage types, storage space is calculated according to 64KB file size for single file less than 64KB, and The actual size for files over 64KB.
 
-3. 归档存储类型，使用 RESTORE 进行解冻操作，需要收取数据解冻费用。解冻完成后，数据取回不再收取额外费用，仅收取正常流出流量费用。解冻操作完成后数据保留 3 天，已解冻的数据取回不收取取回费用，超过 3 天则无法下载，需要重新进行解冻操作。
+For archival storage type, data unfreezing operation using RESTORE requires a data unfreezing fee. After the unfreeze is completed, no additional charge will be made for data retrieval, only the normal outflow traffic charge. After the thawing operation is completed, the data will be retained for 3 days, and no retrieval fee will be charged for retrieving the thawed data.
 
-4. 当使用跨区域复制功能时，会产生外网流出流量费用，同时各个区域的存储空间按各自的存储容量和计费项价格进行收费。全球化存储空间功能已下线（建议使用跨区域复制功能），原全球化存储空间计费项目和计费规则暂时不变，保持旧版价格和旧计费方式。
+When using the cross-region replication function, the outflow traffic cost will be incurred, and the storage space of each region will be charged The globalized storage space function has been taken offline (it is recommended to The globalized storage space function has been taken offline (it is recommended to use the cross-region replication function), the original globalized storage space billing items and billing rules remain unchanged for the time being, and the old price and billing method are maintained.
 
-5. 数据取回费用的说明：
-   对于存储类型为低频类型的数据，取回费用 = 下载文件大小 * 取回费用单价 + 流出流量费用，不论内网还是外网下载都会收取取回费用；   
-   对于存储类型为归档类型的数据，解冻费用 = 解冻文件大小 * 解冻费用单价，下载已解冻的数据时，收取流出流量费用。
-   数据取回费用独立于流量费用，如数据取回过程产生外网流量费用则正常收取，内网下载不收流量费用；在解冻期间，不再收取额外解冻费用。
+For data whose storage type is low-region replication function, the original globalized storage space billing items and billing rules remain unchanged for the time being, and the old price and billing method are maintained.
+   For data whose storage type is low-frequency type, the retrieval fee = download file size * retrieval fee unit price + outgoing traffic cost, and the retrieval fee will be charged regardless of intranet or extranet download.
+   For data whose storage type is archive type, unfreeze fee = unfreeze file size * unfreeze fee unit price, and outflow traffic fee is charged for downloading the unfreezed data.
+   The data retrieval fee is independent of the traffic cost, if the data retrieval process generates outbound traffic cost then it will be charged normally, No traffic cost will be charged for inbound download; during the thawing period, no additional thawing fee will be charged.

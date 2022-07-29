@@ -1,37 +1,37 @@
-# 在微信小程序端上传文件到US3
+# Upload files to US3 on WeChat applet side
 
-## 简介
+## Introduction
 
-本文将会介绍并梳理使用小程序原生方法上传文件到US3的流程。
+This article will introduce and sort out the process of uploading files to US3 using the applet native method.
 
-## 预先准备
+## Prep
 
-1. 在控制台上创建一个存储桶，以及具有操作该桶的权限的令牌。
-2. 在控制台上获取桶名，终端节点(endpoint)以及令牌的公钥和私钥。
+1. Create a storage bucket on the console and a token with permission to operate the bucket.
+2. Get the bucket name, endpoint, and the public and private keys for the token on the console.
 
-## 上传步骤
+## Upload steps
 
-接下来我们将以一个图片文件为例，使用PUT 和POST 两种方法来实现文件上传。
+Next we will take an image file as an example and use both PUT and POST methods to implement the file upload.
 
-1. 首先我们需要拼接好上传文件的url，如果您选择的是PUT方法上传，url通常如下：
+1. First we need to splice the url of the uploaded file, if you choose the PUT method to upload, the url is usually as follows.
 
-   `https://<bucket_name>.<endpoint>/<file_name_with_prefix_on_US3>`
+   `https://<bucket_name>. <endpoint>/<file_name_with_prefix_on_US3>`
 
-   而POST方法上传的话，由于文件在US3上的前缀(prefix)和文件名通过POST表单参数来传递，因此我们不需要在url中写入这两个部分：
+   Whereas with the POST method of uploading, since the file prefix (prefix) and file name on US3 are passed through the POST form parameters, we do not need to write these two parts in the url.
 
-   `https://<bucket_name>.<endpoint>/`
+   `https://<bucket_name>. <endpoint>/`
 
-2. 上传文件的接口需要我们使用公钥和私钥对http请求的资源计算一个签名，以供服务端查看请求使用的公私钥是否有对应的权限。计算方法请参考 [API签名算法](https://docs.ucloud.cn/ufile/api/authorization?id=%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%e7%ad%be%e5%90%8d%e7%ae%97%e6%b3%95) 。这里提供一个计算签名的js代码demo：
+2. The interface for uploading files requires us to calculate a signature for the http request using the public and private keys, so that the server can check whether the public and private keys used in the request have corresponding permissions. For the calculation method, please refer to [API Signature Algorithm](https://docs.ucloud.cn/ufile/api/authorization?id=%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%e7%ad%be%e5%90%8d%e7%ae% 97%e6%b3%95). Here is a js code demo to calculate the signature.
 
    ```javascript
-    const sign = (method, publicKey, privateKey, md5, contentType, date, bucketName, fileName) =>{
-    	const CryptoJS = require("crypto-js") //这里使用了crypto-js加密算法库，安装方法会在后面说明
-    	const CanonicalizedResource = `/${bucketName}/${fileName}`
-     const StringToSign = method + "\n" 
-                          + md5 + "\n" 
-                          + contentType + "\n" 
+    const sign = (method, publicKey, privateKey, md5, contentType, date, bucketName, fileName) => {
+    const CryptoJS = require("crypto-js") // here the crypto-js encryption algorithm library is used, the installation method will be explained later
+    const CanonicalizedResource = `/${bucketName}/${fileName}`
+     const StringToSign = method + "\n"
+                          + md5 + "\n"
+                          + contentType + "\n"
                           + date + "\n"
-                          + CanonicalizedResource //此处的md5以及date是可选的，contentType对于PUT请求是可选的，对于POST请求则是必须的
+                          + CanonicalizedResource // here md5 and date are optional, contentType is optional for PUT requests and mandatory for POST requests
      let Signature = CryptoJS.HmacSHA1(StringToSign, privateKey)
      Signature = CryptoJS.enc.Base64.stringify(Signature)
      const Authorization = "UCloud" + " " + publicKey + ":" + Signature
@@ -39,38 +39,38 @@
    }
    ```
 
-   上方demo中的crypto-js是一个常用的javaScript加密算法库，我们建议您使用npm进行安装，具体步骤如下：
+   The crypto-js in the above demo is a commonly used javaScript cryptographic algorithm library, which we recommend you to install using npm as follows.
 
-   1. 在小程序的开发机上安装 [nodejs](https://nodejs.org/en/) ，完成后尝试在命令行界面运行 `npm` ，以验证安装以及配置是否成功。
-   2. 在小程序的跟目录下运行 `npm init` ，来初始化一个npm项目。
-   3. 运行 `npm i crypto-js` 命令来安装crypto-js。也可以参考 [npm 的官方页面](https://www.npmjs.com/package/crypto-js)
-   4. 最后，使用小程序构建一下npm包，请参考 [构建npm](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html#_2-%E6%9E%84%E5%BB%BA-npm)
+   1. Install [nodejs](https://nodejs.org/en/) on the development machine of the applet, and try to run `npm` in the command line interface after completion to verify the installation and configuration is successful.
+   2. Run `npm init` in the applet's heel directory to initialize an npm project. 3.
+   3. Run the `npm i crypto-js` command to install crypto-js. See also [the official npm page](https://www.npmjs.com/package/crypto-js)
+   4. Finally, use the applet to build the npm package, please refer to [build npm](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html#_2-%E6%9E%84%E5%BB%BA-npm)
 
-3. 接下来将给出两个demo以介绍如何使用PUT和POST方法来上传文件：
+3. Next, two demos are given to show how to use the PUT and POST methods to upload files.
 
-### PUT方法
+### PUT method
 
-参考文档 [使用PUT方法上传文件](https://docs.ucloud.cn/api/ufile-api/put_file)
+Reference document [Uploading files using the PUT method](https://docs.ucloud.cn/api/ufile-api/put_file)
 
 ```javascript
 function uploadByPut(){
-  const publicKey = "xxxx-xxxxx-xxxx-xxxxx-xxxxx"
+  const publicKey = "xxxxx-xxxxx-xxxx-xxxxx-xxxxx"
   const privateKey = "xxxxx-xxx-xxxx-xxxx-xxxxx"
   const fileName = "filename"
   const bucketName = "bucketname"
   wx.chooseImage({
-     count: 1, // 设置最多1张
-     sizeType: ['original', 'compressed'], //所选的图片的尺寸
-     sourceType: ['album', 'camera'], //选择图片的来源
+     count: 1, // set the maximum number of images to 1
+     sizeType: ['original', 'compressed'], // the size of the selected image
+     sourceType: ['album', 'camera'], // the source of the selected image
      success(res) {
        const image = wx.getFileSystemManager().readFileSync(res.tempFilePaths[0])
-       //由于这一代码仅是demo，此处将md5和date两个参数设置为空字符串，在正式的小程序开发中，建议填写这两个参数
+       // Since this code is only a demo, the md5 and date parameters are set to empty strings, which are recommended to be filled in the official applet development
        const auth = sign("PUT", publicKey, privateKey, "", "image/jpeg", "", bucketName, fileName)
        wx.request({
-         	url: `http://${bucketName}.cn-bj.ufileos.com/${fileName}`, 
-         	method: "PUT",
-        	header: {
-          		'Authorization':auth,
+         url: `http://${bucketName}.cn-bj.ufileos.com/${fileName}`,
+         method: "PUT",
+        header: {
+          'Authorization':auth,
               'content-type': 'image/jpeg'
           },
           data: image,
@@ -85,9 +85,9 @@ function uploadByPut(){
 
 
 
-### POST方法
+### POST method
 
-此处我们使用小程序原生的wx.uploadFile函数来实现上传。该方法使用的content-type` 为 `multipart/form-data，调用的接口也同样是POST上传的US3接口，请参考 [使用POST表单上传文件](https://docs.ucloud.cn/api/ufile-api/post_file)
+Here we use the applet's native wx.uploadFile function to implement the upload. The method uses the content-type` as `multipart/form-data, and the interface called is also the US3 interface for POST uploads, see [Uploading files using POST forms](https://docs.ucloud.cn/api/ufile-api/post_file)
 
 ```javascript
 function uploadByUplodaFile(){
@@ -96,18 +96,18 @@ function uploadByUplodaFile(){
   const fileName = "filename"
   const bucketName = "bucketname"
   wx.chooseImage({
-    count: 1, // 设置最多1张
-    sizeType: ['original', 'compressed'], //所选的图片的尺寸
-    sourceType: ['album', 'camera'], //选择图片的来源
+    count: 1, // set the maximum number of images to 1
+    sizeType: ['original', 'compressed'], // the size of the selected image
+    sourceType: ['album', 'camera'], // the source of the selected image
         success (res) {
           const tempFilePaths = res.tempFilePaths
-          //注意此处的签名方法为POST, 签名计算所使用的content-type仍然为文件本身的mime-type, 即"image/jpeg"
+          //Note that the signature method here is POST, and the content-type used for the signature calculation is still the mime-type of the file itself, i.e. "image/jpeg"
           const auth = sign("POST", publicKey, privateKey, "", "image/jpeg", "", bucketName, fileName)
           wx.uploadFile({
             url: `https://${bucketName}.cn-bj.ufileos.com/`,
             filePath: tempFilePaths[0],
             name: 'file',
-            //此处FormData为表单参数，在此处指定要上传的文件名，以及鉴权签名
+            // Here FormData is the form parameter, where you specify the name of the file to be uploaded, and the authentication signature
             formData: {
               'FileName': fileName,
               'Authorization': auth
@@ -121,7 +121,7 @@ function uploadByUplodaFile(){
 }
 ```
 
-那么如果情况不允许使用微信的原生文件上传方法，那么也可以通过拼接multipart/form-data的方式来进行上传。这种方式会麻烦一些，因此如无特殊需求，还是建议使用原生方法进行上传。
+Then if the situation does not allow using WeChat's native file upload method, then it is also possible to upload by splicing multipart/form-data. This way will be a bit more troublesome, so if there is no special need, it is still recommended to use the native method for uploading.
 
 ```javascript
 function uploadByPost(){
@@ -129,9 +129,9 @@ function uploadByPost(){
   const privateKey = "xxxxx-xxx-xxxx-xxxx-xxxxx"
   const fileName = "filename"
   const bucketName = "bucketname"
-  // boundary可以自定义，这里使用US3官方文档中示例所用的boundary字符串
+  // boundary can be customized, here use the boundary string used in the official US3 documentation example
   const boundary = "----UCloudPOSTFormBoundary"
-  // 将string类型数据转换成binary数组
+  // convert string type data to binary array
   const strToBinary = (str) => {
     let res = []
     for (var i = 0; i < str.length; i++) {
@@ -139,39 +139,39 @@ function uploadByPost(){
       }
     return res
   }
-	wx.chooseImage({
-     count: 1, // 设置最多1张
-     sizeType: ['original', 'compressed'], //所选的图片的尺寸
-     sourceType: ['album', 'camera'], //选择图片的来源
+wx.chooseImage({
+     count: 1, // set the maximum number of images to 1
+     sizeType: ['original', 'compressed'], // the size of the selected image
+     sourceType: ['album', 'camera'], // the source of the selected image
      success(res) {
-       //将文件内容读取出来并转换为Uint8Array
+       //read out the contents of the file and convert it to a Uint8Array
        const image = new Uint8Array(wx.getFileSystemManager().readFileSync(res.tempFilePaths[0]))
-       //这里的签名规则和原生请求的规则相同
+       // The signature rules here are the same as for native requests
        const auth = sign("POST", publicKey, privateKey, "", "image/jpeg", "", bucketName, fileName)
-       //拼接请求体的前半部分，可见和原生请求中的FormData内容相对应。
-       //需要将这部分也同样转换成binary数组
-       const start =  strToBinary(
+       // Splice the first half of the request body, visible and corresponding to the FormData content in the native request.
+       //need to convert this part to a binary array as well
+       const start = strToBinary(
                       `--${boundary}` + '\r\n' +
                       'Content-Disposition: form-data; name="FileName"' + '\r\n' +
-                      '\r\n' +
+                      '\r\n' + '\r\n' +
                       fileName + '\r\n' +
-                      `--${boundary}` + '\r\n'+
-                      'Content-Disposition: form-data; name="Authorization"' + '\r\n'+
+                      `--${boundary}` + '\r\n' +
+                      'Content-Disposition: form-data; name="Authorization"' + '\r\n' +
                       '\r\n' +
-                      auth + '\r\n' + 
-                      `--${boundary}`+ '\r\n' +
+                      auth + '\r\n' +
+                      `--${boundary}` + '\r\n' +
                       'Content-Disposition: form-data; name="file"; filename="MyFilename.jpg"' + '\r\n' +
                       'Content-Type: image/jpeg' + '\r\n' +
                       '\r\n')
-       //请求体的结尾，转换为binary数组
-       const end = strToBinary('\r\n' +`--${boundary}--`)
-       //将前半部分的内容，文件的数据，以及结尾拼接在一起，形成整个请求的binary数组
+       //end of request body, converted to binary array
+       const end = strToBinary('\r\n' + `--${boundary}--`)
+       // Splice together the first half, the data of the file, and the end to form a binary array of the entire request
        const request = start.concat(Array.prototype.slice.call(image), end);
-       //将整个reqeust转换成Uint8Array，并通过.buffer参数获取ArrayBuffer对象，wx.request函数最终将请求转化为对应的字符串
+       // convert the entire reqeust into a Uint8Array and get the ArrayBuffer object with the .buffer parameter, the wx.request function finally converts the request into the corresponding string
        const data = new Uint8Array(totalArray).buffer
        wx.request({
           url: `https://${bucketName}.cn-bj.ufileos.com/`,
-           method: "POST",
+           method: `POST`,
         header: {
           'content-type':`multipart/form-data; boundary=${boundary}`,
         },

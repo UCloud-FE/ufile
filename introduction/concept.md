@@ -1,111 +1,61 @@
-
-# 产品概述
-
-对象存储（US3）是为互联网应用提供非结构化数据存储的服务。相对于传统硬盘存储，对象存储具有存储无上限、支持高并发访问、成本更低等优势。其数据持久性不低于
-99.999999999%，标准型存储服务可用性不低于 99.95%。
-
-您可以使用 US3 提供的 API、SDK 接口或者 US3 迁移工具轻松地将海量数据移入或移出 US3。数据存储到 US3以后，您可以选择标准存储类型的 US3 服务作为移动应用、大型网站、图片分享或热点音视频的主要存储方式；也可以选择成本更低、存储期限更长的低频存储类型和归档存储类型的 US3 服务作为不经常访问数据的备份和归档。
-
-<video id="video" length=1000 width=800 controls="" preload="none" poster="https://static.ucloud.cn/c8f75929f40abde64c0a5d3b58cf440b.png">
-      <source id="mp4" src="http://caozuozhinan.cn-bj.ufileos.com/视频一 US3介绍.mp4">
-      </video>
-
-## 主要概念
-
-### 对象存储空间（Bucket）
-
-对象存储空间（简称存储空间）是文件的组织管理单位，一个文件必然隶属于某个空间中。空间名称全局唯一，且无法进行修改。
-每个账号最多可以创建 20 个存储空间，存储空间内文件数量无限制。
-用户可以将存储空间设置为公开或私有，以控制存储空间内文件的访问权限。
-
-### 私有空间
-
-所有文件所有操作须获得拥有者的 API 密钥授权才能访问。
-
-### 公开空间
-
-所有文件下载可通过 URL 直接访问。上传、删除、列表还是需要API密钥授权才能访问。
-
-
-### 对象/文件（Object）
-
-文件是存储空间的逻辑存储单元。对于每个账号，该账号里存放的每个文件都有唯一的一对存储空间（Bucket）与键（Key）作为标识。
-
-### 文件名（Key）
-
-文件名是对应文件的名称，在存储空间中全局唯一，每个文件名在存储空间均标识了一个文件，写入文件时，用户可以自定义文件名。上传同样文件名的文件，会导致原文件名文件被覆盖。
-使用者在下载文件时只需要知道下载出口的域名，而无需了解文件具体会被存放到哪个机房的哪个设备，也无需知道具体存放形式。只需在浏览器输入对应的URL访问即可。
-
-### 文件名命名规范
-
-1.使用 UTF-8 编码
-
-2.长度必须在 1-1023 字节之间
-
-3.可以“/”字符开头，但不允许出现“{}\^\[\]&lt;&gt;\#\~%”。
-
-### 访问域名（Endpoint）
-
-Endpoint 表示US3对外服务的访问域名。US3以HTTP RESTful
-API的形式对外提供服务，当访问不同地域的时候，需要不同的域名。通过内网和外网访问同一个地域所需要的域名也是不同的。具体的内容请参见[地域和域名](/ufile/introduction/region)。
-
-### Token密钥（API Access）
-
-Token 密钥，是一对公私钥；
-用户可以创建 Token 密钥，针对 bucket 授予不同 Token 权限，不同 Token 可以分发给不同的用户，实现对Bucket 的细分权限管理。
-另外，Token 密钥可以设置有效期，也可以随时删除，确保访问 Bucket 的安全性；
-
-### API密钥（API Access）
-
-用户在注册 UCloud 账号后，系统会为用户生成 API 密钥，用以标识用户。API 密钥用于调用 API 时进行身份验证，防止他人恶意篡改您的请求数据，如密钥泄露，请立即重置，重置成功后需要退出网站再登录。
-API 密钥包含公钥与私钥两部分。在 API 请求前，需要先使用公钥和私钥生成签名。
-为保障账户安全，请妥善保管私钥，避免外传。尽量不直接使用 API 密钥访问 US3， 泄露后风险较大，推荐使用 Token 密钥。
-
-
-### 地域（Region）
-
-地域表示 US3 的数据中心所在物理位置。您可以根据费用、请求来源等综合选择数据存储的地域。详情请参见 US3 已开通的 Region。
-
-
-### 单地域空间管理
-
-单地域对象存储服务能够解决业务架构的文件存储问题，为用户上传的数据创建多份副本并实现跨机房存储。
-
-
-### 多地域跨区复制
-
-用户可以针对指定的 2 个或 2 个以上的 bucket，设置跨区复制，实现多地域的数据上传同步功能，实现数据多地备份容灾；通过配合自定义域名和 cname 到多个 bucket 的循环跨区复制，还能实现就近上传的功能；
-
-
-### 存储类型
-
-US3 提供标准、低频、归档三种存储类型，全面覆盖从热到冷的各种数据存储场景。其中标准存储类型提供高可靠、高可用、高性能的对象存储服务，能够支持频繁的数据访问；低频存储类型适合长期保存不经常访问的数据，存储单价低于标准类型；归档存储类型适合需要长期保存（建议半年以上）的归档数据，在三种存储类型中单价最低。详情请参见[存储类型介绍](/ufile/introduction/storage_type)。
-
-### 生命周期
-
-用户可以配置生命周期删除，可以对指定前缀的文件进行定期删除，节省用户存储空间； 另外生命周期的自动降冷功能，可以对指定前缀的文件进行降冷，自动转换为低频存储、或者转换成归档存储，节省用户的存储成本。
-
-## 相关服务
-
-您把数据存储到 US3 以后，就可以使用 UCloud 提供的其他产品和服务对其进行相关操作。以下是您会经常使用到的 UCloud 产品和服务：
-
-|产品 |服务 |
-|---- |---- |
-|云主机（UHost） |提供简单高效、处理能力可弹性伸缩的云端计算服务。请参见[UHost产品详情页面](https://console.ucloud.cn/uhost/uhost)。 |
-|内容分发网络（UCDN） |将源站资源缓存到各区域的边缘节点，供您就近快速获取内容。请参见[UCDN产品详情页面](https://console.ucloud.cn/ucdn/ucdndashboard)。 |
-|数据湖分析（USQL） |构建基于Serverless的大数据分析解决方案，方便您分析和处理自己的数据。请参见[USQL产品详情页面](https://console.ucloud.cn/usql/editsql)。 |
-|媒体处理（UMedia） |将存储于UFile的音视频转码成适合在 PC、TV 以及移动终端上播放的格式。并基于海量数据深度学习，对音视频的内容、文字、语音、场景多模态分析，实现智能审核、内容理解、智能编辑。请参见[媒体处理产品详情页面](https://console.ucloud.cn/umedia/umediataskmanage)。 |
-
-## 使用 US3
-
-US3 提供了 Web 服务页面，方便您管理 US3。您可以登录 US3 管理控制台，操作存储空间和对象。关于管理控制台的操作，请参见控制台用户指南。
-
-US3 也提供了丰富的 API 接口和各种语言的 SDK
-包，方便您灵活地管理 US3。请参见 [API列表](/ufile/api_reference)和[SDK列表](/ufile/tools/sdk)。
-
-## US3 定价
-
-传统的存储服务供应商会要求您购买预定量的存储和网络传输容量，如果超出此容量，就会关闭对应的服务或者收取高昂的超容量费用；如果没有超过此容量，又需要您按照全部容量支付费用。US3 仅按照您的实际使用容量收费，您无需预先购买存储和流量容量，随着您业务的发展，您将享受到更多的基础设施成本优势。
-
-关于 US3 的价格，请参见 [计量计费](/ufile/bill/new)。
-
+# Product Overview
+Object Storage (US3) is a service that provides unstructured data storage for Internet applications.  Compared to traditional hard disk storage, object storage has the advantages of uncapped storage, support for high concurrent access, and lower cost.
+Its data persistence is no less than 99.999999999%, and the availability of standard storage services is no less than 99.95%.
+You can easily move large amounts of data in and out of US3 using the APIs, SDK interfaces or US3 migration tools provided by US3. You can also choose the lower -cost, longer-lasting low-frequency storage type and archive type US3 services for backup and archiving of infrequently accessed data.
+<video id="video" length=1000 width=800 controls="" preload="none" poster=" https://static.ucloud.cn/c8f75929f40abde64c0a5d3b58cf440b.png  ">
+<source id="mp4" src=" http://caozuozhinan.cn-bj.ufileos.com/ Video 1 US3 introduction.mp4 ">
+</video>
+## Key Concepts
+### Object storage space (Bucket)
+An object storage space (or storage space for short) is an organizational management unit for files, and a file necessarily belongs to one of the spaces.  Space names are globally unique and cannot be modified.
+Each account can create up to 20 buckets, and there is no limit to the number of files in a bucket.
+Users can set the storage space as public or private to control the access rights of files in the storage space.
+### Private space
+All files can only be accessed with the owner's API key authorization for all operations.
+### Public space
+All file downloads can be accessed directly via URL.  Uploads, deletions, and lists still require API key authorization for access.
+### Objects/Files (Object)
+A file is a logical storage unit for a storage space.  For each account, each file stored in that account is identified by a unique pair of storage space ( Bucket) and key (Key).
+### File name (Key)
+File name is the name of the corresponding file, globally unique in the storage space.  Uploading a file with the same file name will cause the original file name file to be overwritten.
+When downloading files, users only need to know the domain name of the download outlet, not to know exactly which device in which server room the file will be Simply enter the corresponding URL in your browser to access it.
+### File name naming convention
+Use UTF-8 encoding
+Length must be between 1-1023 bytes
+It can start with "/" character, but "{}\^\[\]&lt;&gt;\#\~%" is not allowed.
+### Access domain name (Endpoint)
+Endpoint represents the access domain name of US3 external services.
+When accessing different geographic areas, different domain names are required.  For details, see [Regions and Domains](/ufile/introduction/region).
+### Token Key (API Access)
+Token keys, which are pairs of public and private keys.
+Users can create Token keys to grant different Token permissions for a bucket, and different Token can be distributed to different users to achieve subdivision permission management for the bucket.
+In addition, Token keys can be set to be valid and can be deleted at any time to ensure the security of access to the Bucket.
+### API key (API Access)
+The API key is used for authentication when calling the API to prevent others from maliciously tampering with your request data, if the key is leaked, If the key is leaked, please reset it immediately, and you need to log out of the website after successful reset.
+The API key contains both public and private keys.  Before the API request, you need to use the public key and private key to generate the signature.
+To protect your account, please keep your private key safe and avoid spreading it.  Try not to use API key directly to access US3, it is more risky if it is Try not to use API key directly to access US3, it is more risky if it is leaked, we recommend using Token key.
+### Region
+Region indicates the physical location of US3's data center.  You can choose the region for data storage based on a combination of cost, request source, etc. . For details, please refer to US3's opened Regions.
+### Single-region space management
+The single-region object storage service solves the file storage problem for business architectures by creating multiple copies of user-uploaded data and enabling cross-room storage.
+### Multi-geographic cross-regional replication
+Users can set up cross-region replication for 2 or more buckets to achieve multi-territory data upload synchronization and multi-location data backup and disaster recovery;  it can also achieve the function of nearby upload by cooperating with the cyclic cross-region replication of custom domain name and cname to multiple buckets.
+### Storage type
+US3 provides three storage types: standard, low-frequency, and archive, comprehensively covering various data storage scenarios from hot to cold.  standard storage type provides highly reliable, highly available, high-performance object storage services and can support frequent data access;  the The standard storage type provides highly reliable, highly available, high-performance object storage services and can support frequent data access;  the low-frequency storage type is suitable for long-term storage of infrequently accessed data, and the storage unit price is lower than the standard type;  The archive storage type is suitable for archived data that needs long-term storage (more than six months is recommended), and the unit price is the lowest among the three storage types.  For details, please refer to [Introduction to Storage Types](/ufile/introduction/storage_type).
+### Life cycle
+Users can configure lifecycle deletion, which can delete files with specified prefixes periodically to save users' storage space.  automatic cooling function of lifecycle can cool down files with specified prefixes and automatically convert them to low-frequency storage, or convert them to archival storage to save users' storage costs.
+## Related Services
+Once you store your data in US3, you can use other products and services provided by UCloud to operate on it.  Here are some of the UCloud products and services you'll use regularly.
+|Here are some of the UCloud products and services you'll regularly use.
+---- |---- |---- |
+|Cloud Hosting (UHost) |Provides simple and efficient cloud-based computing services with elastic and scalable processing power.  See [UHost product details page]( https://console.ucloud.cn/uhost/uhost ). | UHost
+|Content Delivery Network (UCDN) |Caches source resources to edge nodes in each region for fast access to content close to you.  See [UCDN product details page]( https://console.ucloud.cn/ucdn/ucdndashboard ). | Data Lake Analytics (USQL)
+|Data Lake Analytics (USQL) |Build a Serverless-based big data analytics solution for you to analyze and process your own data easily.  product details page]( https://console.ucloud.cn/usql/editsql ). | USQL
+|Media Processing (UMedia) |Transcodes audio and video stored in UFile into formats suitable for playback on PC, TV, and mobile terminals.  the deep learning of massive data, it analyzes the content, text, voice, and scene of audio and video multimodally to achieve intelligent review, content Please see [Media Processing Product Details Page]( https://console.ucloud.cn/umedia/umediataskmanage  ). | The Media Processing Product Details Page]( ).
+## Use US3
+US3 provides a web service page for you to manage US3. You can log in to the US3 Management Console to operate the storage space and objects.  user's guide for information on operating the management console.
+US3 also provides a rich API interface and SDK packages in various languages for flexible management of US3.
+See [API list](/ufile/api_reference) and [SDK list](/ufile/tools/sdk) for flexible management of US3.
+## US3 Pricing
+Traditional storage service providers require you to purchase a pre-determined amount of storage and network transport capacity, and if you exceed that As your business grows, you will enjoy more infrastructure.  As your business grows, you will enjoy more infrastructure cost benefits.
+For US3 pricing, see [metering and billing](/ufile/bill/new).

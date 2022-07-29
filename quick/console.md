@@ -1,98 +1,98 @@
-# 使用US3管理控制台
+# Using the US3 Management Console
 
 
 
-## 单地域空间管理
+## Single Locale Space Management
 
-### 创建存储空间
+### Create storage space
 
-登录控制台后，在空间管理页选择“创建存储空间”。
+After logging in to the console, select "Create Storage" on the space management page.
 
-![](/images/点击创建存储按钮-v4.png)
+! [](/images/click-create-storage-button-v4.png)
 
-在“创建存储空间”弹窗页中，可以自定义存储空间域名，选择空间类型、存储地域。
+In the "Create Storage Space" pop-up page, you can customize the storage space domain name, select the space type and storage region.
 
-![](/images/创建存储空间-v4.png)
+! [](/images/create-storage-v4.png)
 
-    公开空间：所有文件可通过URL直接访问。
-    私有空间：所有文件须获得拥有者的API密钥授权才能访问。
+    Public space: All files can be accessed directly via URL.
+    Private space: All files must be authorized by the owner's API key to be accessed.
 
-确定后即创建存储空间成功。存储空间创建成功后，用户在控制台SDK及工具页下载客户端管理工具进行空间和文件管理操作，同时也可以使用API或SDK进行空间和文件管理操作。
+After confirming, the storage space is created successfully. After the storage space is successfully created, users can download the client management tool from the console SDK and tool page for space and file management operations, and also use the API or SDK for space and file management operations.
 
-### 查看存储空间信息
+### View storage space information
 
-在存储空间列表页，可查看存储空间的基本信息，如存储空间域名、地域、空间类型、创建时间等。
+In the storage space list page, you can view the basic information of the storage space, such as storage space domain name, region, space type, creation time, etc.
 
-![image](/images/存储空间列表v4.png)
+! [image](/images/storage space list v4.png)
 
-点击存储空间进入详情页可查看基本信息和监控。
+Click the storage space to enter the details page to view basic information and monitoring.
 
-### 文件管理
+### File Management
 
-选择指定存储空间，在右侧操作中点击“文件管理”按钮进入文件管理页。
-![image](/images/点击文件管理v4.png)
+Select the specified storage space, and click the "File Management" button on the right side to enter the file management page.
+! [image](/images/click File Management v4.png)
 
-在文件管理列表页，可查看文件的基本信息，如文件名、文件大小、MIME-TYPE、更新时间等。
-![image](/images/文件管理列表v4.png)
+On the file management list page, you can view the basic information of the file, such as file name, file size, MIME-TYPE, update time, etc.
+! [image](/images/file-management-list-v4.png)
 
-点击文件管理右上角的设置按钮，可以自定义文件列表。
+You can customize the file list by clicking the Settings button in the upper right corner of the file management.
 
-![image](/images/自定义列表设置v4.png)
-![image](/images/自定义列表v4.png)
+! [image](/images/custom list settings v4.png)
+! [image](/images/custom list v4.png)
 
-### 修改空间类型
+### Modify space type
 
-选择指定存储空间，在右侧操作中点击修改空间类型。
+Select the specified storage space and click Modify space type in the right action.
 
-![image](/images/修改空间类型v4.png)
+! [image](/images/modify space type v4.png)
 
-    公开空间：所有文件可通过URL直接访问。
-    私有空间：所有文件须获得拥有者的API密钥授权才能访问。
+    Public space: All files can be accessed directly via URL.
+    Private space: All files must be authorized by the owner's API key to be accessed.
 
-### 删除存储空间
+### Delete storage space
 
-选择指定存储空间，在右侧操作中选择“删除存储空间”。
+Select the specified storage space, and select "Delete storage space" in the right action.
 
-![](/images/删除空间v4.png)
+! [](/images/delete-spacev4.png)
 
-如需批量删除，选择多个存储空间后，点击左上角”删除存储空间“按钮。
+If you want to delete multiple storage spaces, select multiple storage spaces and click the "Delete storage space" button in the upper-left corner.
 
-![](/images/批量删除v4.png)
+! [](/images/batch-deletev4.png)
 
-## 全球化空间管理
+## Globalized space management
 
-### 创建存储空间
+### Create storage space
 
-登录控制台后，在全球化空间管理页选择“创建存储空间”。
+After logging in to the console, select "Create Storage Space" on the Globalized Space Management page.
 
-在“创建存储空间”弹窗页中，可以自定义存储空间域名，选择空间类型、存储源地域、存储副本地域。源地域与副本地域不能一致。
+In the "Create Storage Space" pop-up page, you can customize the storage space domain name, select the space type, storage source locale, and storage replica locale. The source locale and the replica locale cannot be the same.
 
-![](/images/全球化创建.png)
+! [](/images/globalization-creation.png)
 
-**其他操作和单地域空间管理完全一致**
+**The source locale and the replica locale cannot be the same.
 
-备注：全球化 US3 暂时不支持设置回源规则，自定义域名功能操作详情参考\[操作指南\]。
+Note: Globalization US3 temporarily does not support setting back to the source rules, custom domain name function operation details refer to \[ Operation Guide\].
 
-## 文件管理
+## File Management
 
-### 上传文件
+### Upload files
 
-在文件管理页选择“上传文件”，弹窗中可以设置路径前缀。
+Select "Upload File" on the file management page, and set the path prefix in the pop-up window.
 
-![image](/images/上传文件v4.png)
+! [image](/images/upload file v4.png)
 
-### 修改MIME-Type
+### Modify MIME-Type
 
-![image](/images/修改mime-type.png)
+! [image](/images/modify-mime-type.png)
 
-### 删除文件
+### Delete the file
 
-![image](/images/删除文件v4.png)
+! [image](/images/delete-file-v4.png)
 
-### 下载文件
+### Download the file
 
-![image](/images/下载文件v4.png)
+! [image](/images/download file v4.png)
 
-### 获取地址
+### Get the address
 
-![image](/images/获取地址弹窗v4.png)
+! [image](/images/Get Address popup v4.png)

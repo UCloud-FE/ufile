@@ -1,13 +1,13 @@
 
 
-# 防盗链
+# Anti-theft chain
 
-US3 存储空间支持设置防盗链策略，开启后，您可通过对访问来源设置白名单的机制，避免 US3 资源被其他人盗用。
+US3 storage space supports setting anti-theft chain policy, when enabled, you can prevent US3 resources from being stolen by others by setting a whitelist mechanism for access sources.
 
-点击存储空间名称或侧操作栏中点击“详情”，进入存储空间概览页面，勾选“防盗链”设置右侧的修改按钮，弹出“防盗链设置”，即可对防盗链规则进行设置。
+Click the name of the storage space or click "Details" in the sidebar to enter the storage space overview page, check the "Anti-theft chain" setting on the Then, you can set the anti-theft link rules.
 
-![image](/images/防盗链.png)
+You can set the anti-blocking rules. [image](/images/anti-theft-chain.png)
 
-![image](/images/防盗链2.png)
+! [image](/images/anti-theft-chain2.png)
 
-防盗链功能通过设置 Referer 黑白名单以及是否允许空 Referer，限制访问存储空间的域名地址。
+The anti-blocking feature restricts access to the domain address of the storage space by setting the Referer black and white lists and whether to allow empty Referers.

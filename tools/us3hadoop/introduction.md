@@ -1,24 +1,24 @@
-# 工具简介
+# Tool Introduction
 
-## 概述
+## Overview
 
-US3Hadoop适配器是为了解决Hadoop访问UCloud对象存储US3的问题，实现了标准的Hadoop文件系统，支持Hive、Spark、Flink等大数据计算框架可以像访问HDFS文件系统一样，来读写存储在US3上的数据。
+US3Hadoop adapter is to solve the problem of Hadoop access to UCloud object storage US3, implement the standard Hadoop file system, support Hive, Spark, Flink and other big data computing frameworks can read and write data stored on US3 like access to the HDFS file system.
 
-## 原理说明
+## Principle Description
 
-适配器是实现了Hadoop提供的存储访问接口FileSystem的适配器组件，类似HDFS实现的DistributedFileSystem和基于AWS S3协议实现的S3AFileSystem。适配器直接把IO，索引请求发给US3，架构如下图所示。
+The adapter is an adapter component that implements the storage access interface FileSystem provided by Hadoop, similar to the DistributedFileSystem implemented by HDFS and S3AFileSystem implemented based on the AWS S3 protocol. adapter directly sends IO, index requests to US3, the architecture is shown in the figure below.
 
-![](/images/hadoop_no_mds.png)
+! [](/images/hadoop_no_mds.png)
 
-该架构适合**备份场景**和**小规模计算分析场景**。
+The architecture is suitable for **backup scenarios** and **small-scale computational analysis scenarios**.
 
-## 版本和运行环境
+## Versions and runtime environments
 
-### 软件版本
+### Software Versions
 
-当前版本：1.1.0
+Current version: 1.1.0
 
-### 运行环境
+### Running environment
 
   - hadoop-2.6.0
   - hadoop-2.8.3

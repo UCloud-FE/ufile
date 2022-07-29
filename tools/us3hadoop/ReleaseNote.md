@@ -1,47 +1,47 @@
 ### v1.3.0
 
-## 新增
+## Added
 
-- 适配器增加从zookeeper获取vmds集群主节点信息的功能
+- The adapter adds the ability to get vmds cluster master node information from zookeeper
 
 ### v1.2.0
 
-## 重构
+## Refactoring
 
-- 使用线上2.6.6版本的us3 sdk
+- Us3 sdk using online version 2.6.6
 
 ### v1.1.0
 
-## 功能
+## Features
 
-- 支持distcp校验拷贝功能
+- Support distcp check copy function
 
-## 修复
+## Fix
 
-- 日志格式打印错误
+- Log format printing error
 
 ### v1.0.2
 
-## 功能
+## Function
 
-- 支持开启md5计算，并保留其经过base64编码后结果到文件的元数据中
+- Support to turn on md5 calculation and keep its result after base64 encoding to the metadata of the file
 
-## 修复
+## Fix
 
-- listStatus的Path是文件时，会返回空列表，正确的语义应该是只包含这个文件的列表
-- 写入流的字节统计不准确
-- 重命名时有相同文件名失败
-- 列表服务响应变化导致的确保一致性误判而超时和目录偏移越界的问题
-- 在缺失以`/`结尾的目录文件时，getFilsStatus触发的`dead loop`问题
-- rename的目的端存在时抛出FileAlreadyExistsException，语义应该为false
+- When the Path of listStatus is a file, it returns an empty list, the correct semantics should be a list containing only this file
+- Inaccurate byte count of write stream
+- Renaming with the same file name failed
+- Timeout and directory offset out-of-bounds due to ensure consistency miscalculation caused by listserv response changes
+- `dead loop` problem triggered by getFilsStatus when a directory file ending with `/` is missing
+- FileAlreadyExistsException thrown when the destination of rename exists, semantics should be false
 
-## 优化
+## Optimization
 
-- 通知us3vmds逻辑从写入流解耦
+- Notify us3vmds that logic is decoupled from the write stream
 
 ### v1.0.1
 
-## 功能
+## Features
 
 - getFileStatus
 - listStatus

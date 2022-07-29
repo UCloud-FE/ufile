@@ -1,33 +1,33 @@
-# 如何将US3上的文件打包下载
+# How to package and download files on US3
 
-## 简介
+## Introduction
 
-此方案主要是为了解决将US3上Bucket里的文件打包后下载的问题。通过打包服务将US3上指定的文件打包成ZIP压缩包，从而方便将多个文件批量下载到本地。
+This solution is designed to solve the problem of downloading files from Bucket on US3 after packaging them. The packaged files on US3 are packaged into a ZIP archive by the packaged service, which makes it easy to download multiple files in a batch to the local area.
 
-## 预先准备
+## Prep
 
-* 在[云主机控制台](https://console.ucloud.cn/uhost/uhost)上创建一台linux操作系统的UHost云主机。
-* 在[US3控制台](https://console.ucloud.cn/ufile/token)上拿到具有对于目标桶上传下载，以及列取权限的令牌。
+* Create a UHost cloud host with linux OS on [Cloud Host Console](https://console.ucloud.cn/uhost/uhost).
+* Get a token on [US3 console](https://console.ucloud.cn/ufile/token) with upload and download, and column fetch permissions for the target bucket.
 
-## 基本原理
+## Fundamentals
 
-工具的工作原理如下：
+The tool works as follows.
 
-1. 工具本身会拉起一个HTTP服务器
-2. 用户发送POST请求以提交打包任务，您会在请求的response中拿到最终将会生成的zip压缩包的Key
-3. 打包工具根据您提交的请求中的信息，将US3中的文件下载到本地，并进行打包
-4. 将本地打包好的zip压缩包上传到US3中的指定位置
-5. 您可以根据第二条中获取的zip压缩包Key下载文件
+1. the tool itself will pull up an HTTP server
+2. the user sends a POST request to submit a packaging task, and you get the Key of the zip archive that will eventually be generated in the response to the request
+3. the packaging tool downloads the files in US3 locally and packages them according to the information in the request you submitted
+4. upload the local zip archive to the specified location in US3
+5. you can download the files according to the zip archive key you obtained in the second article
 
-## 操作步骤
+## Operation steps
 
-我们这里假定您已经创建了[云主机UHost](https://console.ucloud.cn/uhost/uhost)，并且在[US3控制台](https://console.ucloud.cn/ufile/token)上拿到了对应的令牌。
+We assume here that you have created [Cloud Host UHost](https://console.ucloud.cn/uhost/uhost) and got the corresponding token on [US3 Console](https://console.ucloud.cn/ufile/token).
 
-1. 下载打包工具 [工具包](https://github.com/ufilesdk-dev/ufile-pack/releases/)
+1. Download the packaging tool [Toolkit](https://github.com/ufilesdk-dev/ufile-pack/releases/)
 
-2. 将工具包解压缩  `unzip US3-PACK.zip`
+2. Extract the toolkit `unzip US3-PACK.zip`
 
-3. 修改工具中的[server_conf.json](https://github.com/ufilesdk-dev/ufile-pack/blob/main/server_conf.json)配置文件，配置文件如下：
+3. Modify the [server_conf.json](https://github.com/ufilesdk-dev/ufile-pack/blob/main/server_conf.json) configuration file in the tool with the following configuration file.
 
    ````json
    {
@@ -39,63 +39,63 @@
        "LogLevel": "DEBUG"
      },
      "http": {
-       "Ip": "0.0.0.0", 
+       "Ip": "0.0.0.0",
        "Port": 80
-     },    //服务监听的端口和ip
+     }, // port and ip for the service to listen on
      "us3_config": {
-       "public_key":"xxxxxxxxxxxxxx", //Token中的公钥
-       "private_key":"xxxxxxxxxxxxxxxxx" //Token中的私钥
+       "public_key": "xxxxxxxxxxxxxxx", //Public key in Token
+       "private_key": "xxxxxxxxxxxxxxxxxx" //Private key in Token
      }
    }
    ````
 
-   
 
-4. 执行`./US3-PACK`以启动服务，您也可以使用后台进程来执行该服务`nohup ./US3-PACK &`
 
-5. 此时您可以发送POST请求到服务的根url (例如http://xxx.xxx.xxx.xxx)，请求参数有两种类型，分别对应指定某个前缀下的所有文件进行打包的任务，以及指定具体文件进行打包的任务。
+4. Execute `. /US3-PACK` to start the service, you can also use a background process to execute the service `nohup . /US3-PACK &`
 
-   > 注意，如果您申请的UHost云主机只有内网IP，那么请您在同一台云主机上，或者同一VPC内部发送打包的POST请求。
+5. At this point you can send a POST request to the root url of the service (e.g. http://xxx.xxx.xxx.xxx) with two types of parameters, one for the task of packaging all files under a certain prefix and one for the task of packaging specific files.
 
-### 指定前缀进行打包
+   > Note that if you apply for UHost cloud hosting with only intranet IP, then please send the packaged POST request on the same cloud host, or inside the same VPC.
+
+### Specify prefix for packing
 
    ```json
    {
        "action": "GetUFileZipRequest",
        "prefix": "prefix",
-       "bucket_name":"BucketName",
-       "file_host":"internal-cn-sh2-01.ufileos.com"
+       "bucket_name": "BucketName",
+       "file_host": "internal-cn-sh2-01.ufileos.com"
    }
    ```
 
-   其中：
+   where.
 
-   * action字段指定request类型
+   * the action field specifies the request type
 
-   * bucket_name对应您所需打包文件所在存储桶的桶名
+   * bucket_name corresponds to the bucket name of the bucket where you want to package the file
 
-   * prefix为您所需打包文件所在的前缀（文件夹）路径
+   * prefix is the prefix (folder) path of the bucket where you want to package the file
 
-   * file_host为您访问桶所使用的endpoint，请您参考 [地域和域名](https://docs.ucloud.cn/ufile/introduction/region)
+   * file_host is the endpoint you use to access the bucket, please refer to [locale and domain](https://docs.ucloud.cn/ufile/introduction/region)
 
-### 指定文件列表进行打包
+### Specify the list of files to be packaged
 
    ```json
    {
        "action": "GetUFileZipByListRequest",
        "file_list": "prefix/key1,prefix/key2,prefix/key3",
-       "bucket_name":"BucketName",
-       "file_host":"internal-cn-sh2-01.ufileos.com"
+       "bucket_name": "BucketName",
+       "file_host": "internal-cn-sh2-01.ufileos.com"
    }
    ```
 
-   其中： 
-   * file_list字段指定要打包的文件名，注意此处文件名包括文件的前缀，但不包括桶名
-   * 其他字段同上
+   Where.
+   * the file_list field specifies the name of the file to be packed, note that here the file name includes the file prefix but not the bucket name
+   * The other fields are the same as above
 
-> 我们在文件包中提供了请求的json示例，您可以在压缩包中找到[event.json](https://github.com/ufilesdk-dev/ufile-pack/blob/main/event.json)文件，根据上文中的请求格式以及您想要提交的打包任务情况来更改json中的内容，并在同一台云主机上通过这一命令进行测试: ```curl -X POST -d@event.json localhost```
+> You can find the [event.json](https://github.com/ufilesdk-dev/ufile-pack/blob/main/event.json) file in the zip archive and change the contents of the json according to the request format above and the Change the contents of the json according to the request format above and the packaged task you want to submit, and test it on the same cloud host with this command: ```curl -X POST -d@event.json localhost``
 
-在发送完请求后，您会在返回中收到压缩包的地址。请求返回格式如下：
+After sending the request, you will receive the address of the zip package in the return. The request return format is as follows.
 
 ````javascript
 {
@@ -103,20 +103,20 @@
     "prefix": "prefix",
     "RetCode": 0,
     "ErrMsg":"",
-    "Key":"output/xxxx-xxxx-xxxxx-xxxx-xxxxxxx.zip"
+    "Key": "output/xxxx-xxxx-xxxxx-xxxx-xxxxxxx.zip"
 }
 ````
 
-其中key字段即为打包请求处理完毕后，工具上传到US3中的压缩包的对象名
+where the key field is the object name of the zip package that the tool uploads to US3 after the package request is processed
 
-### 获取压缩包
+### Get the package
 
-您可以通过logs/文件夹下的日志文件来查看任务是否完成
+You can see if the task is completed by looking at the log file in the logs/ folder
 
-最后，您可以使用http客户端工具下载这一文件，例如：
+Finally, you can download this file using an http client tool, such as
 
 `wget http://bucket.internal-cn-sh2-01.ufileos.com/output/xxxx-xxxx-xxxxx-xxxx-xxxxxxx.zip`
 
-## 性能测试
+## Performance tests
 
-在使用1核1G内存的UHost主机，内网传输数据的情况下，打包55个20M文件(总大小1.15G)，的时间大概为30S。
+With 1 core 1G RAM UHost host and intranet data transfer, the time to pack 55 20M files (total size 1.15G) is about 30S.

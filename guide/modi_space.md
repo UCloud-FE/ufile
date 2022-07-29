@@ -1,11 +1,11 @@
 
-# 修改存储空间类型
+# Modify storage space type
 
-选择指定存储空间，在右侧操作中点击修改空间类型。
+Select the specified storage space and click Modify space type in the right action.
 
-![image](/images/修改空间类型.png)
+! [image](/images/modify_space_type.png)
 
-|空间类型 |说明 |
-|---- |---- |
-|公开空间 |所有文件可通过URL直接访问。 |
-|私有空间 |所有文件须获得拥有者的 API 密钥授权才能访问。 |
+|space-type |description |
+---- |---- |public space
+|public space |All files can be accessed directly via URL. |private
+|private space |All files must be authorized by the owner's API key to be accessed. |private space

@@ -1,83 +1,83 @@
 
 
-# 一致性比对工具
+# Consistency Matching Tool
 
-## 工具使用
+## Tool Usage
 
-1. 下载对应的check工具包：
+1. Download the corresponding check toolkit at
 
 ```
-linux64 	http://fail-check.cn-bj.ufileos.com/check-client-linux64.zip
-mac		http://fail-check.cn-bj.ufileos.com/check-client-mac.zip 
+linux64 http://fail-check.cn-bj.ufileos.com/check-client-linux64.zip
+mac http://fail-check.cn-bj.ufileos.com/check-client-mac.zip
 ```
 
-2. 解压工具包，进入目录，执行以下命令为工具附加可执行权限：
+2. Unzip the toolkit, enter the directory and execute the following command to attach executable permissions to the tool.
 
 ```
 chmod +x chmod.sh
-./chmod.sh
+. /chmod.sh
 ```
 
-3. 使用./get_file_list.sh拉取有问题的文件列表
+3. Use . /get_file_list.sh to pull the list of problematic files
 
 ```
-./get_file_list.sh <要校验的bucket名字> <要校验的本地文件目录> <要校验的us3目录>
+. /get_file_list.sh <bucket name to check> <local file directory to check> <us3 directory to check>
 
-执行以上命令产生下列文件：
-checkData.txt 		：存放四种可疑文件列表
-invalid_content.txt : 存放etag不一致或size不一致的文件列表
-local_not_exists.txt: 存放相对us3目录，本地不存在的文件列表
-new_files.txt		: 存放相对本地目录，us3不存在的文件列表
+Executing the above command produces the following files.
+checkData.txt : holds a list of four suspicious files
+invalid_content.txt : a list of files with inconsistent etag or inconsistent size
+local_not_exists.txt: a list of files that do not exist locally relative to the us3 directory
+new_files.txt : A list of files that do not exist in us3 relative to the local directory
 
-//checkData.txt中四种情况区分
-[1]表示us3文件不存在
-[2]表示本地文件不存在
-[3]表示文件大小不一致
-[4]表示etag不一致
+The four cases in //checkData.txt are distinguished
+[1] means us3 file does not exist
+[2] indicates that the local file does not exist
+[3] means the file size is inconsistent
+[4] means the etag is inconsistent
 ```
 
-4. 如果需要重新上传etag以及size不一致的批量文件，执行以下命令
+4. If you need to re-upload the batch files with inconsistent etag and size, execute the following command
 
 ```
-./upload_invalid_content.sh <要上传的bucket>
-```
+. /upload_invalid_content.sh <bucket to be uploaded>
+``` .
 
-5. 如果需要上传us3缺少的文件，执行以下命令
-
-```
-./upload_new_files.sh <要上传的bucket>
-```
-
-6. 上传完成后重新校验
+5. If you need to upload a file that us3 is missing, execute the following command
 
 ```
-./check.sh <要校验的bucket名字> <要校验的本地文件目录> <要校验的us3目录>
+. /upload_new_files.sh <bucket to upload>
 ```
 
-## checkData 文件内容解析
-
-1. us3文件不存在
+6. Recheck after the upload is complete
 
 ```
-[1],us3 file does not exist,本地文件名，us3文件名
+. /check.sh <bucket name to be checked> <local file directory to be checked> <us3 directory to be checked
 ```
 
-2. 本地文件不存在
+## checkData file content parsing
+
+1. us3 file does not exist
 
 ```
-[2],local file does not exist,us3文件名
+[1],us3 file does not exist, local file name, us3 file name
 ```
 
-3. 文件大小不一致
+2. local file does not exist
 
 ```
-[3],inconsistent file size,本地文件名,文件大小,us3文件名,文件大小
+[2],local file does not exist,us3 file name
 ```
 
-4. etag不一致
+3. file size inconsistency
 
 ```
-[4],inconsistent etag,本地文件名,文件etag,us3文件名,文件etag
+[3],inconsistent file size,local file name,file size,us3 file name,file size
 ```
 
-#### 
+4. etag inconsistency
+
+```
+[4],inconsistent etag,local filename,file etag,us3 filename,file etag
+```
+
+####

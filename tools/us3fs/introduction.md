@@ -1,34 +1,34 @@
-# 工具简介
+# Tool Introduction
 
-## 概述
+## Overview
 
-US3FS是一个在Linux/Windows系统环境中，将US3的存储空间（Bucket）挂载到本地挂载点的工具，挂载成功后，您可以像操作本地文件一样操作存储空间（Bucket）中的文件。
+US3FS is a tool to mount US3's storage (Bucket) to a local mount point in Linux/Windows system environment. After successful mounting, you can operate the files in the storage (Bucket) as if they were local files.
 
-## 版本和运行环境
+## Version and operating environment
 
-### 软件版本
+### Software version
 
-当前版本：v1.6.7
+Current version: v1.6.7
 
-### 运行环境
+### Running environment
 
-- Linux：
-  - CentOS 7.0 及以上 (可通过`cat /etc/redhat-release`查看)
-  - Ubuntu 16.04 及以上 (可通过`cat /etc/issue`查看)
+- Linux.
+  - CentOS 7.0 and above (can be viewed via `cat /etc/redhat-release`)
+  - Ubuntu 16.04 and above (can be viewed via `cat /etc/issue`)
 - Windows
-  - 开启WinFsp服务
+  - Start WinFsp service
 
-## 主要功能
+## Main Features
 
-* 支持POSIX文件系统的大部分功能，如读；顺序写；权限；UID/GID。
-* 使用US3的分片上传功能上传大文件。
-* 支持Etag和MD5校验，保证数据一致性。
+* Supports most of the POSIX file system features such as read; sequential write; permissions; UID/GID.
+* Upload large files using US3's slice upload function.
+* Support Etag and MD5 checksum to ensure data consistency.
 
-## 使用限制
+## Usage limitations
 
-* 不支持读取归档类型的文件
-* 不支持随机写/追加写
-* rename非原子操作
-* 不支持硬/软链接
-* 多个客户端挂载同一个US3 Bucket时，需要用户自行维护数据一致性。
+* Reading files of archive type is not supported
+* Random write/append write is not supported
+* rename non-atomic operations
+* Hard/soft linking is not supported
+* When multiple clients mount the same US3 Bucket, users need to maintain data consistency by themselves.
 

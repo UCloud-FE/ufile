@@ -1,37 +1,37 @@
 
 
-# 创建存储空间
+# Create storage space
 
-在上传文件（Object）到 US3 之前，您需要使用 US3 API 中的 CreateBucket 接口来创建一个用于存储文件的存储空间（Bucket），存储空间具有各种配置属性，包括地域、访问权限以及其他元数据。或者使用 [US3 控制台](https://console.ucloud.cn/ufile/ufile)来创建一个存储空间（Bucket），并设置存储空间的访问权限。
+Before uploading files (Objects) to US3, you need to use the CreateBucket interface in the US3 API to create a storage space (Bucket) for storing files with Alternatively, use the [US3 console](https://console. ucloud.cn/ufile/ufile) to create a storage space (Bucket) and set the access rights to the storage space.
 
-## 操作方式
-|操作方式    |说明 |
-|--------- |--------------------------------------------------------------------------------------------------------------- |
-|控制台  |Web 应用程序，直观易用 |
-|管理工具  |[管理工具](ufile/tools/tools/tools_bcket) |
-|API   |[API](https://docs.ucloud.cn/api/ufile-api/README) |
-|SDK   |[SDK](ufile/tools/sdk) |
+## Operation method
+|Operation mode |description |
+|Operation mode |description |--------- |--------------------------------------------------------------------------------------------------------------- |
+|Console |Web application, intuitive and easy to use
+|management tools |[management tools](ufile/tools/tools/tools_bcket)
+|API |[API](https://docs.ucloud.cn/api/ufile-api/README) |SDK |[SDK](https://docs.ucloud.cn/api/ufile-api/README)
+|SDK |[SDK](ufile/tools/sdk)
 
-### 使用限制
+### Usage restrictions
 
-* 同一用户创建的存储空间总数不能超过 20 个。
+* The total number of storage spaces created by the same user cannot exceed 20.
 
-* 每个存储空间的名字全局唯一，否则会创建失败。
+* The name of each storage space is globally unique, otherwise it will fail to be created.
 
-* 存储空间的名称需要符合命名规范。
+* The names of the storage spaces need to conform to the naming convention.
 
-* 存储空间一旦创建成功，名称和所处地域不能修改。
+* Once a storage space is created successfully, the name and the locale it is in cannot be modified.
 
 
-## 设置空间读写权限
+## Set space read and write permissions
 
-您可以在创建存储空间（Bucket）时设置存储空间的访问权限（ACL），也可以在创建 Bucket 后根据自己的业务需求修改存储空间的 ACL，该操作只有存储空间的拥有者可以执行。
+You can set the access rights (ACL) of the storage space when you create the storage space (Bucket), or you can modify the ACL of the storage space after Creating the Bucket according to your business needs, and this operation can only be performed by the owner of the storage space.
 
-存储空间有两种访问权限：
+There are two types of access rights for the storage space.
 
-**私有空间：**
-只有该存储空间的拥有者可以对该存储空间内的文件进行写操作，所有文件须获得拥有者的API密钥授权才能访问。
+**Private Space:**
+Only the owner of the storage space can write to the files in the storage space, and all files can only be accessed with the owner's API key authorization.
 
-**公有空间：**
-只有该存储空间的拥有者可以对该存储空间内的文件进行写操作，任何人（包括匿名访问者）都可以对该存储空间中的文件进行读操作。
+**Public Space:**
+Only the owner of the storage can write to the files in the storage, and anyone (including anonymous visitors) can read the files in the storage.
 

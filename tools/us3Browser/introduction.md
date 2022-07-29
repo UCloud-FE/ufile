@@ -1,23 +1,23 @@
-# 工具简介
+# Tool Introduction
 
-## 概述
+## Overview
 
-US3Browser是对象存储推出的一款可视化界面工具，支持Windows和Mac平台，让使用US3的用户可以采用更加简单轻松的交互方式对US3的Bucket进行管理，包含但不限于对目录/文件的创建、删除、上传、下载等操作。
+US3Browser is a visual interface tool from Object Storage for Windows and Mac platforms that allows users of US3 to manage the US3 Bucket in a simple and easy interactive way, including but not limited to creating, deleting, uploading, downloading, etc. of directories/files.
 
-## 版本和运行环境
+## Versions and Operating Environments
 
-### 软件版本
+### Software Versions
 
-当前版本：v1.0.1
+Current version: v1.0.1
 
-### 运行环境
+### Running environment
 
-支持Windows和Mac平台
+Support Windows and Mac platform
 
-## 主要功能
+## Main Features
 
-* 目录的创建、删除、批量删除、过滤等功能
-* 文件的上传、下载、删除、批量删除
-* 存储类型修改，文件解冻等功能
+* Directory creation, deletion, batch deletion, filtering, etc.
+* File upload, download, delete, batch delete
+* Storage type modification, file unfreezing, etc.
 
 

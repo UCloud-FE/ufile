@@ -1,23 +1,23 @@
-# 签名工具
+# Signature Tool
 
-由于生成签名比较繁琐，用户可以借助签名工具来帮助生成签名，或者作为签名校验工具。
+Since generating signatures is tedious, users can use signature tools to help generate signatures or as signature verification tools.
 
-[签名工具链接](http://testsign2.cn-sh2.ufileos.com/signGenerator.html)
+[Signature tool link](http://testsign2.cn-sh2.ufileos.com/signGenerator.html)
 
-目前签名工具支持：
+The signature tool currently supports.
 
-1. 文件管理签名。
-2. 私有空间文件下载地址构造。
+1. file management signatures. 2.
+2. private space file download address construction.
 
-US3 同时提供用户自行部署私有化的签名工具，适用于以下场景：
+US3 also provides users to deploy their own private signature tools for the following scenarios.
 
-1. 用 java sdk 进行 Andorid 应用开发；进行用户图片、文件上传功能，需要使用公私钥或者 Token 进行签名。
-2. 用 ios sdk 进行 IOS 应用开发；进行用户图片、文件上传功能，需要使用公私钥或者Token 进行签名。
+1. java sdk for Andorid application development; for user image and file upload functions, which need to use public and private keys or Token for signing.
+2. ios sdk for IOS application development; for user image and file uploading, you need to use public and private keys or Token for signing.
 
-在这类场景下，如果在开发时在 APP 里内置公私钥或者 Token，调用上传下载接口实现签名和上传，APP 可能会被破解，导致公私钥、Token 泄露，建议采用以下方式：
+In this kind of scenario, if the public-private key or Token is built into the APP during development, and the upload and download interface is called to realize the signature and upload, the APP may be cracked, resulting in the leakage of the public-private key and Token, and the following method is recommended The following method is recommended.
 
-1. 用户上传前， 把上传的参数，传递给 APP 的服务器。
-2. 服务器收到用户请求，进行登录态校验，生成文件上传签名，返回给APP。
-3. APP 使用服务器返回的签名，进行文件上传操作。
+1. Before user uploads, pass the upload parameters to APP's server. 2.
+2. The server receives the user request, checks the login state, generates the file upload signature and returns it to APP. 3.
+3. APP will use the signature returned by the server to perform file upload operation.
 
-[签名服务代码](https://github.com/ucloud/ufile-sdk-auth-server)
+[Signature Service Code](https://github.com/ucloud/ufile-sdk-auth-server)

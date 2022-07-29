@@ -1,39 +1,39 @@
 
 
-# 开始使用 US3
+# Start using US3
 
-US3 对象存储服务将数据文件以对象（object）的形式上传到存储空间（bucket）中。您可以进行以下操作：
+The US3 Object Storage service uploads data files as objects to a bucket. You can perform the following operations.
 
-创建一个或者多个存储空间，向每个存储空间中添加一个或多个文件。
+Create one or more storages, adding one or more files to each one.
 
-通过获取已上传文件的地址进行文件的分享和下载。
+Share and download files by getting the addresses of uploaded files.
 
-通过设置和修改 Token 令牌的读写权限（ACL）设置来控制用户的对存储空间或文件的访问权限。
+Control user access to the storage or files by setting and modifying the read/write permission (ACL) settings of the Token token.
 
-通过 UCloud 管理控制台、各种便捷工具、以及丰富的 SDK 包执行基本和高级US3 操作。
+Perform basic and advanced US3 operations with the UCloud Management Console, a variety of handy tools, and a rich set of SDK packages.
 
-## 使用 UCloud 管理控制台
+## Using the UCloud Management Console
 
-使用 UCloud 管理控制台来完成 US3 基本操作的流程如下：
+The flow of using the UCloud Management Console for basic US3 operations is as follows.
 
-1)  开通 US3 服务
+1) Turn on US3 service
 
-2)  创建存储空间
+2) Create storage space
 
-3)  上传文件
+3) Upload files
 
-4)  下载文件
+4) Download files
 
-5)  删除文件
+5) Delete the file
 
-6)  删除存储空间
+6) Delete storage space
 
-## 使用命令行管理工具 US3 Tools
+## Use the command line management tool US3 Tools
 
-US3 Tools 是以命令行方式管理 US3 数据的工具，支持 Windows、Linux、Mac 平台。US3 Tools 提供方便、简洁、丰富的 Bucket 和 Object 管理命令，操作简单易用。支持文件和文件夹（目录）上传下载、分片断点续传等。详情请参见[US3CLI 命令行工具](/ufile/tools/us3cli/introduction)。
+US3 Tools is a command-line tool for managing US3 data on Windows, Linux, and Mac platforms, and it provides convenient, concise, and rich Bucket and It supports file and folder (directory) uploading and downloading, slice and break transfers, and more. See [US3CLI Command Line Tools](/ufile/tools/us3cli/introduction) for details.
 
-## 使用 API/SDK 
+## Using API/SDK
 
-US3 提供多种语言的 API/SDK 包，方便您快速进行二次开发。
-各 SDK 详细信息请参见[US3 SDK 文档](https://docs.ucloud.cn/ufile/tools/sdk)。
-各接口的详细信息请参见[US3 API 文档](https://docs.ucloud.cn/api/ufile-api/README)。
+US3 provides API/SDK packages in multiple languages for quick secondary development.
+See [US3 SDK documentation](https://docs.ucloud.cn/ufile/tools/sdk) for detailed information on each SDK.
+For more information about each interface, please refer to the US3 API documentation (https://docs.ucloud.cn/api/ufile-api/README).

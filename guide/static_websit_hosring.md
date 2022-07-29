@@ -1,49 +1,36 @@
-# 静态网站托管
-
-## 概念
-
-静态网站是指网站的所有网站资源都由静态内容构成，如HTML、JavaScript、CSS、图片等文件。您可以通过控制台对已经绑定的自定义域名的US3存储桶配置静态网站托管策略
-
-## 使用说明
-
-使用该功能必须先创建的自定义域名。然后根据配置界面进行相应参数设置，其中必填项：
-
-- 默认首页：该首页是您通过自定义域名访问US3存储桶时，返回US3存储桶首页。如果还开通了子目录首页，则子目录下也应该存在该文件，当然您可以根据自己的路径来自定义该文件的内容。
-- 默认404页（但开通子项目首页，且文件404规则为NoSuchKey时，默认404不填）是当浏览器访问US3存储桶中的文件不存在(404)时，返回的错误页面。
-
-US3存储桶必须为`公共空间` ，即该存储桶必须是`公共读私有写`。另外通过US3默认的域名进行访问，会将静态网站以文件的形式进行下载。只有通过绑定US3存储桶的自定义域名来进行访问才会在浏览器渲染显示。
-
-详细工作机制，参考举例说明。
-
-## 举例说明
-
-为Bucket开启静态网站托管后，您需要将与默认首页名称相同的文件（例如index.html）上传至目标Bucket，如果Bucket中包含了目录结构prefix/，则目录层级下也必须包含index.html文件。此外，您还需要将与默认404页名称相同的文件（例如error.html）上传至目标Bucket。Bucket的文件结构如下所示：
-
-```
+# Static web hosting
+## Concept
+A static website is a website where all website resources consist of static content, such as HTML, JavaScript, CSS, images and other files.  configure static website hosting policies for US3 storage buckets that have been bound to custom domains through the console
+## Instructions for use
+To use this feature, you must first create a custom domain name.  Then set the corresponding parameters according to the configuration interface, where Then set the corresponding parameters according to the configuration interface, where the required fields are.
+- Default home page: This home page is the US3 storage bucket home page that you return to when you access the US3 storage bucket through your custom domain If you also open the subdirectory home page, the file should also exist in the subdirectory, of course you can customize the content of the file according to your own path.
+- The default 404 page (but the default 404 is not filled in when the subproject home page is opened and the file 404 rule is NoSuchKey) is the error page returned when the browser accesses the file in the US3 storage bucket does not exist (404).
+The US3 bucket must be `public space`, i.e. the bucket must be `public read private write`.  Also accessing through the default US3 domain will download the static site as a file.  Only access via a custom domain name bound to a US3 bucket will be rendered in the browser.
+For detailed working mechanism, refer to the example.
+## Example
+After enabling static web hosting for Bucket, you need to upload a file with the same name as the default home page (e.g. index.html) to the target Bucket, and if the Bucket contains the directory structure prefix/, the index. html file must also be included at the directory level.  In addition, you need to upload a file with the same name as the default 404 page (e.g. error.html) to the target Bucket.  the file structure of the Bucket is shown below.
+The file structure of the Bucket is shown below.
 Bucket
 ├── index.html
 ├── error.html
 ├── us3.png
 └── prefix/
-      └── index.html
-```
-
-如果该Bucket绑定了自定义域名example.com，且配置的静态网站默认首页为index.html，默认404页为error.html。则通过自定义域名访问静态网站时，根据是否开通了子目录首页，访问规则如下：
-
-- 未开通子目录首页
-  - 当您访问`https://example.com/和https://example.com/prefix/`时，US3会返回`https://example.com/index.html`。
-  - 当您访问`https://example.com/us3.png`时，正常获取us3.png文件。
-  - 当您访问`https://example.com/helloworld`时，因helloworld不存在，US3会返回`https://example.com/error.html`。
-
-- 已开通子目录首页
-  - 当您访问`https://example.com/`时，US3会返回`https://example.com/index.html`。
-  - 当您访问`https://example.com/prefix/`时，US3会返回`https://example.com/prefix/index.html`。
-  - 当您访问`https://example.com/us3.png`时，正常获取us3.png文件。
-  - 当您访问`https://example.com/helloworld`时，因helloworld不存在，US3会根据您设置的文件404规则返回对应信息：
-    - 如果文件404规则设置为Redirect（默认值），US3会继续检查helloworld/index.html是否存在。
-      - 如果文件存在则返回302，并将访问请求重定向为`https://example.com/helloworld/index.html`。
-      - 如果文件不存在则返回404。
-    - 如果文件404规则设置为NoSuchKey，则直接返回404。
-    - 如果文件404规则设置为Index，US3会继续检查helloworld/index.html是否存在。
-      - 如果文件存在则返回200，并直接返回文件内容。
-      - 如果文件不存在则返回404。
+└─ index.html
+ðŸ ™'  ðŸ ™'
+If the Bucket is bound to the custom domain name example. com, and the default home page of the configured static website is index. html and the default 404 page is error. html, then when the static website is accessed through the custom domain name, the access rules are as follows, depending on whether the subdirectory home page is opened or not.
+- Not open subdirectory home page
+- When you visit ` https://example.com/ and https://example.com/prefix/ `, US3 will return ` https://example.com/index.html `.
+- When you visit ` https://example.com/us3.png `, the us3.png file is obtained normally.
+- When you visit ` https://example.com/helloworld `, US3 will return ` https://example.com/error.html ` because helloworld does not exist.
+- Opened subdirectory home page
+- When you visit ` https://example.com/ `, US3 will return ` https://example.com/index.html `.
+- When you visit ` https://example.com/prefix/ `, US3 will return ` https://example.com/prefix/index.html `.
+- When you visit ` https://example.com/us3.png `, the us3.png file is obtained normally.
+- When you visit ` https://example.com/helloworld `, because helloworld does not exist, US3 will return the corresponding information according to the file 404 rule you set.
+- If the file 404 rule is set to Redirect (the default), US3 will continue to check if helloworld/index. html exists.
+- If the file exists, it returns 302 and redirects the access request to ` https://example.com/helloworld/index.html `.
+- If the file does not exist then a 404 is returned.
+- If the file 404 rule is set to NoSuchKey, a 404 is returned directly.
+- If the file 404 rule is set to Index, US3 will continue to check if helloworld/index. html exists.
+- If the file exists it returns 200 and returns the contents of the file directly.
+- If the file does not exist then a 404 is returned.

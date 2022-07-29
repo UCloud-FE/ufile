@@ -1,68 +1,68 @@
-# 常见问题
+# Frequently Asked Questions
 
-## 报错 Open leveldb err: resource temporarily unavailable
+## Error reported Open leveldb err: resource temporarily unavailable
 
-### 问题原因
+### Cause of the problem
 
-1. 使用了老版本的us3cli(<=v1.3.0)，老版本的us3cli不支持多个进程同时使用。
+1. An older version of us3cli (<=v1.3.0) is used, which does not support multiple processes at the same time.
 
-2. 在使用新版本us3cli时，同时执行同一条命令多次。
+2. The same command is executed multiple times at the same time when using a newer version of us3cli.
 
-### 解决方案
+### Solution
 
-针对原因1，您可以运行`us3cli update` 命令来更新工具
+For reason 1, you can run the `us3cli update` command to update the tool
 
-针对原因2， 您可以查看后台是否有正在运行的us3cli进程，执行`kill -9 $旧us3cli进程pid`，关闭旧us3cli进程即可。
+For reason 2, you can check if there is a running us3cli process in the background and run `kill -9 $oldus3cli process pid` to close the old us3cli process.
 
-## Bucket操作如stat、ls、du报错 bucket not found
+## Bucket operations such as stat, ls, du report error bucket not found
 
-### 问题原因
+### Cause of the problem
 
-当前工具查找bucket范围默认为当前账户默认项目，如您的Bucket不在默认项目下，普通操作是无法找到的，需要使用--projectid选项填写您要操作的bucket所在项目ID，即projectid。
+If your bucket is not under the default project, it can't be found by normal operation. You need to use the --projectid option to fill in the project ID of the bucket you want to operate, i.e. projectid.
 
-### 解决方案
+### Solution
 
-在您想要操作的命令后加上--projectid <projectid> 就可以操作当前项目下的bucket
-
-```
-#1.查看projectid
-#方法1：mb命令创建时会展示当前账户所有projectid
-#方法2：登录控制台查看左上角项目ID
-#方法3: ./us3cli ls --projectid 展示当前账户下所有projectid
-
-#2.指定projectid操作bucket
-./us3cli stat us3://bucketest --projectid xxxx
-./us3cli du us3://buckettest --projectid xxxx
-```
-
-## 并发数parallel和qps有什么区别？
-
-parallel代表同时进行任务的协程数，不保证具体的请求速率。
-
-qps代表每秒请求数量限制，如qps为1，那么该请求会限制在1秒1个。
-
-## 上传文件不指定文件key，上传成功但找不到文件
-
-### 问题原因
-
-在使用us3cli时，需要将文件上传到文件夹内，由于对象存储可以存在同名文件和文件夹的特性，所以需要在文件夹名称后加上“/”才可以判断为上传文件至当前文件夹，否则会识别为普通上传文件。
-
-### 解决方案
-
-如：上传本地文件test1至存储空间bucketTest的test目录下时，以下方式1只会生成一个test文件在根目录下，而方式2和方式3都可以成功上传文件到test下，命名为test1。
+Add --projectid <projectid> to the command you want to operate, then you can operate the bucket under the current project
 
 ```
-方式1：./us3cli cp test1 us3://bucketTest/test
-方式2: ./us3cli cp test1 us3://bucketTest/test/test1
-方式3: ./us3cli cp test1 us3://bucketTest/test/
+#1. View projectid
+#Method 1: mb command will show all projectid of current account when it is created
+#2. Login to the console to view the project ID in the upper left corner
+#Method 3: . /us3cli ls --projectid Show all projectid under current account
+
+#2. Specify projectid to operate bucket
+. /us3cli stat us3://bucketest --projectid xxxx
+. /us3cli du us3://buckettest --projectid xxxx
 ```
 
-## 将本工具放入bin目录下全局使用时，使用update命令提示找不到文件的问题
+## What is the difference between parallel number parallel and qps?
 
-### 问题原因
+parallel represents the number of concurrently running tasks and does not guarantee a specific request rate.
 
-更新时工具会根据输入参数找到可执行文件位置，但参数中只有命令名，没有可执行文件路径，故出现找不到文件的问题。
+qps stands for the number of requests per second limit, for example, if qps is 1, then the request will be limited to 1 per second.
 
-### 解决方案
+## Upload file without specifying file key, the upload succeeds but the file is not found
 
-在bin目录下执行`us3cli update`。
+### Cause of the problem
+
+When using us3cli, you need to upload files to a folder, due to the feature that object storage can exist for files and folders with the same name, so you need to add "/" after the folder name to judge it as uploading files to the current folder, otherwise it will be recognized as ordinary upload files.
+
+### Solution
+
+For example, when uploading a local file test1 to the test directory of the storage bucketTest, the following method 1 will only generate a test file in the root directory, while both method 2 and method 3 can successfully upload a file to test named test1.
+
+```
+Method 1: . /us3cli cp test1 us3://bucketTest/test
+Way 2: . /us3cli cp test1 us3://bucketTest/test/test1
+Mode 3: . /us3cli cp test1 us3://bucketTest/test/
+```
+
+## When putting this tool into the bin directory for global use, the update command prompts a problem of not finding the file
+
+### Cause of the problem
+
+When updating, the tool will find the location of the executable file according to the input parameters, but there is only the command name in the parameters, not the path of the executable file, so the problem of not finding the file occurs.
+
+### Solution
+
+Execute `us3cli update` in the bin directory.

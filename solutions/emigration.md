@@ -1,37 +1,37 @@
-# 数据迁移方案
+# Data Migration Solutions
 
-## 背景
-对象存储具有容量大、成本低、高扩展性以及高可靠性等优势，面对增量数据导致的存储容量瓶颈、成本增加等问题。用户可通过数据迁移的方式，将第三方的存储集群数据迁移至 US3 的存储空间中，充分利用对象存储按需收费，无须购买额外硬件资源的优势，对数据进行归档，以实现成本最优。
-本文介绍了如何从其他源站将数据迁移到 US3 的方式。
+## Background
+Object storage has the advantages of large capacity, low cost, high scalability and high reliability, and faces the problems of storage capacity bottleneck and cost increase due to incremental data. Users can migrate data from third-party storage clusters to US3's storage space by means of data migration, taking full advantage of object storage's on-demand charging without purchasing additional hardware resources to archive data for optimal cost.
+This article describes how to migrate data from other source sites to US3.
 
-## US3 镜像回源功能
+## US3 Mirror Back to Source feature
 
-用户在 US3 创建存储空间后，通过配置存储空间的回源配置，US3 将在接收到访问请求时，会先在 US3 本地查找文件，如果文件不存在，则会回源到用户指定的源站获取文件，并且在 US3 本地存储一份。下一次访问同一个文件时就会直接从 US3 本地直接返回给用户。
+After the user creates a storage space in US3, by configuring the back source configuration of the storage space, US3 will first look for the file locally in US3 when it receives an access request, and if the file does not exist, it will back source to the source station specified by the user to get the file and store a copy locally in US3. The next time the same file is accessed it will be returned directly to the user from US3 locally.
 
-具体设置方法请参照：
-[镜像回源](https://docs.ucloud.cn/ufile/guide/mirror)
+For details on how to set this up, please refer to.
+[Mirror back to source](https://docs.ucloud.cn/ufile/guide/mirror)
 
-优点：
+Advantages.
 
-1. 客户的请求可以快速无缝的切换到 US3。
+1. Customer requests can be switched to US3 quickly and seamlessly.
 
-2. 数据迁移到 US3 的过程无感知。
+2. Data migration to US3 is imperceptible.
 
-缺点：
+Disadvantages.
 
-1. 部分未访问到的文件无法迁移到 US3。
+1. Some of the files that are not accessed cannot be migrated to US3.
 
-2. 访问 US3 不存在的文件需要回源，访问延时会略有增加。
+2. Accessing files that do not exist in US3 requires going back to the source, and the access latency will be slightly increased.
 
-## US3 数据迁移工具
+## US3 Data Migration Tool
 
-### 介绍
-US3SYNC 是对象存储 US3 提供的一款将数据迁移至 US3 存储空间（Bucket）的工具。您可以将 US3SYNC 部署在本地服务或者云主机上，轻松将您其他云存储的数据迁移到 US3。
+### Introduction
+US3SYNC is a tool provided by Object Storage US3 to migrate data to US3 storage (Bucket). You can deploy US3SYNC on a local service or cloud host to easily migrate data from your other cloud storage to US3.
 
-### 适用情况
-阿里云对象存储数据迁移到 US3 对象存储
-七牛云对象存储数据迁移到 US3 对象存储
-US3 对象存储不同 bucket 之前的数据迁移
-支持 s3 协议的对象存储迁移到 US3 对象存储
+### Application
+AliCloud Object Storage data migration to US3 Object Storage
+Migration of Qiniu Cloud Object Storage data to US3 Object Storage
+Migration of data before different buckets of US3 Object Storage
+Support s3 protocol object storage migration to US3 object storage
 
-详情请参照：[US3SYNC 迁移工具](https://docs.ucloud.cn/ufile/tools/us3sync/introduction)
+For more details, please refer to: [US3SYNC Migration Tool](https://docs.ucloud.cn/ufile/tools/us3sync/introduction)

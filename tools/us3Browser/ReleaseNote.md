@@ -1,21 +1,21 @@
-# 历史版本
+# History Version
 
 ## US3Browser V1.0.1
 
-### 新特性
+### New features
 
-* 无
+* None
 
-### 改进
+### Improvements
 
-* 在重命名时候，将原文件的名字显示在输入框，提高用户体验
+* Show the name of the original file in the input box when renaming to improve user experience
 
-### BUG修复
+### BUG FIX
 
-* 增加广州地域的使用
-* 修复同层级下包含同名目录以及文件出现异常error问题
-* 修复删除单个文件，在任务栏不显示的问题
-* 修复重命名单个文件时，在任务栏不显示的问题
+* Add the use of Guangzhou locale
+* Repair the problem of abnormal error when containing the same name directory and files in the same level.
+* Repair the problem that the taskbar does not display when deleting a single file.
+* Repair the problem that the taskbar does not display when renaming a single file.
 
 
 

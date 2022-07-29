@@ -1,24 +1,24 @@
 
 
-# 产品优势
+# Product Advantages
 
-##  稳定可靠的存储能力
-基于高可用架构设计，将用户所存文件的多个副本分布于不同存储集群，即使出现集群规模的故障也不会影响存储文件的可用性，提供 11个9 的数据持久性。存储服务支持高并发访问，突破传统磁盘I/O限制，满足用户高访问量和高下载量业务的在线存储需求。
+## Stable and reliable storage capacity
+Based on the design of high availability architecture, multiple copies of users' stored files are distributed in different storage clusters, which will Based on the design of high availability architecture, multiple copies of users' stored files are distributed in different storage clusters, which will not affect the availability of stored files even if there is a cluster-scale failure, providing 11 9 data persistence. The storage service supports high concurrent access, breaking through the traditional disk I/O limits, and meeting the online storage needs of users' high-access and high-download business. business.
 
-## 低成本的弹性存储空间
-云存储空间无上限，无需考虑存储空间扩容问题，支持小于等于 5TB 的单文件。适用于音视频、图片分享等 UGC 类应用海量文件存储。按实际使用量计费，不设最低费用，无存储和带宽资源闲置浪费。
+## Low-cost elastic storage space
+Cloud storage space has no upper limit, no need to consider storage space expansion problem, and supports single file less than or equal to 5TB. No minimum cost, no waste of storage and bandwidth resources.
 
-## 灵活便捷的业务接入
-提供 API/SDK、命令行工具和控制台等多种访问方式，同时兼容 AWS S3 API，适合多种语言。帮助用户无缝接入原有业务，能够极大缩短开发周期，帮助业务快速上线。与 UCloud 各类产品紧密协同，UHost 用户可以通过云主机进行内网访问，提供稳定高速的内网上传下载速度。
+## Flexible and convenient business access
+It provides multiple access methods such as API/SDK, command line tools and console, and is compatible with AWS S3 API, suitable for multiple languages. It helps users seamlessly access their original business, which can greatly shorten the development cycle and help business go live quickly. UHost users can access intranet through cloud hosting, providing stable and high-speed intranet upload UHost users can access intranet through cloud hosting, providing stable and high-speed intranet upload and download speed.
 
-## 简单易用的管理工具
-提供可视化页面US3Browser、命令行US3CLI等多种管理工具对存储空间和文件进行管理，操作简单易上手。提供US3FS工具能把存储空间挂载到本地，可以像使用本地文件系统一样操作对象存储。提供大数据适配工具，解决Hadoop访问对象存储的问题，支持Hive、Spark、Flink等大数据计算框架可以像访问HDFS文件系统一样，来读写对象存储上的数据。提供迁移工具US3SYNC，可以便捷地从本地或者其他云环境将数据迁移至US3存储空间中。
+## Easy-to-use management tools
+US3Browser and US3CLI provide a variety of management tools to manage storage space and files, making them easy to use. Provide US3FS tools to mount the storage space locally, so you can operate the object storage like a local file system. access to object storage, support for Hive, Spark, Flink and other big data computing frameworks can read and write data on the object storage like access Provide migration tools US3SYNC, you can easily migrate data from the local or other cloud environment to US3 storage space.
 
-## 安全可靠的分布式系统
-提供防盗链、客户端加密、服务端加密、token白名单等功能；支持SSL加密传输；支持以UCloud攻击防御系统来防御DDos攻击。
+## Secure and reliable distributed system
+Provides anti-theft chain, client-side encryption, server-side encryption, token whitelist, etc.; supports SSL encrypted transmission; supports DDos attack defense with UCloud attack defense system.
 
-## 多样化的云应用场景
-适配各类 UCloud 公有云服务，为各类服务提供稳定可靠的后端存储支持。结合 CDN 解决海量数据的存储和分发问题，有效降低访问延迟，提升全网终端用户的访问体验。支持对接图片处理、视频流处理服务，为用户提供各类多媒体在线处理的能力。还可作为数据源，为大数据分析、AI 训练推断等场景提供海量的数据集支持。
+## Diversified cloud application scenarios
+Adapt to various UCloud public cloud services, providing stable and reliable back-end storage support for various services. It supports the docking of data from the UCloud public cloud services, providing stable and reliable back-end storage support for various services. It supports the docking of image processing and video stream processing services, providing users with the ability to process all kinds of It can also be used as a data source to provide massive data set support for scenarios such as big data analysis and AI training inference .
 
 
 

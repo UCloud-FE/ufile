@@ -1,53 +1,53 @@
 
-# 下载与配置使用
+# Download and configure for use
 
-## 源码下载
+## Source Code Download
 
-* 下载源码
+* Download source code
 
 ```
 git clone https://github.com/us3-epoch/ClickHouse
 ```
 
-* 切到指定分支
+* Cut to the specified branch
 
 ```
 git checkout us3_support_v20.8.7.15-lts
 ```
 
-* 下载依赖的子模块
+* Download the dependent submodules
 
 ```
 git submodule update --init --recursive
 ```
 
-## 编译
+## Compile
 
-clickhouse编译依赖gcc/llvm，cmake，ninja。如使用gcc，请确保版本在10及以上。可按[官方说明](https://clickhouse.tech/docs/en/development/build/)准备编译环境。
+The clickhouse compilation relies on gcc/llvm, cmake, ninja. if you use gcc, make sure the version is 10 and above. You can prepare the compilation environment according to [official instructions](https://clickhouse.tech/docs/en/development/build/).
 
-编译：
+Compilation.
 
 ```bash
 cd ClickHouse
 mkdir build
 cd build
-cmake ..
+cmake ...
 ninja
 ```
 
-*注：如使用gcc，请将`cmake ..`替换为`cmake -DENABLE_EMBEDDED_COMPILER=0 -DUSE_INTERNAL_LLVM_LIBRARY=0 -DWERROR=0 ..`
+*Note: If you are using gcc, replace `cmake ... ` replace `cmake -DENABLE_EMBEDDED_COMPILER=0 -DUSE_INTERNAL_LLVM_LIBRARY=0 -DWERROR=0 . `
 
-## 配置与使用
+## Configuration and Usage
 
-如需使用us3作为后端存储，需在配置文件中增加disk配置。配置文件的详细设置请参考[官方链接](https://clickhouse.tech/docs/en/operations/server-configuration-parameters/settings/)
+If you need to use us3 as backend storage, you need to add disk configuration to the configuration file. Please refer to [official link](https://clickhouse.tech/docs/en/operations/server-configuration-parameters/settings/) for detailed configuration file settings
 
-在配置文件的disks中增加如下配置：
+Add the following configuration to the disks of the configuration file.
 
 ```xml
         <disks>
             <your_name>
                 <type>us3</type>
-                <endpoint>ufile.cn-north-02.ucloud.cn</endpoint>
+                <endpoint>ufile.cn-north-02.ucloud.cn</endpoint
                 <bucket>your-bucket</bucket>
                 <access_key>***************</access_key>
                 <secret_key>***************</secret_key>
@@ -56,30 +56,30 @@ ninja
         </disks>
 ```
 
-policies中增加如下配置:
+Add the following configuration to the policies:
 
 ```xml
         <policies>
             <your_name>
                 <volumes>
                     <main>
-                        <disk>your_disk_name</disk>
+                        <disk>your_disk_name</disk
                     </main>
                 </volumes>
             </your_name>
         </policies>
 ```
 
-创建表时增加如下语句
+Add the following statement when creating the table
 
 ```sql
 SETTINGS your_setting,
 storage_policy = 'your-policy-name';
 ```
 
-即可创建使用us3作为存储后端的表。
+That creates the table using us3 as the storage backend.
 
-可通过如下命令查看策略是否创建成功。
+You can check whether the policy is created successfully with the following command.
 
 ```
 clickhouse-client
@@ -87,11 +87,11 @@ clickhouse-client
 select * from system.storage_policies
 ```
 
-输出如下（省略部分内容）：
+The output is as follows (some parts are omitted)
 
 ```
 ┌─policy_name─┬─volume_name─┬─volume_priority─┬─disks────────────┬─volume_type─┬─max_data_part_size─┬─move_factor─┐
-│ default     │ default     │               1 │ ['default']      │ JBOD        │                  0 │           0 │
-│ testpolicy  │ main        │               1 │ ['testdiskname'] │ JBOD        │                  0 │         0.1 │
+│ default │ default │ 1 │ ['default'] │ JBOD │ 0 │ 0 │
+│ testpolicy │ main │ 1 │ ['testdiskname'] │ JBOD │ 0 │ 0.1 │
 └─────────────┴─────────────┴─────────────────┴──────────────────┴─────────────┴────────────────────┴─────────────┘
 ```

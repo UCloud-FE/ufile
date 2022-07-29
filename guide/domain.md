@@ -1,22 +1,22 @@
 
 
-# 域名管理
+# Domain Management
 
-## 自定义域名
+## Custom Domains
 
-实际生产环境推荐您绑定自定义域名创建 CDN 加速。自定义域名的操作，请按照以下步骤进行：
+It is recommended that you bind a custom domain name to create CDN acceleration for real production environments. For custom domains, please follow these steps.
 
-1. 确认自定义域名已经完成备案（若未进行备案，域名会被管局停止解析，导致业务不可用），备案相关请访问 [备案专区](https://www.ucloud.cn/site/beian/index.html)。
+Make sure the custom domain name has been filed (if not filed, the domain name will be stopped by the Authority, resulting in unavailability of the If not filed, the domain name will be stopped by the Authority, resulting in unavailability of the service), please visit [filing area](https://www.ucloud.cn/site/beian/index.html) for filing.
 
-2. US3 控制台提供管理自定义域名功能，用户可操作绑定自定义域名并开启加速。
-选择对应空间，在右侧的操作中点击域名管理按钮。
+US3 console provides the function of managing custom domain name, users can operate to bind custom domain name and open acceleration.
+Select the corresponding space, and click the domain name management button in the right operation.
 
-![](/images/guide/自定义域名.png)
+Select the corresponding space, and click the domain name management button in the right operation. [](/images/guide/custom-domain.png)
 
-在自定义域名弹窗中输入需要绑定的自定义域名，选择是否 CDN 加速。
+In the custom domain pop-up window, enter the custom domain name you need to bind, and choose whether to CDN acceleration or not.
 
-![](/images/域名管理3.png)
+! [](/images/domain-management3.png)
 
-CDN 加速选项在 UCDN 产品页加速和管理，选择 CDN 加速为"是"，点击确定后将前往 UCDN 产品页面继续完成操作。
+CDN acceleration option is accelerated and managed in UCDN product page, select "Yes" for CDN acceleration, click OK and you will go to UCDN product page to complete the operation.
 
-跳转到 UCDN 产品页面继续完成基础配置和高级配置。
+Jump to the UCDN product page to continue to complete the basic and advanced configurations.

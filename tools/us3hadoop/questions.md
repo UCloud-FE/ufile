@@ -1,9 +1,9 @@
-# 常见问题
+# Frequently Asked Questions
 
-## 对US3进行HDFS命令操作时报错
+## Error on HDFS command operation on US3
 
-如报错信息为`ls: No FileSystem for scheme: us3`，请检查配置项`fs.us3.impl`是否配置。
+If the error message is `ls: No FileSystem for scheme: us3`, please check if the configuration item `fs.us3.impl` is configured.
 
-## 对US3进行操作时报错
+## Error when operating on US3
 
-如报错信息为`java.lang.RuntimeException: java.lang.ClassNotFoundException: Class cn.ucloud.us3.fs.US3FileSystem not found`，请检查适配器jar包是否放置在Hadoop查找的CLASS_PATH路径中。
+If the error message is `java.lang.RuntimeException: java.lang.ClassNotFoundException: Class cn.ucloud.us3.fs.US3FileSystem not found`, please check if the adapter jar package is placed in Hadoop looks for the CLASS_PATH path.

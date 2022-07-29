@@ -1,66 +1,66 @@
 
 
-# 使用限制
+# Usage restrictions
 
-## 支持地域
+## Supported geographies
 
-| 地域  | 单地域空间管理 | 跨区域复制 |
+| Geographic | Single Geographic Space Management | Cross-Region Replication |
 | --- | ------- | ------- |
-| 华北一  | 支持      | 支持      |
-| 华北二  | 支持      | 不支持      |
-| 上海二 | 支持      | 支持      |
-| 广州  | 支持      | 支持      |
-| 香港  | 支持      | 不支持     |
-| 洛杉矶 | 支持      | 不支持     |
-| 新加坡 | 支持      | 不支持     |
-| 雅加达 | 支持      | 不支持     |
-| 台北  | 支持      | 不支持     |
-| 拉各斯 | 支持      | 不支持     |
-| 圣保罗 | 支持      | 不支持     |
-| 迪拜  | 支持      | 不支持     |
-| 法兰克福  | 支持      | 不支持     |
-| 胡志明市  | 支持      | 不支持     |
-| 华盛顿  | 支持      | 不支持     |
-| 孟买  | 支持      | 不支持     |
-| 首尔  | 支持      | 不支持     |
-| 东京  | 支持      | 不支持     |
-| 曼谷  | 支持      | 不支持     |
+| North China I | Support | Support | Support
+| North China II | Support | Not Support |
+Support | Support | Support | Support | Support | Support | Support | Shanghai II | Support | Support | Support | Support | Support
+Support | Support | Support | Support | Support | Guangzhou
+| Support | Support | Not Supported
+| Support | Support | Not Supported
+| Support | Support | Not Supported
+Support | Not Supported | Support | Jakarta | Support | Not Supported
+| Support | Not Supported
+| Support | Not Supported
+| Support | Not Supported
+| Support | Not Supported
+| Support | Not Supported
+| Support | No Support
+| Washington, D.C. | Support | No Support
+| Support | Not Supported
+| Support | No Support
+| Tokyo | Support | No Support
+| Bangkok | Support | Not Support
 
-## HTTPS 访问限制
+## HTTPS Access Restrictions
 
-支持 HTTPS 访问，保障传输安全性。
+Support HTTPS access for secure transmission.
 
-备注：目前镜像回源和自定义域名暂时不支持 HTTPS。
+Note: Currently, HTTPS is not supported for mirroring back to the source and custom domains.
 
-## 上传文件大小限制
+## Upload file size limit
 
-通过控制台上传、上传文件 PutFile、表单上传 PostFile、秒传文件 UploadHit 的文件大小不能超过 512MB，要上传大小超过 512MB 的文件必须使用分片上传方式。
+The file size of upload via console, upload file PutFile, form upload PostFile, and second upload file UploadHit cannot exceed 512MB.
 
-## 图片处理限制
-|地域  |大小限制 |并发限制 |
-|--- | ------- |------- |
-| 北京  | 20M      |50      | 
-| 上海二 | 20M      |10      | 
-| 广州  | 20M      |10      | 
-| 香港 | 20M      |10      | 
-| 台北 | 20M      |10      | 
-| 其他地域 | 20M      |5      | 
+## Image Processing Restrictions
+|-- | Size limit | Concurrency limit |--
+|-- |------- |------- |
+|Beijing | 20M |50 |
+|Beijing | 20M |50 |Shanghai II | 20M |10 |
+|Beijing | 20M |50 |Shanghai II | 20M |10 |Beijing
+| Hong Kong | 20M |10 |
+|20M |10 |Hong Kong | 20M |10 | Taipei | 20M |10 |
+| Other regions | 20M |5 |
 
 
-备注：如有更大需求，请联系客户经理或者技术支持。
+Note: For larger requests, please contact your account manager or technical support.
 
-## 其他限制项
-|限制项           | 说明 |
+## Other Restrictions
+|Restrictions |Description |
 |---------------- | ------------------------------------------------------------------------ |
-|归档存储类型     |访问需要解冻，已经存储的数据从冷冻状态恢复到可读取状态需要1分钟时间。|
-|存储空间（Bucket） |同一账号在同一地域内创建的存储空间总数不能超过 20 个。|
-|::: |存储空间一旦创建成功，其名称、所处地域、存储类型不能修改。|
-|::: |单个存储空间的容量不限制。|
-|上传/下载文件   |同一账号在同一地域内的上传或下载的带宽缺省阈值为：<br>内网上传下载速度：中国大陆地域 10Gbit/s、其他地域 1Gbit/s；<br>外网上传下载速度：1Gbit/s。<br>如您的业务（如大数据离线处理等）有更大的带宽需求，请联系技术支持。|
-|QPS（写） |普通用户每秒 1000 个请求（非上限），海外 100 个，如您的业务有更大的需求，请联系技术支持。|
-|QPS（读） |普通用户每秒 2000 个请求（非上限），海外 100 个，如您的业务有更大的需求，请联系技术支持。|
-|删除文件        |文件删除后无法恢复。控制台批量删除文件的上限为 1000 个，海外 100 个，如您有更大批量的删除需求，请联系技术支持。|
-|域名绑定        |中国大陆地域绑定的域名必须在工信部备案，其他地域的域名绑定不需要在工信部备案。每个存储空间最多可以绑定 100 个域名。|
+|Archive storage type |Access requires unfreezing, and it takes 1 minute to restore the already stored data from frozen state to readable state. Selected
+|Storage space (Bucket) |The total number of storage spaces created by the same account in the same locale cannot exceed 20. |:::: |Storage
+|Once a storage space is created, its name, location, and storage type cannot be modified. |:::: |A single storage space cannot be created.
+|::: |There is no limit to the capacity of a single storage space. |::: |The capacity of a single storage space is not limited.
+<br>The default bandwidth for uploading or downloading files from the same account in the same region is: <br>Internal network upload and download speed <br>Internal network upload and download speed : 10Gbit/s in mainland China, 1Gbit/s in other regions;<br>External network upload and download speed: 1Gbit/s.<br>If your business (such as big data <br>If your business (such as big data offline processing, etc.) has a larger bandwidth requirement, please contact Technical Support.
+|QPS (write) |1000 requests per second (non-cap) for normal users, 100 for overseas, please contact technical support if your business has a larger QPS
+|QPS (Read) -2000 requests per second for normal users (non-capped), 100 for overseas, please contact technical support if your business has larger requirements.
+|The maximum number of file deletions for the console is 1000, 100 for overseas. If you have larger deletion needs, please contact technical support.
+|Domain Name Binding - Domain names bound in mainland China must be filed with the Ministry of Industry and Information Technology, while domain names bound in other regions do not need to be filed with the Ministry of Industry and Information Technology. Each storage space can be bound to a maximum of 100 |Domain name binding
 
 
 

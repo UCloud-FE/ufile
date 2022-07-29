@@ -1,83 +1,83 @@
 
 
-# 功能概览
+# Features Overview
 
-## 存储功能
+## Storage Functions
 
-US3 产品提供了以下对象存储的常用上传、下载功能支持。
+US3 products provide support for the following common upload and download functions for object storage.
 
-### 普通上传（Put File）
+### Common upload (Put File)
 
-普通上传是指用户使用对象存储 API 中的 Put File 方法上传单个 File，可以适用在任何一次 HTTP 请求交互即可完成上传的场景，比如小文件的上传。
+A normal upload is a single File uploaded by the user using the Put File method in the Object Storage API, which can be used in any HTTP request interaction to A normal upload is a single File uploaded by the user using the Put File method in the Object Storage API, which can be used in any HTTP request interaction to complete the upload scenario, such as the upload of small files.
 
-### [表单上传（Post File)](https://docs.ucloud.cn/ufile/guide/file/put?id=%e8%a1%a8%e5%8d%95%e4%b8%8a%e4%bc%a0)
+### [Form Upload (Post File)](https://docs.ucloud.cn/ufile/guide/file/put?id=%e8%a1%a8%e5%8d%95%e4%b8%8a%e4%bc%a0)
 
-表单上传是一种适用于小文件上传的上传方式，是指用户使用对象存储 API 中的 Post File 请求来完成 File 的上传。
+Form upload is an upload method for small file uploads, where the user uses the Post File request in the Object Storage API to complete the File upload.
 
-### [分片上传（Multipart Upload）](https://docs.ucloud.cn/ufile/guide/file/put?id=%e5%88%86%e7%89%87%e4%b8%8a%e4%bc%a0)
+### [Split Upload (Multipart Upload)](https://docs.ucloud.cn/ufile/guide/file/put?id=%e5%88%86%e7%89%87%e4%b8%8a%e4%bc%a0)
 
-分片上传是指将待上传文件分成多个数据块来分别上传，上传完成之后再调用对象存储 API 将这些 Part 组合成一个 File。
+Multipart Upload is a way to upload a file by dividing the file to be uploaded into multiple chunks, and then calling the Object Storage API to combine these Multipart Upload is a way to upload a file by dividing the file to be uploaded into multiple chunks, and then calling the Object Storage API to combine these parts into a File after the upload is completed.
 
-### 秒传文件（UploadHit）
+### UploadHit
 
-秒传文件是指先判断待上传文件的 Hash 值，如果对象存储空间中已存在该文件，则不需要上传文件即可完成上传；否则需调用其他上传接口进行文件上传。
+If the file already exists in the object storage, the upload can be completed without uploading the file; otherwise, we need to call other upload interfaces to upload the file.
 
-### 普通下载（Get File）
+### Common download (Get File)
 
-普通下载是指用户下载已经上传的文件，文件下载是使用 HTTP 的 GET 请求来完成的。
+Normal download refers to the user downloading the file that has already been uploaded, and the file download is done by using the GET request of HTTP.
 
-### 分片下载（Range Get）
+### Fragmented download (Range Get)
 
-分片下载是指从 File 指定的位置开始下载的功能，对于大文件可以分为多次下载。如果中途下载中断，重启的时候也可以从上次最后完成的地点开始继续下载。
+Split download is a function that starts downloading from the location specified by File, and can be divided into multiple downloads for large files. the download is interrupted, the download can be resumed from the last completed location when restarting.
 
-## 管理功能
+## Management function
 
-US3 产品除了支持标准的对象存储上传、下载功能外，提供了丰富的管理功能。
+US3 products provide rich management functions in addition to supporting standard object storage upload and download functions.
 
-### [域名管理](https://docs.ucloud.cn/ufile/guide/domain)
+### [Domain Management](https://docs.ucloud.cn/ufile/guide/domain)
 
-对象存储空间支持提供测试域名进行访问，您同时可以选择绑定自定义域名创建 CDN 加速。
+The object storage space supports providing test domain names for access, and you can also choose to bind a custom domain name to create CDN acceleration.
 
-### [静态网站托管](https://docs.ucloud.cn/ufile/guide/static_websit_hosring)
+### [Static Web Hosting](https://docs.ucloud.cn/ufile/guide/static_websit_hosring)
 
-可以通过控制台对已经绑定的自定义域名的US3存储桶配置静态网站托管策略。
+Static web hosting policies can be configured via the console for US3 storage buckets that have been bound to a custom domain.
 
-### [生命周期](https://docs.ucloud.cn/ufile/guide/lifecycle)
+### [Lifecycle](https://docs.ucloud.cn/ufile/guide/lifecycle)
 
-开通存储空间生命周期功能，您可以实现存储空间内所有文件或特定前缀文件的生命周期管理，设置生命周期规则进行归档存储或删除文件操作。
+Enabling the storage lifecycle feature allows you to implement lifecycle management for all files or specific prefix files in the storage, set lifecycle rules for archival storage or delete file operations.
 
-### [镜像回源](https://docs.ucloud.cn/ufile/guide/mirror)
+### [Mirror back to source](https://docs.ucloud.cn/ufile/guide/mirror)
 
-当您向 US3 存储空间请求的数据不存在时，您可以通过镜像回源规则设置，对于获取数据的请求以多种方式进行回源读取，满足您对于数据热迁移、特定请求重定向的需求。
+When the data you request from US3 storage space does not exist, you can set the mirror back to source rule to read back the data in various ways to meet your needs for data hot migration and specific request redirection.
 
-### [跨域访问](https://docs.ucloud.cn/ufile/guide/cors)
+### [Cross domain access](https://docs.ucloud.cn/ufile/guide/cors)
 
-跨域访问（CORS）是指当用户从一个域名的网页去请求另一个域名的资源的操作。您可以通过跨域访问策略管理功能，对跨域访问的权限进行限制。
+Cross-domain access (CORS) is an operation when a user goes from a web page in one domain to request resources from another domain. You can restrict the permission of cross-domain access through the cross-domain access policy management function.
 
-### [跨区域复制](https://docs.ucloud.cn/ufile/guide/multisite)
+### [Cross-domain replication](https://docs.ucloud.cn/ufile/guide/multisite)
 
-您可以选择两个不同地域的存储空间进行绑定，进行文件的同步。提供存储空间跨地域容灾能力的同时能够满足您数据复制的需求。
+You can select two different geographic storage spaces to bind for file synchronization. It provides storage space cross-territory disaster recovery capability while being able to meet your data replication needs.
 
-### [日志管理](https://docs.ucloud.cn/ufile/guide/logging)
+### [Log Management](https://docs.ucloud.cn/ufile/guide/logging)
 
-在设置日志管理存储空间后，所有用户对于存储空间的访问日志，会以小时为单位，按照固定的命名，存储到您指定的存储空间中。
+After setting up the log management storage, all users' access logs to the storage will be stored in the storage you specify by hour, according to the fixed naming.
 
-### [令牌管理](https://docs.ucloud.cn/ufile/guide/token)
+### [Token Management](https://docs.ucloud.cn/ufile/guide/token)
 
-令牌功能可以根据用户的需求灵活的开放存储空间和文件管理权限。
+The token function allows you to open storage space and file management privileges flexibly according to users' needs.
 
-## 增值功能
+## Value-added functions
 
-### [图片处理](https://docs.ucloud.cn/ufile/service/pic)
+### [Image processing](https://docs.ucloud.cn/ufile/service/pic)
 
-支持对上传保存在对象存储空间中的图片进行一系列图片处理操作。
+Supports a series of image processing operations for images uploaded and saved in the object storage.
 
-### [解压缩服务](https://docs.ucloud.cn/ufile/service/zip)
+### [Decompression service](https://docs.ucloud.cn/ufile/service/zip)
 
-解压缩服务是UCloud对外提供的低成本高可靠的解压服务，可设置规则对上传的压缩包自动解压。
+Decompression service is a low-cost and highly reliable decompression service provided by UCloud, which can set rules to automatically decompress the uploaded compressed packages.
 
-### [文档预览](https://docs.ucloud.cn/ufile/service/doc_preview)
+### [Document Preview](https://docs.ucloud.cn/ufile/service/doc_preview)
 
-文档预览功能支持存储在US3的文字文件、演示文件、表格文件、以及pdf文件的在线预览。
+The document preview function supports online preview of text files, presentation files, table files, and pdf files stored in US3.
 
 

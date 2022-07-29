@@ -1,18 +1,18 @@
 
 
-# 删除存储空间
+# Delete storage space
 
-您可以通过 US3 API 的 DeleteBucket 接口删除您创建的存储空间。
-删除存储空间的 API 详细信息可参考[DeleteBucket](https://docs.ucloud.cn/api/ufile-api/delete_bucket)
+You can delete the storage space you have created through the DeleteBucket interface of the US3 API.
+Details of the DeleteBucket API can be found in [DeleteBucket](https://docs.ucloud.cn/api/ufile-api/delete_bucket)
 
-**如果存储空间不为空（存储空间中有文件或者是尚未完成的分片上传），则存储空间无法删除。**
+** If the storage space is not empty (there are files in the storage space or it is an uncompleted slice upload), the storage space cannot be deleted.
 
-必须删除存储空间中的所有文件和未完成的分片文件后，存储空间才能成功删除。如果想删除存储空间内部所有的文件，建议设置[生命周期](/ufile/guide/lifecycle)对存储桶内文件进行删除。
+All files and unfinished slice files in the storage space must be deleted before the storage space can be successfully deleted. If you want to delete all files inside the storage space, it is recommended to set [lifecycle](/ufile/guide/lifecycle) for the files inside the storage bucket to be deleted.
 
-## 操作方式
-|操作方式    |说明 |
-|--------- |--------------------------------------------------------------------------------------------------------------- |
-|控制台  |Web 应用程序，直观易用 |
-|管理工具  |[管理工具](ufile/tools/tools/tools_bcket) |
-|API   |[API](https://docs.ucloud.cn/api/ufile-api/README) |
-|SDK   |[SDK](ufile/tools/sdk) |
+## Operation method
+|Operation mode |description
+|Operation mode |description |--------- |--------------------------------------------------------------------------------------------------------------- |
+|Console |Web application, intuitive and easy to use
+|management tools |[management tools](ufile/tools/tools/tools_bcket)
+|API |[API](https://docs.ucloud.cn/api/ufile-api/README) |SDK |[SDK](https://docs.ucloud.cn/api/ufile-api/README)
+|SDK |[SDK](ufile/tools/sdk)

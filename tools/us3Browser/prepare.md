@@ -1,17 +1,17 @@
-# 下载与环境准备
+# Download and environment preparation
 
 
-## 下载链接
+## Download Links
 
 
-[Windows下载链接](https://us3-release.cn-bj.ufileos.com/us3browser/us3browser-1.0.1.exe)
+[Windows Download Link](https://us3-release.cn-bj.ufileos.com/us3browser/us3browser-1.0.1.exe)
 
-[Mac系统下载链接](https://us3-release.cn-bj.ufileos.com/us3browser/us3browser-1.0.1.dmg)
+[Mac system download link](https://us3-release.cn-bj.ufileos.com/us3browser/us3browser-1.0.1.dmg)
 
 
-## 环境准备
-- 下载工具至本地
-- 双击安装
-- 准备Bucket，以及公私钥登录
-  [创建bucket](https://console.ucloud.cn/ufile/ufile)
-  [令牌管理](https://console.ucloud.cn/ufile/token)
+## Environment Preparation
+- Download the tool locally
+- Double click to install
+- Prepare Bucket, and public-private key login
+  [Create bucket](https://console.ucloud.cn/ufile/ufile)
+  [Token Management](https://console.ucloud.cn/ufile/token)

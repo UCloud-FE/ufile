@@ -1,18 +1,18 @@
 
 
-# 查看存储空间
+# View storage space
 
-在存储空间列表页，可查看存储空间的基本信息，如存储空间域名、地域、空间类型、创建时间等。
+In the storage space list page, you can view the basic information of the storage space, such as storage space domain, region, space type, creation time, etc.
 
-![image](/images/查看存储空间.png)
+! [image](/images/view-storage-space.png)
 
-|字段 |说明 |
+|fields |description |
 |---- |---- |
-|存储空间域名 |存储空间对应的域名地址作为对外的访问地址。 |
-|地域 |存储空间中文件对象的物理存储位置，存储空间创建后无法更换地域。如需要通过 UHost 云主机内网访问 US3 对象存储，需要选择与您 UHost 节点相同的地域。 |
-|业务组 |存储空间所在的业务组名称。 |
-|空间类型 |公开空间：所有文件可通过URL直接访问。私有空间：所有文件须获得拥有者的 API 密钥授权才能访问。 |
-|数据分析 |是否授权 USQL 进行数据湖分析，开启后，您可通过 USQL 数据分析产品对空间内文本数据进行挖掘与分析。 |
-|创建时间 |存储空间的创建时间。 |
+|The domain name of the storage space is used as the external access address. |Field
+|If you need to access the US3 object storage through the UHost cloud intranet, you need to select the same locale as the file objects in the storage space. If you need to access the US3 object storage through the UHost cloud intranet, you need to select the same locale as your UHost node.
+|Business Group |The name of the business group where the storage space is located.
+|Space Type |Public space: All files can be accessed directly via URL. private space: All files must be authorized by the owner's API key to be accessed. public
+|Data Analysis |Whether to authorize USQL to perform data lake analysis, you can use USQL data analysis products to mine and analyze text data in the space. |The creation time
+|Creation Time |The creation time of the storage space. |The time the storage space was created.
 
-点击存储空间名称或侧操作栏中点击“详情”，可进入存储空间详情页可查看基本信息和监控信息。
+Click the name of the storage space or click "Details" in the sidebar to enter the storage space details page to view basic information and monitoring information.

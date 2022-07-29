@@ -1,33 +1,33 @@
 
 
-# 跨域访问
+# Cross-domain access
 
-跨域访问（CORS）是指当用户从一个域名的网页去请求另一个域名的资源的操作。通常浏览器会出于安全考虑对这种跨域访问进行限制，为了解决这个问题，US3 提供跨域访问策略管理功能，便于您对跨域访问的权限进行限制。
+Cross-domain access (CORS) is an operation when a user requests resources from a web page of one domain to another domain. To address this issue, US3 provides cross-domain access policy management features that make it easy for you to restrict the permissions for cross-domain access.
 
-当 US3 收到跨域请求，会读取存储空间配置过的跨域访问策略列表，根据来源（Origin）逐一匹配每一条策略，第一个符合条件的策略信息会添加到 CORS 相关的 Header 中返回给用户。
+When US3 receives a cross-domain request, it will read the list of cross-domain access policies configured in the storage space, and match each policy one by one according to its Origin, and When US3 receives a cross-domain request, it will read the list of cross-domain access policies configured in the storage space, and match each policy one by one according to its Origin, and the first eligible policy information will be added to the CORS-related Header and returned to the user.
 
-## 设置跨域访问策略
+## Set cross-domain access policy
 
-选中对应空间，在右侧操作中选择跨域设置按钮。
+Select the corresponding space and choose the Cross Domain Settings button in the right action.
 
-![](/images/guide/跨域设置1-1.png)
+! [](/images/guide/cross-domain settings 1-1.png)
 
-点击新建策略按钮，弹出新建跨域访问策略界面。
+Click the New Policy button to bring up the New Cross-Domain Access Policy screen.
 
-![](/images/跨域设置2.png)
+! [](/images/cross-domain-settings2.png)
 
-1. 来源（Origin）：用户可填写允许跨域请求的来源，可以设置多个，每行一个，每行最多一个通配符（*）。
+1. Source (Origin): user can fill in the source of allowed cross-domain requests, you can set more than one, one per line, and up to one wildcard character (*) per line. ) per line.
 
-2. 允许Methods：用户可选择允许的跨域请求方法。
+AllowMethods: user can choose the allowed cross-domain request methods.
 
-3. Allow-Headers：用户可填写允许的跨域请求Header，可以设置多个，每行一个，每行最多一个通配符（*）。
+Allow-Headers: users can fill in the allowed cross-domain request Header, you can set multiple, one per line, up to one wildcard (*) per line.
 
-4. Expose-Headers：用户可填写允许从应用程序中访问的响应头，可以设置多个，每行一个，不允许使用通配符（*）。
+Expose-Headers: user can fill in the response headers that are allowed to be accessed from the application, multiple can be set, one per line, no The user can fill in the response headers that are allowed to be accessed from the application, multiple can be set, one per line, no wildcard (*) is allowed.
 
-跨域访问策略添加完成后默认生效，您可以通过操作栏下的其他按钮，进行相应的编辑及删除操作。
+The cross-domain access policy takes effect by default after it is added, and you can edit and delete it accordingly by using the other buttons under the The cross-domain access policy takes effect by default after it is added, and you can edit and delete it accordingly by using the other buttons under the action bar.
 
-![](/images/跨域设置3.png)
+! [](/images/cross-domain settings3.png)
 
-## 备注
+## Remarks
 
-1. 每个存储空间最多配置 10 条跨域访问策略。
+Configure up to 10 cross-domain access policies per storage.

@@ -1,112 +1,112 @@
-# 常见问题
+# Frequently Asked Questions
 
-## 对象存储空间和 Key 是什么？
+## What is the object storage space and Key?
 
-对象存储空间（简称存储空间）是文件的组织管理单位，一个文件必然位于某个空间中。空间名称全局唯一，且无法进行修改。
+An object storage space (or storage space for short) is an organizational unit of file management, and a file must be located in a space. The name of the space is globally unique and cannot be modified.
 
-文件名是对应文件的名称，在存储空间中全局唯一，每个文件名在存储空间均标识了一个文件，写入文件时，用户可以自定义文件名。上传同样文件名的文件，会导致原文件名文件被覆盖。
+The file name is the name of the corresponding file, which is globally unique in the storage space, and each file name identifies a file in the storage space. Uploading a file with the same file name will cause the original file name file to be overwritten.
 
-## 公共空间和私有空间有何区别？
+## What is the difference between public space and private space?
 
-公共空间指任何人都可以直接通过URL访问该空间里的文件，不需要授权签名。
+Public space means that anyone can access the files in that space directly through a URL, without the need for an authorized signature.
 
-私有空间需要根据API公私钥生成正确的签名才能访问文件。
+Private space requires the correct signature to be generated based on the API public-private key to access the file.
 
-## 如何查看及管理上传的文件？
+## How to view and manage the uploaded files?
 
-用户可以通过控制台的文件管理页查看已上传的文件，同时也可以使用文件管理工具或API查看已经上传的文件。
+Users can view the uploaded files through the file management page in the console, and they can also view the uploaded files using the file management tool or the API.
 
-## 是否支持目录、文件列表？
+## Does it support directory and file list?
 
-对象存储空间没有目录的概念，所以不能按照目录列出文件列表。
+Object Storage does not have the concept of directory, so you cannot list files by directory.
 
-但上传文件时，Key 依然沿用目录形式，便于特定的用户使用场景需要。
+However, when uploading files, Key still uses the directory format, which is convenient for specific user scenarios.
 
-例如：demobucket.ufile.ucloud.cn/test/a.jpg 这里的 key=test/a.jpg 。
+For example: demobucket.ufile.ucloud.cn/test/a.jpg where key=test/a.jpg.
 
-## 如何使用对象存储空间提供的两个域名？
+## How to use the two domains provided by the object storage space?
 
-每个存储空间默认提供一个存储空间域名与一个 CDN 加速域名。
+Each storage space provides one storage space domain name and one CDN acceleration domain name by default.
 
-文件上传操作必须将请求发往存储空间域名。
+File upload operations must send the request to the storage space domain.
 
-文件下载操作可以通过访问存储空间域名或 CDN 加速域名进行。文件下载时建议使用 CDN 加速域名进行下载，以获得更好的下载体验。
+File download operations can be performed by accessing either the storage space domain or the CDN-accelerated domain. It is recommended to use a CDN-accelerated domain for file downloads for a better download experience.
 
-## 我可以存储多少数据？对象存储空间是否有容量上限？
+## How much data can I store? Is there a capacity limit for the object storage space?
 
-您可以存储的总数据容量和对象个数不受限制，您可以按需使用。
+There is no limit to the total amount of data you can store and the number of objects you can use on demand.
 
-## 文件大小有什么限制？
+## What is the limit on file size?
 
-单个文件大小上限为 5TB。
+The maximum size of a single file is 5TB.
 
-## 对象存储空间如何通过内网访问？
+## How can the object storage be accessed through the intranet?
 
-1. 空间管理的 API，内网访问时域名同公网，使用`api.ucloud.cn`。
+1. the API of space management, the domain name of intranet access is the same as public network, use `api.ucloud.cn`.
 
-2. 文件管理的 API，需要使用内网专用域名`<bucket_name>.ufile.cn-north-02.ucloud.cn`。
+2. For the file management API, you need to use the intranet-specific domain name `<bucket_name>.ufile.cn-north-02.ucloud.cn`.
 
-例如，bucket 名称为 demobucket，则其内网域名为`demobucket.ufile.cn-north-02.ucloud.cn`。
+For example, if the bucket name is demobucket, then its intranet domain name is `demobucket.ufile.cn-north-02.ucloud.cn`.
 
-3. 文件管理的 API 列表如下：PutFile，PostFile，UploadHit，GetFile，DeleteFile，InitiateMultipartUpload，UploadPart，FinishMultipartUpload，AbortMultipartUpload。
+The list of APIs for file management is as follows: PutFile, PostFile, UploadHit, GetFile, DeleteFile, InitiateMultipartUpload, UploadPart, FinishMultipartUpload, AbortMultipartUpload. AbortMultipartUpload.
 
-4. 命令行工具，通过内网访问，需要将配置文件中的 `proxy_host` 改成` "proxy_host":'www.ufile.cn-north-02.ucloud.cn'`。
+Command line tool, accessed via intranet, you need to change `proxy_host` in the configuration file to `"proxy_host":'www.ufile.cn-north-02. ucloud.cn'`.
 
-5. SDK（以 phpSDK 为例）通过内网访问，需要将配置文件中 `$UCLOUD\_PROXY\_SUFFIX` 改成 `$UCLOUD\_PROXY\_SUFFIX = 'ufile.cn-north-02.ucloud.cn'`（其他 SDK 的配置文件通常改 proxy_suffix)。
+For the SDK (phpSDK for example) to access via intranet, you need to change `$UCLOUD\_PROXY\_SUFFIX` to `$UCLOUD\_PROXY\_SUFFIX = 'ufile.cn-north-02 .ucloud.cn'` in the configuration file (other SDKs usually change the configuration file to proxy _suffix).
 
-##  如何删除大量对象？
+## How to delete a large number of objects?
 
-您可以通过设置 [生命周期](/ufile/guide/lifecycle) 的方式，对存储桶内文件进行删除操作。
+You can delete files in the storage bucket by setting [lifecycle](/ufile/guide/lifecycle).
 
-##  使用 filemgr 工具时遇到 timeout 错误时怎么办？
+## What should I do if I get a timeout error when using the filemgr tool?
 
-"client timeout" 、"i/o timeout"，文件所在机器的出带宽有限很容易发生此错误，可以使用 mput，并增加 `--speedlimit` 进行限速。
+"You can use mput and add `--speedlimit` to limit the speed.
 
-##  US3 域名被第三方平台告知有安全风险怎么处理？
+## US3 What should I do if my domain is told by a third party platform that it is a security risk?
 
-第三方平台的安全检测是基于泛域名做检测及封禁处理，而 US3 不同客户的域名使用同一个泛域名，因此只要有一个客户有违规内容，整个 US3 默认域名都会被安全软件封禁。
+The third-party platform's security detection is based on pan-domain detection and blocking, while different US3 customers' domains use the same pan- The third-party platform's security detection is based on pan-domain detection and blocking, while different US3 customers' domains use the same pan-domain, so as long as one customer has illegal content, the whole US3 default domain will be blocked by the security software.
 
-这个问题我们和第三方平台沟通过多次，对方以按照逐个域名做封禁成本太大为由拒绝。因此遇到封禁情况的客户，建议通过使用自定义域名解决。配置方法参考 [域名管理](/ufile/guide/domain)。
+We have communicated with the third-party platform for many times about this issue, but the other party refused to do the blocking according to the cost of Therefore, if you encounter a blocking situation, we suggest you to use a custom domain name to solve it. configuration method, please refer to [Domain Management](/ufile/guide/domain).
 
-## 有跨域需求时如何申请？
+## How to apply when I have cross-domain requirement?
 
-如需在 US3 配置跨域，需要指派工单至技术支持，工单内注明：bucket 名称、US3 域名、Origin 地址和要跨域的 http method。
+If you want to configure cross domain in US3, you need to assign a work order to technical support, and specify the bucket name, US3 domain name, Origin address and http method to be cross domain.
 
-## CDN 回源 US3 的流量如何计费？
+## How is the traffic of CDN back to US3 billed?
 
-CDN 回源，流量从 US3 流向 UCDN，这部分流量 UCDN 不计费，由 US3 计费，请参考下图：
+CDN back to source, the traffic flows from US3 to UCDN, this part of traffic is not billed by UCDN, but by US3, please refer to the following figure.
 
-![](/images/UCDN回源US3.png)
-计费价格详见：[计量计费](/ufile/bill/new)
+! ! ![](/images/UCDN back to the source US3.png)
+The billing price is detailed in: [metering billing](/ufile/bill/new)
 
-## 镜像回源支持的空间类型
+## Supported space types for mirror back to source
 
-镜像回源没有签名的过程，目前只支持公开空间。
+Mirror back to source has no signature process and currently only supports public space.
 
-## 我的账号为何无法进行存储空间或文件操作？
+## Why can't my account perform storage space or file operations?
 
-如果您的账号在控制台操作中提示`291:[xxx]该账户没有执行对应 Action 和产品类型的权限`，表示您当前使用的子账号未被授权进行相关 US3 对象存储操作权限，请联系主账号管理员开通相关权限。
+If your account is prompted with `291:[xxx] This account does not have permission to perform the corresponding Action and product type` in the console operation, it means that the sub-account you are currently using is not authorized to perform the relevant US3 object storage operation permission, Please contact the main account administrator to open the relevant permission.
 
-## 如何存储额外的文件元数据信息？
+## How to store additional file metadata information?
 
-US3 API 支持用户存储不超过 8KB 的自定义元数据，在用户调用 API 进行文件上传请求时，可在请求头中增加 `X-Ufile-Meta-*` 字段，如增加文件 MD5 信息，可增加请求头 `X-Ufile-Meta-MD5` ，在执行 Head、Get 请求时，可从 Response Header 中获取 `X-Ufile-Meta-MD5:[*]` 的内容。更多内容可参考[对象存储API文档](https://docs.ucloud.cn/api/ufile-api/README)
+US3 API supports users to store custom metadata not more than 8KB, when users call API for file upload request, you can add `X-Ufile-Meta-*` field in request header, such as adding file MD5 information, you can add request header `X-Ufile-Meta-MD5`, when you execute Head, Get request, you can get `X-Ufile-Meta-MD5`. Ufile-Meta-MD5` from Response Header to get the content of `X-Ufile-Meta-MD5:[*]`. For more details, please refer to [Object Storage API Documentation](https://docs.ucloud.cn/api/ufile-api/README)
 
-**注意：Header 请求中 `X-Ufile-Meta-xxx` 限制 `xxx` 只能包含英文字母、数字和连接符（短横线 '-'）**
+**Note: The `X-Ufile-Meta-xxx` restriction `xxx` in the Header request can only contain alphabetic characters, numbers and ligatures (short horizontal '-')**
 
-## 子帐号授权后进入文件管理页面提示：非法授权
+## Enter the file management page after subaccount authorization prompt: illegal authorization
 
-1. 添加子账号时，如果没有选择 "API访问" 那么这个子账号默认就是没有密钥的
+When you add a sub-account, if you don't select "API Access", then the sub-account has no key by default
 
-![](/images/子账号授权_1.png)
+! [](/images/subaccount_authorization_1.png)
 
-2. 有两个修改入口
+There are two modification entrances
 
-- 有管理权限的账号：到用户管理页面，进入具体某个用户的详情页，然后创建密钥
+- For accounts with administrative privileges: go to the user management page, go to the details page of a specific user, and then create a key
 
-![](/images/子账号授权_2.png)
+! [](/images/subaccount_authorization_2.png)
 
-- 为当前登录的账号创建密钥：到当前账号的账号管理页面，点击API密钥菜单，进行创建密钥
+- Create a key for the currently logged-in account: go to the account management page of the current account, click the API key menu, and create the key
 
-![](/images/子账号授权_3.png)
+! [](/images/sub-account_authorization_3.png)
 
-第1种适合管理人员操作，第2种适合子账号给自己创建密钥
+The first one is suitable for managers, the second one is suitable for sub-accounts to create keys for themselves

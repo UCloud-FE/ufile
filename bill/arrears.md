@@ -1,25 +1,12 @@
-
-
-# 欠费处理
-
-当您的 UCloud 处于账户欠费状态时，在控制台进入 US3 产品页面时可看到以下提示：
-
-![](/images/欠费通知截图.png)
-
-## 欠费对 US3 服务造成的影响
-
-1. 欠费 3 天后，服务（上传、下载、删除等）会被限制，无法创建US3存储空间，部分请求会失败，直至所有服务都不可用。限制服务期间存储数据仍被保留。
-
-![](/images/ufile欠费限购.png)
-
-2. 欠费 30 天后，将视为您主动放弃US3服务，系统将回收存储空间并删除存储数据，存储数据删除后不可恢复。
-
-3. 欠费 3 天内支付欠费订单，您的服务不受影响；欠费 3-30 天之间支付全部欠费订单，系统将恢复服务可用性，解除 US3 服务限制。
-
-4. 存储在 US3 的数据在被删除前仍会产生计费，如您仍在使用 UCloud 产品，请及时删除，避免产生额外计费。
-
-5. 欠费后、限制服务前、删除前后都会有邮件通知和短信通知，被通知人为对应项目的资源回收消息订阅人。
-
-## 欠费处理时间轴  
-
-![](/images/欠费通知时间轴.png)
+# Delinquent fee processing
+When your UCloud account is in arrears, you will see the following prompt when you go to the US3 product page in the console.
+!  [](/images/Underage Notification Screenshot.png)
+## Impact of unpaid fees on US3 services
+1. After 3 days of non-payment, services (upload, download, delete, etc.) will be restricted, US3 storage cannot be created, and some requests will fail until all services are unavailable.  The stored data is still retained during the restricted service.
+!  [] (/images/ufile arrearage limit purchase.Png)
+After 30 days of delinquency, you will be considered as giving up the US3 service voluntarily, and the system will reclaim the storage space and delete The system will reclaim the storage space and delete the storage data, and the storage data cannot be recovered after deletion.
+If you pay the outstanding order within 3 days, your service will not be affected;  if you pay all outstanding orders between 3 and 30 days, the system will restore the service availability and release the US3 service restriction.
+If you are still using UCloud products, please delete them in time to avoid additional If you are still using UCloud products, please delete them in time to avoid additional billing.
+There will be email notification and SMS notification after default, before restriction of service, before and after deletion, and the notified person is the subscriber of resource If you are still using UCloud products, please delete them in time to avoid additional billing.
+## Arrears processing timeline
+!  [](/images/arrears-notification-timeline.png)

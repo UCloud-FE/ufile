@@ -1,19 +1,19 @@
 
 
-# 开通 US3 服务
+# Turn on US3 service
 
-当您注册 UCloud 账号并完成实名认证后，即可使用 US3 对象存储服务。
+Once you have registered your UCloud account and completed your real name verification, you can use the US3 object storage service.
 
-UCloud 对象存储服务 US3 为您提供基于网络的数据存取服务。使用 US3 您可以通过网络随时存储和调用包括文本、图片、音频和视频等在内的各种非结构化数据文件。
+The UCloud Object Storage Service US3 provides you with web-based access to your data. With US3, you can store and recall various unstructured data files, including text, images, audio, video, etc., over the network at any time, With US3, you can store and recall various unstructured data files, including text, images, audio, video, etc., over the network at any time.
 
-初次使用 US3，请您先了解 [US3 使用限制](https://docs.ucloud.cn/ufile/introduction/limit)。
+When using US3 for the first time, please understand the [US3 Usage Restrictions](https://docs.ucloud.cn/ufile/introduction/limit).
 
-## 使用 US3
+## Using US3
 
-1. 登录 [UCloud 官网](https://www.ucloud.cn)。 
+1. Login to the [UCloud official website](https://www.ucloud.cn).
 
-2. 点击官网右上角 [登录控制台](https://console.ucloud.cn) 按钮。
+Click the [Login Console](https://console.ucloud.cn) button at the top right corner of the official website.
 
-3. 在控制台界面左上角点击全部产品按钮，在产品列表中点击 [对象存储 US3](https://console.ucloud.cn/ufile/ufile)。
+Click the All Products button in the upper left corner of the console screen, and click [Object Storage US3](https://console.ucloud.cn/ufile/ufile ) in the product list.
 
-![](/images/导航页US3截图.png)
+! [](/images/navigation page US3 screenshot.png)

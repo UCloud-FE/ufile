@@ -1,39 +1,39 @@
 
 
-# 文件管理
+# Document Management
 
-选择指定存储空间，在右侧操作中点击“文件管理”按钮进入文件管理页。
-![image](/images/guide/文件管理1-1.png)
+Select the specified storage space and click the "File Management" button on the right side to enter the file management page.
+! [image](/images/guide/file-management1-1.png)
 
-在文件管理列表页，可查看文件的基本信息，如文件名、文件大小、MIME-TYPE、更新时间等。
-![image](/images/文件管理2.png)
+On the file management list page, you can view basic information about the file, such as file name, file size, MIME-TYPE, update time, etc.
+! [image](/images/files/file-management2.png)
 
-点击文件管理右上角的设置按钮，可以自定义文件列表。
+Click the Settings button in the upper right corner of File Manager to customize the file list.
 
-![image](/images/文件管理3.png)
+! [image](/images/file-management3.png)
 
-## 上传文件
+## Upload files
 
-在文件管理页点击“上传文件”，弹窗中可以设置路径前缀。
+Click "Upload File" in the file management page, and you can set the path prefix in the popup window.
 
-![image](/images/文件管理4.png)
+! [image](/images/file-management4.png)
 
-## 修改 MIME-Type
+## Modify MIME-Type
 
-![image](/images/文件管理5.png)
+! [image](/images/document-management5.png)
 
-## 修改存储类型
+## Modify the storage type
 
-![image](/images/文件管理9.png)
+! [image](/images/document-management9.png)
 
-## 删除文件
+## Delete the file
 
-![image](/images/文件管理6.png)
+! [image](/images/document-management6.png)
 
-## 下载文件
+## Download the file
 
-![image](/images/文件管理7.png)
+! [image](/images/document-management7.png)
 
-## 获取地址
+## Get the address
 
-![image](/images/文件管理8.png)
+! [image](/images/document-management8.png)

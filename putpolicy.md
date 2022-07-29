@@ -1,42 +1,42 @@
-# 上传策略说明
+# Upload Policy Description
 
 
 
-US3 上传策略（PutPolicy）用于上传对象的同时，完成一些指定的操作，这些操作将会在上传动作完成后（部分动作是在开始上传前执行）触发并完成。
+US3 Upload Policy (PutPolicy) is used to upload an object while completing some specified actions that will be triggered and completed after the upload action is completed (some actions are executed before the upload is started).
 
-可以使用 PutPolicy 的 API 包括: PutFile、FinishMultipartUpload。
+APIs that can use PutPolicy include: PutFile, FinishMultipartUpload.
 
-## US3上传回调
+## US3 upload callbacks
 
-上传策略可实现回调其他服务（callback），对上传的文件进行处理。
+The upload policy enables callbacks to other services (callbacks) to process the uploaded files.
 
-该策略指定在上传文件完成后（携带可能的参数）去请求一个用户指定的服务地址（目前仅支持 http，且仅支持请求一个指定服务）。在得到用户服务器的回应后（必须是 application/json 格式），将用户服务器的返回值透传给用户。回调服务的地址使用 json 格式进行封装，格式如下：
+The policy specifies to request a user-specified service address (currently only http is supported, and only one specified service is supported to be The policy specifies to request a user-specific service address (currently only http is supported, and only one specified service is supported to be requested) after the upload of the file is completed (with possible parameters). After getting a response from the user's server (which must be in application/json format), the return value from the user's server is passed to the user. The address of the callback service is encapsulated in json format, as follows.
 
 ```
 {
-"callbackUrl" : "http://test.ucloud.cn",   //指定回调服务的地址
-"callbackBody" : "key1=value1&key2=value2" //传递给回调服务的参数
+"callbackUrl" : "http://test.ucloud.cn", //specify the address of the callback service
+"callbackBody" : "key1=value1&key2=value2" // the parameters passed to the callback service
 }
 ```
 
-携带上传策略的API请求，授权字段 Authorization 部分与不携带上传策略有所区别。
+The authorization field Authorization section of an API request that carries an upload policy differs from one that does not carry an upload policy.
 
-不携带上传策略，上传时的 Authorization 格式为:
+Without the upload policy, the Authorization format for uploads is :
 
 ```
 Authorization: UCloud publickey:signature
 ```
 
-使用上传策略,则格式为:
+Using the upload policy, the format is:
 
 ```
 Authorization: UCloud publickey:signature:encodedPutPolicy
 ```
 
-其中，encodedPutPolicy = base64(json\_ encode(put\_ policy))
-**(注意：json 格式请使用压缩后的格式，不要携带空白字符,除非 key/value 本身是含有空白字符的字符串。这里的 base64 是 URLSafe 的 base64）**
+where encodedPutPolicy = base64(json\_ encode(put\_ policy))
+**(Note: Please use compressed format for json format, do not carry whitespace, unless the key/value itself is a string with whitespace. is the base64 of URLSafe)**
 
-此外，旧有方式的签名字符串计算方式是：
+In addition, the old way of calculating the signature string is
 
 ```
 signstring = HTTP-Verb + "\n" +
@@ -45,24 +45,24 @@ signstring = HTTP-Verb + "\n" +
      Date + "\n" +
      CanonicalizedUCloudHeaders +
      CanonicalizedResource
-```
+ðŸ˜'
 
-当上传请求需要执行上传策略时，签名字符串其他部分不变，需要在末尾追加上传策略的base64字符串，即：
+When an upload request requires the execution of an upload policy, the rest of the signature string remains unchanged and the base64 string of the upload When an upload request requires the execution of an upload policy, the rest of the signature string remains unchanged and the base64 string of the upload policy needs to be appended at the end, i.e.
 
 ```
 signstring\_ with\_ putpolicy = signstring + base64(json_encode(put_policy))
 ```
 
-## 用法示例
+## Usage examples
 
-若上传的文件为：flower.jpg，上传策略为：
+If the uploaded file is: flower.jpg, the upload policy is
 
 ```
 "callbackUrl" : "<http://inner.umedia.ucloud.com.cn/CreateUmediaTask>",
-"callbackBody" :"url=<http://demo.ufile.ucloud.cn/flower.jpg&patten_name=mypolicy>"
+"callbackBody" : "url=<http://demo.ufile.ucloud.cn/flower.jpg&patten_name=mypolicy>"
 ```
 
-没有上传策略的上传请求:
+Upload request without upload policy:
 
 ```
 PUT /flower.jpg HTTP/1.1
@@ -72,15 +72,15 @@ Host: test.ufile.ucloud.cn
 Authorization: UCloud aGVsbHdvZGhhZGhhc2RoYWRzZGFkaHNkaGFkaGhkaGxrc2Rh:bTgzdWhkZGlsYS9kLmFkYWRhc2Ruaw==
 ```
 
-携带上传策略的上传请求:
+Upload request with upload policy:
 
-``` 
+```
 PUT /flower.jpg HTTP/1.1
 Content-Length: 123456
 Content-Type: image/jpeg
 Host: test.ufile.ucloud.cn
-Authorization: UCloud aGVsbHdvZGhhZGhhc2RoYWRzZGFkaHNkaGFkaGhkaGxrc2Rh:ZGFkLHBwMz0xZGthZGFkYXNkYQ==:XCJjYWxsYmFja1VybFwiOlwiIGh0dHA6Ly9pbm5lci51bWVkaWEudWNsb3VkLmNvbS5jbi9DcmVhdGVVbWVkaWFUYXNrXCIsXCJjYWxsYmFja0JvZHlcIjpcInVybD1odHRwOi8vZGVtby51ZmlsZS51Y2xvdWQuY24vdGVzdC5tcDQmIHBhdHRlbl9uYW1lPW15cG9saWN5XCI=
+Authorization: UCloud aGVsbHdvZGhhZGhhc2RoYWRzZGFkaHNkaGFkaGhkaGxrc2Rh:ZGFkLHBwMz0xZGthZGFkYXNkYQ==: XCJjYWxsYmFja1VybFwiOlwiIGh0dHA6Ly9pbm5lci51bWVkaWEudWNsb3VkLmNvbS5jbi9DcmVhdGVVbWVkaWFUYXNrXCIsXCJjYWxsYmFja0JvZHlcIjpcInVybD1odHRwOi8vZGVtby51ZmlsZS51Y2xvdWQuY24vdGVzdC5tcDQmIHBhdHRlbl9uYW1lPW15cG9saWN5XCI =
 
 ```
 
-备注：签名与bucket相关，示例中签名仅作参考。
+Note: The signature is related to the bucket, the signature in the example is for reference only.

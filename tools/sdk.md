@@ -1,8 +1,8 @@
 
 
-# SDK 列表
+# SDK List
 
-US3 提供了各种主流语言的 SDK，用于对象存储相关功能的调用，各个 SDK 的 Git 仓库链接如下：
+US3 provides SDKs in all major languages for calling object storage-related functions, with links to the Git repositories for each SDK as follows.
 
 [JS SDK](https://github.com/ufilesdk-dev/ufile-jssdk)
 
@@ -26,4 +26,4 @@ US3 提供了各种主流语言的 SDK，用于对象存储相关功能的调用
 
 [C++ SDK](https://github.com/ufilesdk-dev/ufile-cppsdk)
 
-备注：使用 JS SDK 需要指派跨域配置的工单至技术支持，请参考 [常见问题](/ufile/faq)。
+Note: To use JS SDK, you need to assign a work order to technical support for cross-domain configuration, please refer to [FAQ](/ufile/faq).

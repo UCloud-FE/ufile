@@ -1,66 +1,66 @@
 
-# 存储空间
+# Storage space
 
-US3 对象存储服务将数据文件以对象（object）的形式上传到存储空间（bucket）中，如需使用 US3 服务存储文件，您需要先创建存储空间。
+The US3 Object Storage service uploads data files as objects to a bucket. To store files using the US3 service, you need to create a bucket first.
 
-## 创建存储空间
+## Create a storage space
 
-在空间管理页点击左上角操作栏的“创建存储空间”。
+Click "Create Storage Space" in the action bar on the top left corner of the space management page.
 
-![](/images/创建存储桶1.png)
+! [](/images/create-storage-bucket1.png)
 
-在“创建存储空间”弹窗页中，可以自定义存储地域、空间类型、业务组、存储空间域名，选择是否授权开启数据分析。
+In the "Create Storage" pop-up page, you can customize the storage locale, space type, business group, storage domain name, and choose whether to authorize data analysis.
 
-![](/images/创建存储空间2.png)
+! [](/images/create-storage2.png)
 
-|字段 |说明 |
+|Field |Description |
+---- |---- |Select a locale
+|Select a locale |You can select a locale as the physical storage location for the file objects in the storage space, and you cannot change the locale after If you need to access the US3 object storage through UHost cloud intranet, you need to select the same locale as your UHost node . |Space Type
+<br>Private space: All files must be authorized by the owner's API key to access, and <br>Private space: All files must be authorized by the owner's API key to access, and supports building temporary URLs to provide user access via the key.
+|Business Groups |You can select or create a business group to group the storage space by business group for easy access. |StoreSpace
+|Storage space domain name |Fill in the domain name address corresponding to the storage space as the external access address, as the storage space domain |Version control
+|Version Control |Select whether to enable version control for the storage space. When version control is enabled, overwriting and deletion operations on data will be retained as multiple historical versions, making it easy for users to recover data. <br>*This feature is in internal testing, please contact technical support if you need to use it.
+|Data Analysis | Select whether to license USQL for data lake analysis, which will allow you to mine and analyze text data in the space with USQL data Data Analytics
+
+Once you confirm, the storage space is created successfully. After the storage space is successfully created, users can download the client management After the storage space is successfully created, users can download the client management tools from the console SDK and tools page to manage the space and files, and also use the API or SDK to manage the space and files.
+
+## Delete storage space
+
+Select the specified storage space and click "Delete Storage Space" in the right column.
+
+! [](/images/delete_storage_bucket1.png)
+
+If you want to delete multiple storage bins, select multiple storage bins and click "Delete storage bin" in the upper-left column.
+
+! [](/images/delete-batch-storage.png)
+
+
+## View storage space
+
+In the storage space list page, you can view the basic information of the storage space, such as storage space domain, region, space type, creation time, etc.
+
+! [image](/images/view-storage-space1.png)
+
+|fields |description |
 |---- |---- |
-|选择地域 |您可就近选择一个地域，作为存储空间中文件对象的物理存储位置，存储空间创建后无法更换地域。如需要通过 UHost 云主机内网访问 US3 对象存储，需要选择与您 UHost 节点相同的地域。 |
-|空间类型 |公开空间：所有文件可通过URL直接访问。<br>私有空间：所有文件须获得拥有者的 API 密钥授权才能访问，支持通过密钥构建临时URL提供用户访问。 |
-|业务组 |您可选择或创建一个业务组，将存储空间按业务组进行归类，便于查询。 |
-|存储空间域名 |填写存储空间对应的域名地址作为对外的访问地址，由于存储空间域名全局唯一，遇到冲突请更换名称。 |
-|版本控制 |选择是否开启存储空间的版本控制，开启版本控制后，针对数据的覆盖和删除操作将会以多个历史版本的形式保留下来，便于用户恢复数据。<br>**该功能处于内测阶段，如需使用请联系技术支持。** |
-|数据分析 |选择是否授权 USQL 进行数据湖分析，开启后，您可通过 USQL 数据分析产品对空间内文本数据进行挖掘与分析。 |
+|Domain name of the storage space |The address of the domain name corresponding to the storage space as the external access address. |Field
+|The physical storage location of the file objects in the storage space. If you need to access the US3 object storage through the UHost intranet, you need to If you need to access the US3 object storage through the UHost intranet, you need to select the same locale as your UHost node.
+|Business Group |The name of the business group where the storage space is located.
+<br>Private space: All files must be authorized by the owner's API key to be accessed, supporting the construction of temporary URLs. <br>Private space: All files must be authorized by the owner's API key to be accessed, supporting the construction of temporary URLs to provide user access via the key.
+|Data Analytics |Whether or not to authorize USQL for data lake analysis, when enabled, you can mine and analyze text data in the space with USQL data The creation time
+|Creation Time |The creation time of the storage space.
 
-确定后即创建存储空间成功。存储空间创建成功后，用户在控制台 SDK 及工具页下载客户端管理工具进行空间和文件管理操作，同时也可以使用 API 或 SDK 进行空间和文件管理操作。
+Click the name of the storage space or click "Details" in the sidebar to enter the storage space details page to view basic information and monitoring information.
 
-## 删除存储空间
+## Modify the storage space type
 
-选择指定存储空间，在右侧操作栏中点击“删除存储空间”。
+Select the specified storage space, and click Modify space type in the right action bar.
 
-![](/images/删除存储桶1.png)
+! [image](images/modify_storage_type1.png)
 
-如需批量删除，选择多个存储空间后，点击左上角操作栏的“删除存储空间”。
+|space type |description
+---- |---- |public space |public read-private write, that is, all files
+|public space |public read-private write, that is, all files can be accessed directly by URLs that do not carry signature information (including image |private
+|private space |private read-write, i.e., all file and list operations must carry signature information.
 
-![](/images/批量删除存储空间.png)
-
-
-## 查看存储空间
-
-在存储空间列表页，可查看存储空间的基本信息，如存储空间域名、地域、空间类型、创建时间等。
-
-![image](/images/查看存储空间1.png)
-
-|字段 |说明 |
-|---- |---- |
-|存储空间域名 |存储空间对应的域名地址作为对外的访问地址。 |
-|地域 |存储空间中文件对象的物理存储位置，存储空间创建后无法更换地域。如需要通过 UHost 云主机内网访问 US3 对象存储，需要选择与您 UHost 节点相同的地域。 |
-|业务组 |存储空间所在的业务组名称。 |
-|空间类型 |公开空间：所有文件可通过URL直接访问。<br>私有空间：所有文件须获得拥有者的 API 密钥授权才能访问，支持通过密钥构建临时URL提供用户访问。 |
-|数据分析 |是否授权 USQL 进行数据湖分析，开启后，您可通过 USQL 数据分析产品对空间内文本数据进行挖掘与分析。 |
-|创建时间 |存储空间的创建时间。 |
-
-点击存储空间名称或侧操作栏中点击“详情”，可进入存储空间详情页可查看基本信息和监控信息。
-
-## 修改存储空间类型
-
-选择指定存储空间，在右侧操作中点击修改空间类型。
-
-![image](images/修改存储空间类型1.png)
-
-|空间类型 |说明 |
-|---- |---- |
-|公开空间 |公共读私有写，即所有文件可通过未携带签名信息的URL直接访问(包括图片处理)，其他的操作如拉取列表、删除、覆盖操作需要携带签名信息。 |
-|私有空间 |私有读写，即所有文件、列表操作必须携带签名信息。 |
-
-**注：由于政策限制，个人用户无法在海外创建公开空间，如需使用请升级认证企业用户。**
+**Note: Due to policy restrictions, individual users cannot create public space overseas, if you need to use it, please upgrade to certified corporate users. users.

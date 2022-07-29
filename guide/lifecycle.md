@@ -1,62 +1,62 @@
 
 
-# 生命周期
+# Life cycle
 
-您可以通过开通存储空间（Bucket）生命周期功能，实现存储空间内所有文件或特定前缀文件的生命周期管理（可以配置一个或者多个规则），设置生命周期规则转换存储类型或删除文件操作。
+You can enable the lifecycle function of a storage space (Bucket) to manage the lifecycle of all files or files with a specific prefix in the storage space ( you can configure one or more rules), set lifecycle rules to convert storage types or delete file operations. You can configure one or more rules), set lifecycle rules to convert storage types or delete file operations.
 
-* 删除文件：支持设置指定的文件在 N 天后被自动删除。
+* Delete files: Support setting specified files to be deleted automatically after N days.
 
-* 转低频存储：可以设置指定的文件在 N 天后，自动转换成低频存储类型。
+* Convert to low-frequency storage: You can set the specified files to be automatically converted to low-frequency storage type after N days.
 
-* 转归档存储：可以设置指定的文件在 N 天后，自动转换成归档存储类型。
+* You can set the specified file to be automatically converted to archive storage type after N days.
 
-使用说明：类型转换和删除文件操作的开始时间是如何计算的呢？US3将对象上传时间与设置天数相加，得到的时间入到后一天的午夜（CST: 中国标准时间），从而得到对象操作开始时间。例如对象在 2015年1月1日 上午 10:00 CST 上传，设置在 3 天后被删除，那么会在 2015年1月5日 00:00 CST 之后当天内删除文件。
-**注：设置生命周期规则后，当天晚上会执行生命周期操作，删除操作不可恢复，请谨慎设置。如一个文件为用户在 31 天前上传，用户配置了生命周期规则为删除 30 天前的文件，则 US3 服务在生命周期规则被设置的当晚会自动执行删除该文件的操作。**
+Usage Note: How is the start time of the type conversion and delete file operations calculated? , and the obtained time is added to the midnight of the day after (CST: China Standard Time), so as to get the object operation start time. For example, if an object is uploaded on January 1, 2015 at 10:00 AM CST and set to be deleted after 3 days, then the file will be deleted within the day after January 5, 2015 at 00: 00 CST.
+**Note: After setting the lifecycle rule, the lifecycle operation will be executed on the same night and the deletion operation cannot be recovered, so If a file is uploaded by a user 31 days ago, and the user configures the lifecycle rule to delete the file 30 days ago, the US3 service If a file is uploaded by a user 31 days ago, and the user configures the lifecycle rule to delete the file 30 days ago, the US3 service will automatically perform the delete operation on the night the lifecycle rule is set.
 
-## 使用场景
+## Usage Scenarios
 
-通过生命周期规则，您可以更高效的管理您存储的数据，节省大量人力及存储成本。您可以通过设置匹配特定前缀的规则，定期将非热门数据转换为低频访问或归档存储，将不再需要访问的数据删除。例如：
+With lifecycle rules, you can manage your stored data more efficiently and save a lot of labor and storage costs. You can periodically convert non-popular data to low-frequency access or archival storage by setting up rules that match specific prefixes, and delete data that no longer needs to be accessed. For example.
 
-1. 监控视频上传，根据相关条例，监控保存时间一般规定如下：一般小区的是7天；一般娱乐场所是 15 天；金融行业是 26 天；银行 3 个月到半年。可以通过设置生命周期规则，上传的文件，会在匹配规则命中后，根据上传时间，到达指定天数后自动过期删除，从而减少存储量，降低成本。
+1. surveillance video uploads, according to the relevant regulations, the surveillance retention time is generally specified as follows: 7 days for You can set the lifecycle rules, the You can set the lifecycle rules, the uploaded files, will be automatically expired and deleted after reaching the specified number of days according to the upload time after matching the You can set the lifecycle rules, the uploaded files, will be automatically expired and deleted after reaching the specified number of days according to the upload time after matching the rules hit, thus reducing the storage volume and cost.
 
-2. 电子公文类数据，根据相关条例，需要长期保存达 10 年，超过 1 年的电子公文调阅次数减少，超过 3 年的电子公文通常不再被调阅。可以通过设置生命周期规则，上传的文件，会在匹配规则命中后，根据上传时间，到达指定天数后自动转低频、归档存储，从而降低存储的单位成本。
+Electronic documents are required to be kept for a long time up to 10 years according to the relevant regulations, and the number of accesses to Electronic documents are required to be kept for a long time up to 10 years according to the relevant regulations, and the number of accesses to electronic documents older than 1 year is reduced, and electronic documents older than 3 years are usually no longer accessed. You can reduce the unit cost of storage by setting up lifecycle rules, and uploaded documents will be automatically converted to low-frequency, archival storage after reaching a You can reduce the unit cost of storage by setting up lifecycle rules, and uploaded documents will be automatically converted to low-frequency, archival storage after reaching a specified number of days according to the upload time after matching the rule hit.
 
-## 注意事项
+## Caution
 
-1. 存储空间的生命周期功能一旦开启，对存储空间内所有符合规则范围的文件生效（包括开启生命周期功能前上传的文件），并于后一天的 00:00 触发生命周期规则，请确认无误后再保存生命周期规则。
+Once the lifecycle function of the storage space is enabled, it will take effect for all files in the storage space that match the rule range (including Once the lifecycle function of the storage space is enabled, it will take effect for all files in the storage space that match the rule range (including files uploaded before the lifecycle function is enabled), and the lifecycle rule will be triggered at 00:00 on the next day.
 
-2. 删除文件的操作是不可逆的，请根据您的需求合理设置生命周期规则，避免重要数据丢失。
+2. The operation of deleting files is irreversible, please set the lifecycle rules reasonably according to your needs to avoid losing important data.
 
-## 管理生命周期
+## Manage Lifecycle
 
-选择对应空间，在右侧操作中选择生命周期按钮。
+Select the corresponding space, and select the lifecycle button in the right operation.
 
-![](/images/guide/管理生命周期1.png)
+! [](/images/guide/managing-lifecycle1.png)
 
-点击添加规则按钮。
+Click the Add rule button.
 
-![](/images/生命周期2.png)
+! [](/images/lifecycle2.png)
 
-添加生命周期规则界面。
+Add lifecycle rule screen.
 
-![](/images/guide/添加生命周期规则.png)
+! [](/images/guide/add-lifecycle-rules.png)
 
-|字段   |说明   |
-|---- |---- |
-|规则名称  |用户可以设置一个规则名称，记录自己创建的规则。|
-|规则范围  |指定规则的生效范围，选择整个存储空间时，生命周期规则对整个存储空间生效；<br>选择指定目录时，仅对该存储空间下的指定目录生效。|
-|规则内容  |选择需要执行的生命周期规则和规则的触发时间，最小为 7 天，具体计算方式请参考备注说明。|
+|Field |Description |
+---- |---- |Rule name
+|Rule name |Users can set a rule name to record the rules they create. |Rule Scope
+|Rule range |Specifies the range of the rule in effect. When the entire storage is selected, the lifecycle rule takes effect for the entire storage;<br> When the specified directory is selected, it only takes effect for the specified directory under that storage.
+|Rule content |Select the lifecycle rule to be executed and the trigger time of the rule, the minimum is 7 days, please refer to the notes for details. Rule content
 
-生命周期规则添加完成后默认生效，生效状态具体可见状态栏，您可以通过操作栏下的其他按钮，进行相应的修改以及关闭操作。
+You can use the other buttons under the operation bar to modify and close the rule.
 
-![](/images/生命周期3.png)
+You can use the other buttons under the operation bar to modify and close the rule. [](/images/lifecycle3.png)
 
-点击禁用或者删除按钮以后，状态修改在第二天生效，不影响当天 00:00 已触发但未执行完成的任务继续执行。
+After you click the Disable or Delete button, the status change will take effect the next day and will not affect the tasks that have been triggered but not yet completed at 00:00 on that day.
 
-## 备注
+## Remarks
 
-1. 低频存储和归档存储类型都有最短存储期限，早于最短存储期限删除、修改、覆盖文件，需要补足未满最短存储期限的剩余天数的存储费用。
+Both low-frequency storage and archive storage types have a minimum storage period. Deleting, modifying, or overwriting files earlier than the Deleting, modifying, or overwriting files earlier than the minimum storage period requires making up the storage fees for the remaining days that have not yet reached the minimum storage period.
 
-2. 生命周期规则的自动操作触发时间是如何计算的呢？US3 将文件上传时间与设置天数相加，计算得到时间的后一天的00:00（CST: 中国标准时间）即为自动操作开始时间。例如文件在 2015年1月1日 上午 10:00 CST 上传，设置在 3 天后被删除，那么会在 2015年1月5日 00:00 CST 后触发自动删除文件操作。
+How to calculate the trigger time of automatic operation for life cycle rule?US3 Add up the file upload time with the set number of days, and 00:00 (CST: China Standard Time) of the day after the calculated time is the start time of automatic operation. :00 AM CST and set to be deleted after 3 days, then the automatic file deletion operation will be triggered after January 5, 2015 at 00:00 CST.
 
-3. 当前仅北京、广州、上海二、新加坡地域支持生命周期功能，其他地域后续支持。
+3. Currently only Beijing, Guangzhou, Shanghai II and Singapore locales support the life cycle feature, other locales will be supported later.

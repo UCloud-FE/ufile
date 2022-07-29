@@ -1,23 +1,23 @@
-# 工具简介
+# Tool Introduction
 
-## 概述
+## Overview
 
-US3Hadoop备份工具（简称US3Distcp）是基于MapReduce构建的自动检测，并能自动同步HDFS中的数据在US3中不存在或不一致文件的工具，因此US3Distcp可以直接替换Hadoop自带的distcp来做数据备份至US3(目前建议通过Hadoop distcp同步，用US3Distcp校验)。虽然工作原理类似于Hadoop自带distcp，但Hadoop distcp的文件完整性校验是基于HDFS的checksum，Hadoop distcp无法直接利用checksum来对比HDFS的数据与US3中的数据是否一致。因此要校验从HDFS中迁移到US3中文件的完整性，需要使用US3Distcp。
+US3Hadoop Backup Tool (US3Distcp for short) is a tool built on MapReduce that automatically detects and can automatically synchronize data in HDFS with non-existent or inconsistent files in US3, so US3Distcp can directly replace Hadoop's own distcp to do data backup to US3 (currently it is recommended to synchronize with US3 via Hadoop distcp synchronization with US3Distcp checksum). Although the working principle is similar to Hadoop's own distcp, Hadoop distcp's file integrity checksum is based on HDFS checksum, and Hadoop distcp cannot directly use checksum to compare the data in HDFS with the data in US3 to see if it is the same. Therefore, to verify the integrity of files migrated from HDFS to US3, you need to use US3Distcp.
 
-## 原理说明
+## Principle Description
 
-US3Distcp同步的源目的相对位置关系始终跟distcp保持一致。工具会把整个执行阶段分为两个阶段：
+US3Distcp synchronizes the relative position relationship of the source destination always with distcp. The tool will divide the whole execution phase into two phases.
 
-- 检测阶段：检测阶段会先构建要同步的文件列表，提前构建好需检测的源与目的的文件，然后根据检测策略去决定任务的拆分，目前提供的策略有以下几种：
-  - 目的是否存在：该策略是默认进行且不可跳过，如果目的端不存在则把该记录写入reduce输出文件，并附上`dst not found`表明是由于目标不存在的原因需要进行同步；
-  - 长度是否相等：同`是否存在`的策略一样，是默认进行且不可跳过，该策略在源目的大小不相等的情况下会记录下来，并附上`size not match`表明需要进行同步的原因；
-  - 目的修改时间是否最新：该策略可选，如果开启会比较源和目的的修改时间，如果源修改时间晚于目的修改时间，则会记录该源目的，并附上`modification time not match`表明需要同步的原因；
-  - checksum校验：此checksum非hdfs中checksum的概念，只是对文件指纹信息的一种统称，目前支持`crc32c`和`md5`两种算法，同时考虑到此种校验方式需要消耗带宽并两端计算，所以考虑成本的因素，提供了两种校验方式的选择：
-    - 全量校验：这种方式会用选择的算法对两端文件进行整体计算，然后对比最后计算结果；
-    - 抽样校验：这种方式会对头尾1MiB数据分别进行校验，然后对文件中间部分随机抽取4个1MiB进行计算校验(小于6MiB的文件自动采用全量校验)。这种校验方式主要考虑到大数据场景一些格式化数据文件的头尾一般包含整个文件很重要的自描述信息，确保了不会因为头尾数据损坏导致整个文件无法使用的问题，而文件中间一般会有同步点，即使出现几个损坏点也不会导致整个文件不可使用。
-- 同步阶段：同步阶段会根据检测阶段给出的待同步列表启动mapreduce任务进行自动同步，在全部同步成功之前会有三次job级别的重试。目前任务的拆分方式也是自动化的，每个任务负责处理不超过4.5GiB的文件同步，但如果单个文件超过4.5GiB，则会用一个map任务处理这个文件。该阶段任务拆分逻辑跟检测阶段进行checksum全量校验时的一致。该阶段也是可选阶段。
+- Detection phase: The detection phase will first construct the list of files to be synchronized, build the source and destination files to be detected in advance, and then decide the task split according to the detection strategy, which currently provides the following strategies.
+  - whether the destination exists or not: this strategy is carried out by default and cannot be skipped, if the destination does not exist then the record is written to the reduce output file with `dst not found` indicating that the synchronization is needed because the destination does not exist.
+  - whether the lengths are equal: like the `does exist` policy, it is done by default and cannot be skipped, this policy is logged if the source and destination sizes are not equal, with `size not match` indicating the reason why synchronization is needed.
+  - whether the destination modification time is up-to-date: this policy is optional, if enabled it will compare the modification time of source and destination, if the source modification time is later than the destination modification time, the source and destination will be recorded with `modification time not match` indicating the reason why synchronization is needed.
+  - checksum checksum: this checksum is not the concept of checksum in hdfs, but only a generic term for the file fingerprint information, currently supports `crc32c` and `md5` two algorithms, while taking into account that such checksum needs to consume bandwidth and calculate both ends, so consider the cost factor, provides a choice of two types of checksum.
+    - Full checksum: this approach will compute the whole file on both ends using the chosen algorithm and then compare the final computed results.
+    - Sample checksum: this way will check the head and tail 1MiB data separately, and then randomly select four 1MiBs for the middle part of the file to calculate the checksum (files smaller than 6MiB automatically use the full checksum). This type of checksum mainly takes into account the fact that the head and tail of some formatted data files in big data scenarios generally contain important self-describing information of the whole file, which ensures that the whole file will not be unusable due to data corruption at the head and tail, while there are usually synchronization points in the middle of the file, so even if there are several corruption points, the whole file will not be unusable.
+- Synchronization phase: The synchronization phase will start mapreduce tasks for automatic synchronization according to the list of pending synchronization given in the detection phase, and there will be three job-level retries before all synchronization is successful. Currently the task splitting is also automated, each task is responsible for handling the synchronization of files up to 4.5GiB, but if a single file exceeds 4.5GiB, a map task is used to handle the file. The task splitting logic in this phase is the same as in the detection phase when performing checksum full checksum. This phase is also optional.
 
-## 运行环境
+## Runtime environment
 
 - Windows
 - Linux

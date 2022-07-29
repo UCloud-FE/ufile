@@ -1,46 +1,46 @@
-# 文档预览
+# Document Preview
 
-## 概念
+## Concept
 
-文档预览功能支持文字文件、演示文件、表格文件、以及pdf文件的在线预览，便于您进行文档内容的查看。
+The Document Preview feature supports online preview of text files, presentation files, form files, and pdf files for easy viewing of your document content.
 
-## 注意事项
+## Caution
 
-- 支持在线预览的文件类型
+- File types supported for online preview
 
-    - 支持以pdf的格式预览的文件类型：ppt、pptx、wps、doc、docx、xls、xlsx
-    - 支持以h5格式预览的文件类型：pptx
+    - Supported file types for preview in pdf format: ppt, pptx, wps, doc, docx, xls, xlsx
+    - Supported file types for preview in h5 format: pptx
 
-- 文件大小限制
+- File Size Limit
 
-    - 不支持在线预览大于200MB的文件
+    - Online preview of files larger than 200MB is not supported
 
-## 调用参数
+## Call parameters
 
-对于支持在线预览的文件格式，可在文件url上拼接参数 `x-udi-process=doc-preview&dstFormat=${format}` 进行预览
+For file formats that support online preview, you can splice the parameter `x-udi-process=doc-preview&dstFormat=${format}` on the file url to preview
 
-举例说明：
+Example.
 
-- 对于公共bucket
+- For public bucket
 
     `http://{bucketName}.cn-bj.ufileos.com/sample.pptx?x-udi-process=doc-preview&dstFormat=h5`
 
-- 对于私有bucket
+- For private bucket
 
-    `http://{bucketName}.cn-bj.ufileos.com/sample.pptx?UCloudPublicKey=${publicKey}&Signature=${signature}&Expires=1649832250&x-udi-process=doc-preview&dstFormat=h5`
+    `http://{bucketName}.cn-bj.ufileos.com/sample.pptx?UCloudPublicKey=${publicKey}&Signature=${signature}&Expires=1649832250&x-udi- process=doc-preview&dstFormat=h5`
 
-> dstFormat的值为pdf或h5
+> the value of dstFormat is pdf or h5
 
-## 控制台预览
+## Console preview
 
-在文件管理tab页内，对于支持预览的文件，在操作一栏上会有预览按钮，点击即可进行文件预览
+In the file management tab page, for files that support preview, there will be a preview button on the action column, click on it to preview the file
 
-![](/images/文件预览1.png)
-![](/images/文件预览2.png)
+! [](/images/file preview1.png)
+! [](/images/file-preview2.png)
 
-## 开放地域
+## Open Locales
 
-- 华北一
-- 华北二
-- 上海
-- 广州
+- North China I
+- North China II
+- Shanghai
+- Guangzhou

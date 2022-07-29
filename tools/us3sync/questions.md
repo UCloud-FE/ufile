@@ -1,51 +1,25 @@
-# 常见问题
-
-## master部署后，浏览器无法看到界面
-
-### 问题原因
-
-Linux防火墙屏蔽了相应的网络端口。
-
-### 解决方案
-
-检查机器防火墙的web服务监听端口是否开启，将防火墙关闭或对端口设置IP白名单。
-
-
-### 问题原因
-
-由于us3sync使用了自签证书，因此不被chrome等浏览器承认。
-
-### 解决方案
-
-在chrome报错页面上输入thisisunsafe即可。
-
-
-## worker部署后，启动任务后正在迁移的任务一直显示为0
-
-### 问题原因
-
-worker节点启动失败，通常为worker节点与master节点网络不通导致。
-
-### 解决方案
-
-通过ping检查网络连通性，检查worker节点IP地址是否配置正确，确保master和worker节点网络连通。
-
-## 任务有报错，在导出的任务日志中, 报错为"Client.Timeout or context cancellation"
-
-### 问题原因
-
-worker节点试图上传/下载文件，但是由于网络原因或者服务端未响应，导致请求超时，从而引起该错误。
-
-### 解决方案
-
-通过ping或mtr等手段检查endpoint到worker机器的网络联通性，如果网络正常，则可以点击重试按钮，尝试重新传输失败的文件，也可以考虑增加endpoint的超时时间。
-
-## 在导出的任务日志中, 报错状态码为403
-
-### 问题原因
-
-endpoint上配置的公私钥没有上传,下载或列表的权限
-
-### 解决方案
-
-请您更新下公私钥的权限，确认其带有上传下载和列表权限
+#Frequently asked questions
+##After the master is deployed, the browser cannot see the interface
+###Cause of problem
+The Linux Firewall shields the corresponding network ports.
+###Solutions
+Check whether the web service listening port of the machine firewall is turned on, turn off the firewall or set the IP white list on the port.
+###Cause of problem
+Because us3sync uses a self signed certificate, it is not recognized by chrome and other browsers.
+###Solutions
+Enter thisisunsafe on the chrome error page.
+##After the worker is deployed, the task being migrated after the task is started is always displayed as 0
+###Cause of problem
+The failure to start the worker node is usually caused by the network failure between the worker node and the master node.
+###Solutions
+Check the network connectivity through Ping, check whether the IP address of the worker node is configured correctly, and ensure the network connectivity between the master and the worker node.
+##There is an error in the task. In the exported task log, the error is "client.timeout or context cancellation"
+###Cause of problem
+The worker node tried to upload / download files, but the request timed out due to network reasons or the server did not respond, causing this error.
+###Solutions
+Check the network connectivity between the endpoint and the worker machine through Ping or MTR. If the network is normal, you can click the retry button to try to retransmit the failed files, or you can consider increasing the timeout of the endpoint.
+##In the exported task log, the error status code is 403
+###Cause of problem
+The public and private keys configured on endpoint do not have permission to upload, download or list
+###Solutions
+Please update the permission of the public and private keys and confirm that they have the permission to upload, download and list

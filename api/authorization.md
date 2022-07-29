@@ -1,51 +1,51 @@
-# API 签名算法
+# API signature algorithm
 
-US3 REST API 基于 HMAC（哈希消息身份验证码）密钥使用自定义	HTTP
-方案进行身份验证。要对请求进行身份验证，您首先需要合并请求的选定元素以形成一个字符串。然后，您可以使用 UCloud 私有访问密钥来计算该字符串的 HMAC。通常我们将此过程称为“签署请求”并且我们将输出 HMAC 算法称为“签名”，因为它会模拟真实签名的安全属性。最后，您可以使用本部分中介绍的语法，作为请求的参数添加此签名。
+US3 REST API uses a custom HTTP authentication scheme based on HMAC (Hash Message Authentication Code) keys.
+To authenticate a request, you first need to merge selected elements of the request to form a string. We typically refer to this process as "signing the request" and we refer to the output HMAC algorithm as "signing" because it simulates the security properties of a real signature. Finally, you can add this signature as a parameter to the request using the syntax described in this section.
 
-系统收到经身份验证的请求时，将提取您申领的 UCloud 私有访问密钥，并以相同的使用方式将它用于计算已收到的消息的签名。然后，它会将计算出的签名与请求者提供的签名进行对比。如果两个签名相匹配，则系统认为请求者必须拥有对 UCloud 私有访问密钥的访问权限，因此充当向其颁发密钥的委托人的颁发机构。如果两个签名不匹配，那么请求将被丢弃，同时系统将返回错误消息。
+When the system receives an authenticated request, it extracts the UCloud private access key you requested and uses it in the same way to compute a It then compares the computed signature with the signature provided by the requester, If the two signatures match, then the system assumes that the requester must have access to the UCloud Private Access Key and therefore acts as the issuing authority for the principal If the two signatures do not match, then the request is discarded and an error message is returned.
 
-基于以上的原理，我们对空间管理和文件管理两套接口提供两种原理一样但是细节不同的鉴权过程。
+Based on the above principle, we provide two authentication processes with the same principle but different details for both space management and file management interfaces. management interfaces.
 
-## 空间管理签名算法
+## Space management signature algorithm
 
-账户的公私钥可以在 UCloud 控制台中 [API 产品 - API 密钥](https://console.ucloud.cn/uapi/apikey)，点击显示 API 密钥获取。
+The public and private keys of the account can be obtained from the UCloud console in [API Products - API Keys](https://console.ucloud.cn/uapi/apikey) , click Show API Keys.
 
-空间管理的签名使用查询字符串的签名方式，客户端通过把签名字段作为一个 query 字段传递给服务端请求授权验证。携带了签名（Signature）的创建空间请求具有如下的格式:
+The signature of space management uses query string signature, where the client requests authorization verification by passing the signature field as a A request to create a space with a signature has the following format:
 
-    GET /Type=public&BucketName=demobucket&PublicKey=uclouddemo@mail.com45207436768156091&Action=CreateBucket&Signature=13f7989d4a5a8ued83c0e57ah43b3607bc506c7c HTTP/1.1
+    GET /Type=public&BucketName=demobucket&PublicKey=uclouddemo@mail.com45207436768156091&Action=CreateBucket&Signature= 13f7989d4a5a8ued83c0e57ah43b3607bc506c7c HTTP/1.1
 
-其中 Signature 的伪代码计算方式如下：
+where the pseudo-code for Signature is calculated as follows.
 
-    //生成请求的 query 字典
-    querys = {"PublicKey" : publicKey} + {其他 query 字段}
-    //对 query 字典按照字典排序方式(lexicographical order)排序
+    // Generate the query dictionary for the request
+    querys = {"PublicKey" : publicKey} + {other query fields}
+    //Sort the query dictionary by dictionary order (lexicographical order)
     querys = querys.sort()
-    //生成 signstring
+    //generate signstring
     signstring = ""
     for key, value in querys {
        signstring += key + value
     }
-    //将私钥加入签名
+    // Add the private key to the signature
     signstring += privateKey
-    //按照SHA1(RFC 3174)计算签名
+    //compute the signature according to SHA1 (RFC 3174)
     signature = sha1(signstring)
-    //以16进制显示签名
+    //display the signature in hexadecimal
     signature = HEX(signature)
 
-其他空间管理 API 的签名均可使用同样的计算方式生成。
+Signatures for other space management APIs can be generated using the same calculation.
 
-## 文件管理签名算法
+## File management signature algorithm
 
-文件管理的签名有两种不同的方式通过 HTTP 请求传递给服务器，分别是身份验证标头和查询字符串请求身份验证替代项。
+File management signatures are passed to the server via HTTP requests in two different ways, the authentication header and the query string request authentication alternative.
 
-### 身份验证标头
+### Authentication header
 
-该方式使用 Authorization 头部字段传递签名数据，并放置于各 HTTP 请求的报文头中，如下图所示，身份验证标头具有以下形式：
+This method uses the Authorization header field to pass the signature data and is placed in the message header of each HTTP request, as shown below, the authentication header has the following form.
 
     Authorization: UCloud UCloudPublicKey:Signature
 
-其中，Signature 是一个哈希值，具体为请求中特定元素的 HMAC-SHA1（RFC2104），因此 Signature 会因请求不同而异。如果客户端请求中随附的 Signature 与服务端计算出的 Signature 相匹配，则证明请求者拥有 UCloud 允许的访问权限。以下是 Authorization 身份验证标头构造的伪代码：
+The Signature is a hash, specifically the HMAC-SHA1 (RFC2104) of a specific element in the request, so the Signature will vary from request to request. If the Signature attached to the client request matches the Signature calculated by the server, the requestor has the access rights allowed by UCloud. following is the pseudo code for the Authorization authentication header construction.
 
     Authorization = "UCloud" + " " + UCloudPublicKey + ":" + Signature
     Signature = Base64( HMAC-SHA1( UCloudPrivateKey, UTF-8-Encoding-Of( StringToSign ) ) )
@@ -58,37 +58,37 @@ US3 REST API 基于 HMAC（哈希消息身份验证码）密钥使用自定义	H
     CanonicalizedUCloudHeaders = <described below>
     CanonicalizedResource = "/" + Bucket + "/" + Key
 
-StringToSign 中包括两类标头元素：
+Two types of header elements are included in StringToSign.
 
-一类是位置标头，仅有 3 个，分别是 Content-MD5、Content-Type 和 Date，在 StringToSign 中不包括这些标头的名称，仅包括它们在请求中的值，如果请求中这些标头不存在，需要用空字符串`("")`代替；另一类是 UCloud 附加标头，以`X-UCloud-`开头，此类标头需要按照下面指定的方法构造 CanonicalizedUCloudHeaders 字符串后加入到 StringToSign 中。
+One is the location headers, of which there are only 3, Content-MD5, Content-Type and Date, and the names of these headers are not included in StringToSign , only their values in the request, which need to be replaced by the empty string `(")` if they do not exist in the request; the other is the UCloud additional headers, starting with `X -These headers need to be added to StringToSign after constructing the CanonicalizedUCloudHeaders string as specified below .
 
-备注：
+Remark.
 
-1. 如果位置标头不在请求中（例如，Content-Type 或 Content-MD5 对于 PUT 请求是可选的，并且对于GET请求没有任何意义），必须使用空字符串""替换该位置；
-2. BASE64 使用 standardbase64，不是 URLSafe 的 base64 算法，下同；
-3. 当使用 POST 表单上传时，签名使用的 Content-Type 字段应该是 form 参数中的 Content-Type 字段（即文件本身的 mimetype），而非 HTTP 请求的 Content-Type。
-4. UCloudPublicKey 和 UCloudPrivateKey 对应 [令牌管理](/ufile/guide/token) 中创建的令牌，用户也可以用 UCloud 私有访问密钥进行访问。
-5. Key使用原始字符串即可，无需经过url编码
+1. if the location header is not in the request (for example, Content-Type or Content-MD5 is optional for PUT requests and has no meaning for GET requests), The location must be replaced with the empty string "". 2.
+standardbase64 is used for BASE64, not the base64 algorithm of URLSafe, as below.
+3. when using a POST form upload, the Content-Type field used for the signature should be the Content-Type field in the form parameter (i.e. the mimetype of UCloudPublicKey and UCloudPublicKey should be used for the signature.
+UCloudPublicKey and UCloudPrivateKey correspond to tokens created in [token management](/ufile/guide/token), which can also be accessed by users 5. Keys can be used as raw access keys.
+Keys can be used as raw strings without url encoding
 
-**计算CanonicalizedUCloudHeaders步骤**
+**Steps to calculate CanonicalizedUCloudHeaders**
 
-1. 将每个以`X-UCloud-`开头的 HTTP 标头名称转换为小写。例如`X-UCloud-Date”改为“x-ucloud-date`。
+For example, change `X-UCloud-Date` to `x-ucloud-date`.
 
-2. 根据标头名称按字典顺序排列标头集。
+2. Arrange the header sets in dictionary order according to the header names.
 
-3. 按照 RFC2616 中第 4.2 节中的规定，将相同名称的标头字段合并为一个`header-name:comma-separated-value-list`对，各值之间不留空格。
+3. Combine header fields with the same name into a `header-name:comma-separated-value-list` pair without spaces between the values, as specified in RFC2616, section 4.2.
 
-例如，可以将元数据标头`x-ucloud-meta-username:fred`和`x-ucloud-meta-username:barney`合并为单个标头`x-ucloud-meta-username:fred,barney`。
+For example, metadata headers `x-ucloud-meta-username:fred` and `x-ucloud-meta-username:barney` can be merged into a single header `x-ucloud- meta-username:fred,barney`.
 
-4. 通过将折叠空格（包括换行符）替换为单个空格，“展开”跨多个行的长标头（按照 RFC2616 中第 4.2 节允许的方式）。
+4. "Expand" long headers that span multiple lines by replacing collapsed spaces (including line breaks) with a single space (as allowed in RFC 2616, section 4.2).
 
-5. 删除标头中冒号周围的空格。例如，标头`x-ucloud-meta-username:fred,barney`改为`x-ucloud-meta-username:fred,barney`。
+Remove the spaces around the colon in the header. For example, the header `x-ucloud-meta-username:fred,barney` is replaced with `x-ucloud-meta- username:fred,barney`.
 
-6. 最后，请向生成的列表中的每个标准化标头附加换行字符（U+000A）。通过将此列表中所有的标头规范化为单个字符串，构建 CanonicalizedUcloudHeaders 元素。
+Finally, append a newline character (U+000A) to each of the normalized headers in the resulting list. build the CanonicalizedUcloudHeaders element by normalizing all the headers in this list to a single string.
 
-**示例**
+**Example**
 
-1. 确定使用 API 接口，例如使用 PUTFile 接口，签名前的请求如下
+Determine the API interface to use, e.g. using the PUTFile interface, with the following pre-signature request
 
     PUT /demokey HTTP/1.1
     Host: demobucket.ufile.ucloud.cn
@@ -98,15 +98,15 @@ StringToSign 中包括两类标头元素：
     X-UCloud-Bar: bar1
     X-UCloud-Bar: bar2
 
-2. 拼接签名字符串对照 step1 的请求中的各个参数，程序中的各变量取值如下（采用伪代码描述）
+2. Splice the signature string against each parameter of the request in step1, the variables in the program take the following values (described in pseudo -code)
 
-``` 
+```
 bucket = "demobucket"
 key = "demokey"
 http_verb = "PUT"
-content_md5 = "" 
+content_md5 = ""
 content_type = "image/jpeg"
-date = "" 
+date = ""
 canonicalized_ucloud_headers = "x-ucloud-foo:foo" + "\n" + "x-ucloud-bar:bar1,bar2" + \n"
 canonicalized_resource = "/" + "demobucket" + "/" + "demokey"
 string2sign = "PUT" + "\n"
@@ -115,29 +115,29 @@ string2sign = "PUT" + "\n"
     + "" + "\n"
     + "x-ucloud-foo:foo" + "\n" + "x-ucloud-bar:bar1,bar2" + "\n"
     + "/demobucket/demokey"
-```
+ðŸ˜'
 
-即
+that is
 
     string2sign = "PUT\n\nimage/jpeg\n\nx-ucloud-foo:foo\nx-ucloud-bar:bar1,bar2\n/demobucket/demokey"
 
-3. hmac-sha1 运算
+3. hmac-sha1 operation
 
-使用 UCloud 分配给您的私钥对签名字符串做 hmac-sha1 运算
+Use the private key assigned to you by UCloud to do hmac-sha1 operations on the signature string
 
     hmacstring = hmac-sha1(privateKey, string2sign)
 
-4. base64 运算
+4. base64 operation
 
-对生成的 hmacstring 做 base64 运算
+Do base64 operations on the generated hmacstring
 
     base64string = base64(hmacstring) = S5FVD2w613MKb/hisjaqHdjvn9U=
 
-5. 生成最终签名格式
+Generate the final signature format
 
     signature = UCloud demouser@ucloud.cn13424346821929713944:S5FVD2w613MKb/hisjaqHdjvn9U=
 
-6. 生成带签名的 HTTP 请求
+Generate a signed HTTP request
 
     PUT /demokey HTTP/1.1
     Host: demobucket.ufile.ucloud.cn
@@ -148,40 +148,40 @@ string2sign = "PUT" + "\n"
     X-UCloud-Bar: bar2
     Authorization: UCloud demouser@ucloud.cn13424346821929713944:S5FVD2w613MKb/hisjaqHdjvn9U=
 
-### 查询字符串请求身份验证替代项
+### Query String Request Authentication Substitute
 
-可以通过传递请求信息作为查询字符串参数，而不是使用 AuthorizationHTTP 标头来验证特定类型的请求。这在允许第三方浏览器直接访问您的 US3 私有空间的文件，而无需代理请求时非常有用。其概念是构建一个“预签名”的请求并将其编码为最终用户浏览器可检索的 URL。此外，您还可以通过指定过期时间来限制预签名请求。
+Instead of using the AuthorizationHTTP header, you can authenticate a specific type of request by passing the request information as a query string This is useful when allowing third-party browsers to access your US3 private space files directly, without the need for a proxy request. concept is to construct a "pre-signed" request and encode it as a URL that can be retrieved by the end-user browser. requests by specifying an expiration time.
 
-以下是查询字符串经身份验证的 US3 REST 请求示例。
+The following is an example of a US3 REST request with an authenticated query string.
 
     GET /demokey.jpg?UCloudPublicKey=AKIAIOSFODNN7EXAMPLE&Expires=1141889120&Signature=vjbyPxybdZaNmGa%2ByT272YEAiv4%3D HTTP/1.1
     Host: demobucket.s3.ucloud.cn
     Date: Mon, 26 Mar 2007 19:37:58 +0000
 
-查询字符串请求身份验证方法与普通的方法稍有差异，不同之处仅在于 Signature 请求参数和 StringToSign 元素的格式。下面的伪语法演示了查询字符串请求身份验证方法。
+The query string request authentication method differs slightly from the normal method only in the format of the Signature request parameter and the The following pseudo-syntax demonstrates the query string request authentication method.
 
-``` 
-Signature = URL-Encode( Base64( HMAC-SHA1( UCloudPrivateKey, UTF-8-Encoding-Of( StringToSign ) ) ) );
+```
+Signature = URL-Encode( Base64( HMAC-SHA1( UCloudPrivateKey, UTF-8-Encoding-Of( StringToSign ) ) );
 StringToSign = HTTP-VERB + "\n" +
     "\n" +
     "\n" +
     Expires + "\n" +
     CanonicalizedUCloudHeaders +
-    CanonicalizedResource; 
+    CanonicalizedResource;
 ```
 
-请注意，在 StringToSign 中，HTTPDate 位置元素已替换为 Expires。CanonicalizedUCloudHeaders 和 CanonicalizedResource 是相同的。
+Note that the HTTPDate positional element has been replaced with Expires in StringToSign. CanonicalizedUCloudHeaders and CanonicalizedResource are CanonicalizedUCloudHeaders and CanonicalizedResource are the same.
 
-## 文件 ETag 生成方法
+## File ETag generation methods
 
-文件 ETag 可用于查询文件是否可以进行秒传。
+The file ETag can be used to query whether a file is available for second transfer.
 
-具体算法的伪代码如下:
+The pseudo-code of the specific algorithm is as follows:
 
     if filesize<=4MB:
         hash = base64_url_safe(blkcnt, sha(file))
     else:
         hash = base64_url_safe(blkcnt, sha(sha(blk0), sha(blk1)...))
-    字段含义
-        blkcnt:文件以4MB为一个块进行切分后的块个数, 占4个字节，以小端模式保存。
-        blkN:第N(N>=0)个数据块的数据。
+    Field meaning
+        blkcnt: the number of blocks after the file is cut into 4MB blocks, occupying 4 bytes, saved in small-end mode.
+        blkN: the data of the Nth (N>=0) block.
